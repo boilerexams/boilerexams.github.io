@@ -316,7 +316,7 @@ select {
 	
 	.box1,
 	.box2,
-	.box3,
+	.box3
 	{
 		float: left;
 		margin-right: 20px;
@@ -331,6 +331,11 @@ select {
 /* 3-column                                                                      */
 /*********************************************************************************/
 
+	.three-column
+	{
+		display: flex;
+		justify-content: center;
+	}
 	.boxA,
 	.boxB,
 	.boxC
@@ -341,13 +346,7 @@ select {
 	.boxA,
 	.boxB
 	{
-		float: left;
 		margin-right: 20px;
-	}
-	
-	.boxC
-	{
-		float: right;
 	}
 
 /*********************************************************************************/

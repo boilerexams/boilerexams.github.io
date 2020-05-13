@@ -465,7 +465,7 @@ select {
 /* Banner                                                                        */
 /*********************************************************************************/
 
-	#banner
+	#banner-home
 	{
 		overflow: hidden;
 		padding: 7em 0em 5em 0em;
@@ -475,23 +475,33 @@ select {
 		color: rgba(255,255,255,.8);
 	}
 
-	#banner .title
+	#banner-class
+	{
+		overflow: hidden;
+		padding: 3em 0em 2em 0em;
+		background: #202020;
+		background-size: cover;
+		text-align: center;
+		color: rgba(255,255,255,.8);
+	}
+
+	#banner-home .title, #banner-class .title
 	{
 		margin-bottom: 1em;
 		text-transform: uppercase !important;
 	}
 
-	#banner .title h2
+	#banner-home .title h2, #banner-class .title h2
 	{
 		color: #FFF;
 	}
 
-	#banner .title .byline
+	#banner-home .title .byline, #banner-class .title .byline
 	{
 		color: rgba(255,255,255,.6);
 	}
 	
-	#banner .button
+	#banner-home .button, #banner-class .button
 	{
 		margin-top: 3em;
 		background: #c28e0e !important;

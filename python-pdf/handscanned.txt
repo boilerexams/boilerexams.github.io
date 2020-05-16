@@ -1,0 +1,24 @@
+-all of FE 266 sp 2019
+-265 sp FE 2019 q3
+-265 sp FE 2017 q24 q25
+-261 fa FE 2018 q12
+-261 fa E2 2017 q8
+-261 fa E1 2017 q5 q6
+-all of E2 261 sp 2016
+-all of E1 261 sp 2016
+-262 fa FE 2019 q5 q25
+-262 fa FE 2018 q5 q13 q15 q20
+-262 sp FE 2017 q12 q13 q14
+-262 sp FE 2016 q2 q20
+-165 fa FE 2019 q19 q20 q21 q22 q23 q24 q25
+-165 fa E1 2019 q1
+-165 fa E3 2019 q6 q9
+-165 fa FE 2019 q7 q 20 q21 q22 q23 q24 q25
+-165 fa E2 2018 q11
+-165 fa E3 2018 q7 q10 q11 q12
+-165 fa FE 2017 q9  q19 q20 q21 q22 q23 q24 q25
+-165 fa E1 2017 q11
+-165 fa E3 2017 q9
+-165 fa FE 2016 q14 q21
+-165 fa E1 2016 q4
+-165 fa E3 2016 q2 q4 q6 q7

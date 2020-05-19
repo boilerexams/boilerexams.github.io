@@ -25,7 +25,7 @@ Released   : 20140309
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
 </head>
-<body>
+<body onload="buildOnload()">
 <div id="wrapper">
 	<div id="header-wrapper">
 	<div id="header" class="container">
@@ -51,43 +51,20 @@ Released   : 20140309
 				<span class="byline">Ordinary Differential Equations</span> </div>
 		</div>
   </div>
+
   
 	<div id="extra" class="container">
     <div class="select-container">
     <div class="select">
-      <select id="semester" onchange="updateVideo()">
+      <select id="semester" onchange="changeSemester()">
         <option selected disabled>Semester</option>
-        <option value="2019 Fall">2019 Fall</option>
-        <option value="2019 Spring">2019 Spring</option>
-        <option value="2018 Fall">2018 Fall</option>
-        <option value="2018 Spring">2018 Spring</option>
-        <option value="2017 Fall">2017 Fall</option>
-        <option value="2017 Spring">2017 Spring</option>
+        <!--rest is built onload-->
       </select>
     </div>
     <div class="select">
       <select id="question" onchange="updateVideo()">
-        <option selected disabled>Question #</option>
-        <option value="1">Question 1</option>
-        <option value="2">Question 2</option>
-        <option value="3">Question 3</option>
-        <option value="4">Question 4</option>
-        <option value="5">Question 5</option>
-        <option value="6">Question 6</option>
-        <option value="7">Question 7</option>
-        <option value="8">Question 8</option>
-        <option value="9">Question 9</option>
-        <option value="10">Question 10</option>
-        <option value="11">Question 11</option>
-        <option value="12">Question 12</option>
-        <option value="13">Question 13</option>
-        <option value="14">Question 14</option>
-        <option value="15">Question 15</option>
-        <option value="16">Question 16</option>
-        <option value="17">Question 17</option>
-        <option value="18">Question 18</option>
-        <option value="19">Question 19</option>
-        <option value="20">Question 20</option>
+        <option selected disabled id="question-default">Question #</option>
+        <!--rest is built by changeSemester-->
       </select>
     </div>
   </div>

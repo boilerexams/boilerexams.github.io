@@ -66,7 +66,7 @@ function updateVideo() {
     }
 
     if(!foundExam) {
-      document.getElementById("Video").src = "";
+      document.getElementById("video").src = "";
     }
   }
 }

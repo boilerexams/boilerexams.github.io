@@ -143,7 +143,7 @@ select {
   outline: 0;
   box-shadow: none;
   border: 0 !important;
-  background: #c28e0e;
+  background: #d0ba92;
   background-image: none;
 	font-family: 'Varela', sans-serif;
 	font-size: 20px;
@@ -160,7 +160,7 @@ select::-ms-expand {
   width: 17em;
   height: 3em;
   line-height: 3;
-  background: #c28e0e;
+  background: #d0ba92;
   overflow: hidden;
 	border-radius: .25em;
 	margin-right: 10px;
@@ -178,7 +178,7 @@ select {
   top: 0;
   right: 0;
 	padding: 0 1em;
-  background: #e2a919;
+  background: #a79574;
   cursor: pointer;
   pointer-events: none;
   -webkit-transition: .25s all ease;
@@ -252,7 +252,7 @@ select {
 	{
 		display: inline-block;
 		padding: 0em 3em;
-		background: #c28e0e;
+		background: #d0ba92;
 		letter-spacing: 0.20em;
 		line-height: 4em;
 		text-decoration: none;
@@ -447,13 +447,13 @@ select {
 	
 	#menu li:hover a, #menu li.active a, #menu li.active span
 	{
-		background: #c28e0e;
+		background: #d0ba92;
 		color: #FFF;
 	}
 	
 	#menu .current_page_item a
 	{
-		background: #c28e0e;
+		background: #d0ba92;
 		color: #FFF;
 	}
 	
@@ -504,7 +504,7 @@ select {
 	#banner-home .button, #banner-class .button
 	{
 		margin-top: 3em;
-		background: #c28e0e !important;
+		background: #d0ba92 !important;
 	}
 
 /*********************************************************************************/
@@ -606,7 +606,7 @@ select {
 	{
 		overflow: hidden;
 		padding: 5em 0em;
-		background: #c28e0e;
+		background: #d0ba92;
 		color: rgba(255,255,255,.8);
 		text-align: center;
 	}
@@ -622,13 +622,13 @@ select {
 		margin-top: 3em;
 		font-size: 1em;
 		border: 3px solid;
-		border-color: #c28e0e;
-		color: #c28e0e;
+		border-color: #d0ba92;
+		color: #d0ba92;
 	}
 
 	#featured .button:hover
 	{
-		background: #c28e0e;
+		background: #d0ba92;
 		color: #FFF;
 		border-color: #FFF;
 	}

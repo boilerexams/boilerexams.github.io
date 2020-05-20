@@ -1,7 +1,7 @@
 
 var exams = [
   { semester: "2019 Fall",
-    exam: "final", 
+    exam: "Final", 
     link: "https://www.youtube.com/embed/iu5R6jrVJ8M?start=", 
     timestamps: [46,200,538,751,846,1306,1477,1673,2006,2293, 2441, 2856, 3076, 3180, 3435, 3498, 3731, 3894, 4130, 4366, 4718, 4848, 5110, 5196, 5509],
     description: ["Properties of determinants","Rank and nullity","Matrix multiplication","Orthogonal sets","Linear transformations",
@@ -11,7 +11,7 @@ var exams = [
     "Matrix multiplication","Gram-Schmidt process","Least squares","Diagonalization","Orthogonal diagonalization"]
   },
   { semester: "2019 Spring",
-    exam: "final",
+    exam: "Final",
     link: "https://www.youtube.com/embed/Se8tLJHiHz8?start=",
     timestamps: [19,228,322,787,898,1096,1263,1450,1619,1820,1958,2053,2285,2738,2962,3070,3238,3484,3621,3926,4063,4403,4571,4970],
     description: ["Systems of equations","Linear independence","Matrix facts","Linear transformations","Linear transformations",
@@ -22,7 +22,7 @@ var exams = [
   },
   {
     semester: "2018 Fall",
-    exam: "final",
+    exam: "Final",
     link: "https://www.youtube.com/embed/HumaprXFL5g?start=",
     timestamps: [6,105,298,377,533,598,760,911,1049,1231,1455,1586,1668,1790,1952,2164,2266,2356,2518,2603,2756,2892,3062,3461,3615],
     description: ["Systems of equations","Linear transformations","Properties of eigenvectors","Linear independence","Matrix multiplication",
@@ -33,7 +33,7 @@ var exams = [
   },
   {
     semester: "2018 Spring",
-    exam: "final",
+    exam: "Final",
     link: "https://www.youtube.com/embed/1qA9exO23-k?start=",
     timestamps: [30,138,328,558,672,768,884,1003,1085,1232,1481,1617,1716,1847,2173,2262,2444,2582,2781,2863],
     description: ["Properties of determinants","Matrix facts","Symmetric matrices","Find the inverse","Orthogonal complement",
@@ -43,7 +43,7 @@ var exams = [
   },
   {
     semester: "2017 Fall",
-    exam: "final",
+    exam: "Final",
     link: "https://www.youtube.com/embed/_p0tXMdMTa8?start=",
     timestamps: [11, 219, 344, 558, 742, 815, 926, 1027, 1130, 1310, 1442, 1617, 1868, 2085, 2146, 2362, 2463, 2961, 3077, 3238, 3381, 3544, 3762, 3979, 4067],
     description: ["Matrix facts","Systems of equations","Matrix facts","Find the inverse","Compute the determinant",
@@ -54,7 +54,7 @@ var exams = [
   },
   {
     semester: "2017 Spring",
-    exam: "final",
+    exam: "Final",
     link: "https://www.youtube.com/embed/jqS_85tiHyE?start=",
     timestamps: [8, 245, 396, 653, 842, 958, 1161, 1344, 1438, 1652, 1740, 1826, 1907, 1957, 2072, 2163, 2266, 2326, 2412, 2684, 2886, 3255, 3347, 3508, 3645],
     description: ["Systems of equations","Consistency","Matrix facts","Rank and nullity","Systems of equations",
@@ -114,7 +114,7 @@ function updateVideo() {
   //const numQuestions = 20;
   var semester = document.getElementById("semester").value;
   var question = document.getElementById("question").value;
-  var exam = "final"; // placeholder
+  var exam = "Final"; // placeholder
 
   if(semester != null && question != "Question #") {
     var foundExam = false;

@@ -22,7 +22,7 @@ var exams = [
       link: "https://www.youtube.com/embed/BRAxIssBBBM?start=",
       timestamps: [9, 155, 250, 522, 681, 780, 887, 1049, 1283, 1530, 1630, 1687, 1796, 1935, 2179, 2387, 2588, 2830, 2991, 3096],
       description: ["Separation of variables","Salt tank applications","Exact equations","Homogeneous differential equation","Euler's method",
-      "Integrating factor","Autonomous eqquation stability","Characteristic equation","Variation of parameters","Spring-mass system",
+      "Integrating factor","Autonomous equation stability","Characteristic equation","Variation of parameters","Spring-mass system",
       "Characteristic equation","Undetermined coefficients","Reduction of order","Inverse Lapalace transform","Laplace initial value problem","Laplace initial value problem","Piecewise Laplace transform","Complex eigenvalues","Phase plane identification","Nonhomogeneous system of differential equations"]
     },
     {

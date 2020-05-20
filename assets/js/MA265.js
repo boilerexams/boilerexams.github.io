@@ -7,7 +7,7 @@ var exams = [
     description: ["Properties of determinants","Rank and nullity","Matrix multiplication","Orthogonal sets","Linear transformations",
     "Linear independence","Compute the determinant","Basis of a space","Subspace of P^n","Matrix facts",
     "Linear independence","Compute the determinant","Rank and nullity","Subspaces of M^n","Dynamical systems",
-    "Linear transformations","Orthogonal complement","Solve x' = Ax","Inner product spaces","Matrix facts",
+    "Linear transformations","Orthogonal complement","System of differential equations","Inner product spaces","Matrix facts",
     "Matrix multiplication","Gram-Schmidt process","Least squares","Diagonalization","Orthogonal diagonalization"]
   },
   { semester: "2019 Spring",
@@ -17,7 +17,7 @@ var exams = [
     description: ["Systems of equations","Linear independence","Matrix facts","Linear transformations","Linear transformations",
     "Find the inverse","Matrix multiplication","Rank and nullity","Basis of a space","Properties of determinants",
     "Compute the determinant","Diagonalizability","Matrix facts","Find an eigenbasis","Diagonalization",
-    "Dynamical systems","Solve x' = Ax","Subspaces of Rn","Basis for a space","Gram-Schmidt process",
+    "Dynamical systems","System of differential equations","Subspaces of R^n","Basis for a space","Gram-Schmidt process",
     "Least squares","Orthogonal projection","Matrix facts","Inner product spaces","Orthogonal diagonalization"]
   },
   {
@@ -26,9 +26,9 @@ var exams = [
     link: "https://www.youtube.com/embed/HumaprXFL5g?start=",
     timestamps: [6,105,298,377,533,598,760,911,1049,1231,1455,1586,1668,1790,1952,2164,2266,2356,2518,2603,2756,2892,3062,3461,3615],
     description: ["Systems of equations","Linear transformations","Properties of eigenvectors","Linear independence","Matrix multiplication",
-    "Basis of a space","Compute the determinant","Properties of determinants","Find the inverse","Subspaces of Rn",
+    "Basis of a space","Compute the determinant","Properties of determinants","Find the inverse","Subspaces of R^n",
     "Rank and nullity","Linear independence","Compute the eigenvalues","Linear transformations","Diagonalization",
-    "Diagonalizability","Dynamical systems","Solve x' = Ax","Properties of eigenvectors","Orthogonal projection",
+    "Diagonalizability","Dynamical systems","System of differential equations","Properties of eigenvectors","Orthogonal projection",
     "Matrix facts","Least squares","Inner product spaces","Symmetric matrices","Gram-Schmidt process"]
   },
   {
@@ -37,9 +37,9 @@ var exams = [
     link: "https://www.youtube.com/embed/1qA9exO23-k?start=",
     timestamps: [30,138,328,558,672,768,884,1003,1085,1232,1481,1617,1716,1847,2173,2262,2444,2582,2781,2863],
     description: ["Properties of determinants","Matrix facts","Symmetric matrices","Find the inverse","Orthogonal complement",
-    "Basis of a space","Compute the determinant","Cramer's rule","Polynomial vector spaces","Subspaces of Mn",
+    "Basis of a space","Compute the determinant","Cramer's rule","Polynomial vector spaces","Subspaces of M^n",
     "Subspace of P^n","Basis of a space","Rank and nullity","Gram-Schmidt process","Least squares",
-    "Properties of transformations","Matrix facts","Diagonalization","Systems of equations","Solve x' = Ax"]
+    "Properties of transformations","Matrix facts","Diagonalization","Systems of equations","System of differential equations"]
   },
   {
     semester: "2017 Fall",
@@ -47,7 +47,7 @@ var exams = [
     link: "https://www.youtube.com/embed/_p0tXMdMTa8?start=",
     timestamps: [11, 219, 344, 558, 742, 815, 926, 1027, 1130, 1310, 1442, 1617, 1868, 2085, 2146, 2362, 2463, 2961, 3077, 3238, 3381, 3544, 3762, 3979, 4067],
     description: ["Matrix facts","Systems of equations","Matrix facts","Find the inverse","Compute the determinant",
-    "Cramer's rule","Find the inverse","Subspaces of Rn","Polynomial vector spaces","Linear independence",
+    "Cramer's rule","Find the inverse","Subspaces of R^n","Polynomial vector spaces","Linear independence",
     "Basis of a space","Rank and nullity","Matrix facts","Sum of eigenvalues","Rank and nullity",
     "Orthogonal vectors","Gram-Schmidt process","Orthogonal complement","Least squares","Linear transformations",
     "Properties of eigenvectors","Diagonalizability","Solve x' = "]
@@ -58,10 +58,10 @@ var exams = [
     link: "https://www.youtube.com/embed/jqS_85tiHyE?start=",
     timestamps: [8, 245, 396, 653, 842, 958, 1161, 1344, 1438, 1652, 1740, 1826, 1907, 1957, 2072, 2163, 2266, 2326, 2412, 2684, 2886, 3255, 3347, 3508, 3645],
     description: ["Systems of equations","Consistency","Matrix facts","Rank and nullity","Systems of equations",
-    "Properties of determinants","Compute the determinant","Find the inverse","Polynomial vector spaces","Subspaces of Rn",
+    "Properties of determinants","Compute the determinant","Find the inverse","Polynomial vector spaces","Subspaces of R^n",
     "Basis of a space","Rank and nullity","Orthogonal complement","Distance from point to plane","Least squares",
-    "Subspaces of Rn","Orthogonal complement","Compute a cofactor","Subspaces of P^n","Rank and nullity",
-    "Diagonalization","Compute the eigenvalues","Diagonalizability","Symmetric matrices","Solve x' = Ax"]
+    "Subspaces of R^n","Orthogonal complement","Compute a cofactor","Subspaces of P^n","Rank and nullity",
+    "Diagonalization","Compute the eigenvalues","Diagonalizability","Symmetric matrices","System of differential equations"]
   }
   ];
 
@@ -133,4 +133,3 @@ function updateVideo() {
     }
   }
 }
-

@@ -97,7 +97,7 @@ var exams = [
     link: "https://www.youtube.com/embed/?start=", 
     timestamps: [1,117,236,379,570,691,886,1193,1279,1462,1546],
     description: ["Lagrange Multipliers","Double integral on a rectangle","Reverse order of integration","Polar double integration",
-    "Reordering integration in rectangular coordinates","Spherical integration","Surface area integration","Convert spherical to cylindrical coordinates”,
+    "Reordering integration in rectangular coordinates","Spherical integration","Surface area integration","Convert spherical to cylindrical coordinates",
     "Line integral","Line integral","Line integral"]
   },
   { 
@@ -107,7 +107,7 @@ var exams = [
     timestamps: [1,119,227,334,503,664,739,892,971,1092],
     description: ["Lagrange Multipliers","Reverse order of integration","Polar double integration","Spherical integration",
     "Make a triple integral in rectangular coordinates”,”Rectangular to cylindrical coordinate integration","Surface area integration","Vector field ID",
-    "Line integral","Line integral”]
+    "Line integral","Line integral"]
   },
   { 
     semester: "2017 Spring",
@@ -132,9 +132,9 @@ var exams = [
     exam: "Exam 2", 
     link: "https://www.youtube.com/embed/U_69oKQO5W0?start=", 
     timestamps: [33,145,300,404,610,726,840,940,1024,1096],
-    description: ["Rectangular to polar integration","Surface area integration","Make a triple integral in rectangular coordinates,”Rectangular to spherical coordinate integration",
-    "Integration for mass","Line integral","Line integral","Line integral”,
-    "Potential function for vector field","Line integral”]
+    description: ["Rectangular to polar integration","Surface area integration","Make a triple integral in rectangular coordinates","Rectangular to spherical coordinate integration",
+    "Integration for mass","Line integral","Line integral","Line integral",
+    "Potential function for vector field","Line integral"]
   },
   {
     semester: "2019 Spring",

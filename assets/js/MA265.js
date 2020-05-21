@@ -127,7 +127,7 @@ function updateVideo() {
 
 
         dataLayer.push({'event':'questionSelected','examId':'MA 265'.concat(' ', semester, ' ', exam, ' Q', question.toString())});
-        dataLayer.push({'event':'265topicstream','265topicId':exams[i].description[question-1]});
+        dataLayer.push({'event':'265topicstream','topicId':exams[i].description[question-1]});
 
         foundExam = true;
       }

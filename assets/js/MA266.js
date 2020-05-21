@@ -119,7 +119,7 @@ var exams = [
 
 
             dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
-            dataLayer.push({'event':'266topicstream','266topicId':exams[i].description[question-1]});
+            dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
           }
         }
     

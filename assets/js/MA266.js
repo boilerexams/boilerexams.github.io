@@ -1,6 +1,3 @@
-var examId
-var questionDesc
-
 var exams = [
     { 
       semester: "2019 Fall", 
@@ -116,15 +113,13 @@ var exams = [
     
         for(var i = 0; i < exams.length; i++) {
           if(exams[i].semester == semester && exams[i].exam == exam) {
-            examId = examId.concat(' ', semester, ' ', exam, ' Q', question.toString())
-            questionDesc = exams[i].description[question-1];
             document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
-            document.getElementById("video-description").innerText = questionDesc;
+            document.getElementById("video-description").innerText = exams[i].description[question-1];
             foundExam = true;
 
 
-            dataLayer.push({'event':'questionSelected','examId':examId, 'topiceyedee':questionDesc});
-            dataLayer.push({'event':'266topicstream','topicId':questionDesc});
+            dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
+            dataLayer.push({'event':'266topicstream','266topicId':exams[i].description[question-1]});
           }
         }
     

@@ -126,8 +126,8 @@ function updateVideo() {
         document.getElementById("video-description").innerText = exams[i].description[question-1];
 
 
-        dataLayer.push({'event':'questionSelected','examId':'MA 265'.concat(' ', semester, ' ', exam, ' Q', question.toString()), 'topiceyedee':exams[i].description[question-1]});
-        dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
+        dataLayer.push({'event':'questionSelected','examId':'MA 265'.concat(' ', semester, ' ', exam, ' Q', question.toString())});
+        dataLayer.push({'event':'265topicstream','265topicId':exams[i].description[question-1]});
 
         foundExam = true;
       }

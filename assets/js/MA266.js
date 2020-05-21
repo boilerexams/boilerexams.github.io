@@ -118,8 +118,9 @@ var exams = [
             document.getElementById("video").src = examId;
             document.getElementById("video-description").innerText = exams[i].description[question-1];
             foundExam = true;
-            dataLayer.push({'event':'questionSelected','conversionValue':examId});
+            dataLayer.push({'event':'questionSelected','examId':examId});
             console.log(examId)
+            console.log(dataLayer)
           }
         }
     

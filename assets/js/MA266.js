@@ -1,3 +1,4 @@
+var examId = ''
 
 var exams = [
     { 
@@ -113,9 +114,12 @@ var exams = [
     
         for(var i = 0; i < exams.length; i++) {
           if(exams[i].semester == semester && exams[i].exam == exam) {
-            document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
+            examId = exams[i].link.concat(exams[i].timestamps[question-1])
+            document.getElementById("video").src = examId;
             document.getElementById("video-description").innerText = exams[i].description[question-1];
             foundExam = true;
+            dataLayer.push({'event':'questionSelected','conversionValue':examId});
+            console.log(examId)
           }
         }
     

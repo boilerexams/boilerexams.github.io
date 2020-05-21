@@ -125,9 +125,6 @@ var exams = [
 
             dataLayer.push({'event':'questionSelected','examId':examId});
             dataLayer.push({'event':'266topicstream','topicId':questionDesc});
-
-            console.log(examId)
-            console.log(dataLayer)
           }
         }
     

@@ -163,7 +163,7 @@ var exams = [
     timestamps: [14,155,273,405,549,661,819,936,1317,1537,1737,1868,2000,2118,2229,2366,2445,2722,2917,3121],
     description: ["Area of a triangle","Arc length of a curve","Particle motion","2D Riemann sum","Implicit differentiation",
     "Tangent plane","Directional derivative","Rectangular integration","Second derivative test","Center of mass integration",
-    "Surface integration","Line integral”,”Green's Theorem","Gradient, curl, and divergence","Parametric surfaces",
+    "Surface integration","Line integral","Green's Theorem","Gradient, curl, and divergence","Parametric surfaces",
     "Parametric surface integration","Parametric surface integration","Flux integration","Stokes' Theorem","Divergence Theorem"]
   },
   {

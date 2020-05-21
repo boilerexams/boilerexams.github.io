@@ -105,7 +105,7 @@ var exams = [
     }
     
     function updateVideo() {
-      examId = 'MA 266'
+      examId = 'MA266'
       var semester = document.getElementById("semester").value;
       var question = document.getElementById("question").value;
       var exam = "Final"; // placeholder
@@ -116,7 +116,7 @@ var exams = [
     
         for(var i = 0; i < exams.length; i++) {
           if(exams[i].semester == semester && exams[i].exam == exam) {
-            examId = examId.concat(semester, exam, question.toString())
+            examId = examId.concat(' ', semester, ' ', exam, ' Q', question.toString())
             questionDesc = exams[i].description[question-1];
             document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
             document.getElementById("video-description").innerText = questionDesc;

@@ -33,6 +33,15 @@ Released   : 20140309
   gtag('js', new Date());
 
   gtag('config', 'UA-167300432-1');
+
+  ga('create', 'UA-167300432-1', 'auto');
+  ga('send', 'pageview');
+
+  ga(function(tracker) {
+  // Logs the trackers name.
+  // (Note: default trackers are given the name "t0")
+  console.log(tracker.get('name'));
+  });
 </script>
 
 <body>

@@ -90,7 +90,7 @@ Released   : 20140309
       </select>
     </div>
     <div class="select">
-      <select id="question" onchange="updateVideo()">
+      <select id="question" onchange="updateVideo()" onclick="dataLayer.push({'event': 'semesterClicked'})" >
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>

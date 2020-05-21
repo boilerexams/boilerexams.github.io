@@ -1,4 +1,5 @@
 var examId
+var questionDesc
 
 var exams = [
     { 
@@ -116,15 +117,16 @@ var exams = [
         for(var i = 0; i < exams.length; i++) {
           if(exams[i].semester == semester && exams[i].exam == exam) {
             examId = examId.concat(semester, exam, question.toString())
+            questionDesc = exams[i].description[question-1];
             document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
-            document.getElementById("video-description").innerText = exams[i].description[question-1];
+            document.getElementById("video-description").innerText = questionDesc;
             foundExam = true;
 
+
             dataLayer.push({'event':'questionSelected','examId':examId});
-            dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
+            dataLayer.push({'event':'266topicstream','topicId':questionDesc});
 
             console.log(examId)
-            console.log("updated1")
             console.log(dataLayer)
           }
         }

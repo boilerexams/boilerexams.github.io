@@ -123,7 +123,7 @@ var exams = [
             foundExam = true;
 
 
-            dataLayer.push({'event':'questionSelected','examId':examId});
+            dataLayer.push({'event':'questionSelected','examId':examId, 'topiceyedee':questionDesc});
             dataLayer.push({'event':'266topicstream','topicId':questionDesc});
           }
         }

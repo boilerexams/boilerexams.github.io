@@ -124,6 +124,11 @@ function updateVideo() {
       if(exams[i].semester == semester && exams[i].exam == exam) {
         document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
         document.getElementById("video-description").innerText = exams[i].description[question-1];
+
+
+        dataLayer.push({'event':'questionSelected','examId':'MA 265'.concat(' ', semester, ' ', exam, ' Q', question.toString()), 'topiceyedee':exams[i].description[question-1]});
+        dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
+
         foundExam = true;
       }
     }

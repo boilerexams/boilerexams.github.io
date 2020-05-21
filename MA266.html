@@ -52,14 +52,7 @@ Released   : 20140309
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 </script>
 
-
-
-	
 <body onload="buildOnload()">
-	<!-- Google Tag Manager (noscript) -->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4N357Q"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	<!-- End Google Tag Manager (noscript) -->
 
   <!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4N357Q"
@@ -102,7 +95,7 @@ Released   : 20140309
       </select>
     </div>
     <div class="select">
-      <select id="question" onchange="updateVideo()" onclick="dataLayer.push({'event': 'semesterClicked'})" >
+			<select id="question" onchange="updateVideo()">
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>

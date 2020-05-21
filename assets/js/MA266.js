@@ -1,4 +1,4 @@
-var examId = 'MA 266'
+var examId
 
 var exams = [
     { 
@@ -104,6 +104,7 @@ var exams = [
     }
     
     function updateVideo() {
+      examId = 'MA 266'
       var semester = document.getElementById("semester").value;
       var question = document.getElementById("question").value;
       var exam = "Final"; // placeholder
@@ -120,6 +121,8 @@ var exams = [
             foundExam = true;
 
             dataLayer.push({'event':'questionSelected','examId':examId});
+            dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
+
             console.log(examId)
             console.log("updated1")
             console.log(dataLayer)

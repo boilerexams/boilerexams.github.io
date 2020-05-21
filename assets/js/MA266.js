@@ -1,4 +1,4 @@
-var examId = ''
+var examId = 'MA 266'
 
 var exams = [
     { 
@@ -114,8 +114,8 @@ var exams = [
     
         for(var i = 0; i < exams.length; i++) {
           if(exams[i].semester == semester && exams[i].exam == exam) {
-            examId = exams[i].link.concat(exams[i].timestamps[question-1])
-            document.getElementById("video").src = examId;
+            examId = examId.concat(semester, exam, question.toString())
+            document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
             document.getElementById("video-description").innerText = exams[i].description[question-1];
             foundExam = true;
 

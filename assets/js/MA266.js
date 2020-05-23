@@ -125,8 +125,16 @@ var exams = [
             dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
             window.localStorage.setItem('currentQ', examId.concat(' ', semester, ' ', exam, ' Q', question.toString()));
             console.log(window.localStorage.getItem('currentQ'));
-            
-            // try {
+          }
+          
+          if(!foundExam) {
+            document.getElementById("Video").src = "";
+          }
+        }
+      }
+    }
+
+                // try {
             //   console.log("Trying to find a similar topic")
             //   for(var j = 0; j < exams.length; j++) {
             //     for(var k = 1; k < 20; k++) {
@@ -144,11 +152,3 @@ var exams = [
             // catch {
             //   console.log("sad")
             // }
-          }
-    
-        if(!foundExam) {
-          document.getElementById("Video").src = "";
-        }
-      }
-    }
-    }

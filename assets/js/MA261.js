@@ -278,12 +278,16 @@ function changeSemester() {
 
 }
 
-function updateVideo() {
-  var semester = document.getElementById("semester").value;
-  var question = document.getElementById("question").value;
-  var exam = document.getElementById("exam").value;
+function updateVideo(semester, question, exam) {
+  // var semester = document.getElementById("semester").value;
+  // var question = document.getElementById("question").value;
+  // var exam = document.getElementById("exam").value;
   
   if(semester != null && question != "Question #" && exam != "Exam") {
+    document.getElementById("similarButton").style.background = "#d0ba92"; //Makes the similar problem button visible
+    document.getElementById("similarButton").style.cursor = "pointer"; //Makes hovering over button show pointer
+    document.getElementById("similarButton").style.pointerEvents = "auto"; //Makes the similar problem button clickable
+
     var foundExam = false;
     question = parseInt(question);
 
@@ -291,7 +295,8 @@ function updateVideo() {
       if(exams[i].semester == semester && exams[i].exam == exam) {
         document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
         document.getElementById("video-description").innerText = exams[i].description[question-1];
-        
+        returnPkg = [i, question, exam]
+
         dataLayer.push({'event':'questionSelected','examId':'MA 261'.concat(' ', semester, ' ', exam, ' Q', question.toString())});
         dataLayer.push({'event':'261topicstream','topicId':exams[i].description[question-1]});
         
@@ -303,5 +308,37 @@ function updateVideo() {
     if(!foundExam) {
       document.getElementById("Video").src = "";
     }
+    return(returnPkg)
   }
+}
+
+function findSimilar(i, question, exam) { //Finds a new question that has the same description
+  similarExams = [];
+  similarSems = [];
+  similarQuestions = [];
+  currentSem = exams[i].semester;
+
+  for(var j = 0; j < exams.length; j++) {
+    for(var k = 1; k < 20; k++) {
+      if(exams[i].description[question-1] == exams[j].description[k-1]) {
+        document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
+        document.getElementById("video-description").innerText = exams[j].description[k-1];
+        similarSems[similarSems.length] = exams[j].semester;
+        similarQuestions[similarQuestions.length] = k;
+        similarExams[similarExams.length] = exams[j].exam;
+      }
+    }
+  }
+  console.log(similarSems, similarQuestions)
+  do {
+    randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
+    console.log(currentSem, similarSems[randIndex], question, similarQuestions[randIndex])
+  } while(currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
+
+  returnPkg = updateVideo(similarSems[randIndex], similarQuestions[randIndex], similarExams[randIndex]);
+  document.getElementById('semester').value = similarSems[randIndex];
+  document.getElementById('question').value = similarQuestions[randIndex];
+  document.getElementById('exam').value = similarExams[randIndex];
+
+  return(returnPkg)
 }

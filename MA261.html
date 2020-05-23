@@ -101,7 +101,7 @@ Released   : 20140309
       </select>
     </div>
     <div class="select">
-      <select id="question" onchange="updateVideo()">
+      <select id="question" onchange='similarInfo = updateVideo(document.getElementById("semester").value, document.getElementById("question").value, document.getElementById("exam").value)'>
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>
@@ -113,6 +113,7 @@ Released   : 20140309
 		<div class = "embeded-video">
       <p align="center"></p><iframe id="video" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
     </div>
+    <div class="button" id="similarButton" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1], similarInfo[2])'>Similar problem</button>
   </div>
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>

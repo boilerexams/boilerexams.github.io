@@ -126,7 +126,7 @@ var exams = [
             window.localStorage.setItem('currentQ', examId.concat(' ', semester, ' ', exam, ' Q', question.toString()));
             console.log(window.localStorage.getItem('currentQ'));
            
-            findSimilar(i, question);
+            //findSimilar(i, question);
           }
     
         if(!foundExam) {
@@ -137,6 +137,7 @@ var exams = [
   }
 
     function findSimilar(i, question) { //Finds a new question that has the same description
+      console.log("Trying to find a similar topic")
       for(var j = 0; j < exams.length; j++) {
         for(var k = 1; k < 20; k++) {
           console.log(exams[j].description[k-1])

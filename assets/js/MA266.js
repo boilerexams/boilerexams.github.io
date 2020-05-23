@@ -126,7 +126,12 @@ var exams = [
             window.localStorage.setItem('currentQ', examId.concat(' ', semester, ' ', exam, ' Q', question.toString()));
             console.log(window.localStorage.getItem('currentQ'));
            
-            //findSimilar(i, question);
+            try {
+              findSimilar(i, question);
+            }
+            catch(err) {
+              console.log("sad!")
+            }
           }
     
         if(!foundExam) {
@@ -140,7 +145,7 @@ var exams = [
       console.log("Trying to find a similar topic")
       for(var j = 0; j < exams.length; j++) {
         for(var k = 1; k < 20; k++) {
-          console.log(exams[j].description[k-1])
+          console.log(exams[j].description[k-1], exams[i].description[question-1])
           if(exams[i].description[question-1] == exams[j].description[k-1]) {
             document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
             document.getElementById("video-description").innerText = exams[j].description[k-1];

@@ -272,6 +272,8 @@ select {
 		color: #FFF;
 		cursor: pointer;
 		margin-top: 0em;
+		cursor: not-allowed;
+    pointer-events: none;
 	}
 
 	.button:hover

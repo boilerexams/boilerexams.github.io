@@ -110,6 +110,8 @@ var exams = [
 
       if(semester != null && question != "Question #") {
         document.getElementById("similarButton").style.background = "#d0ba92"; //Makes the similar problem button visible
+        document.getElementById("similarButton").style.cursor = "pointer"; //Makes hovering over button show pointer
+        document.getElementById("similarButton").style.pointerEvents = "auto"; //Makes the similar problem button clickable
 
         var foundExam = false;
         question = parseInt(question);

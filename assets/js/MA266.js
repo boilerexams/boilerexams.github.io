@@ -123,8 +123,6 @@ var exams = [
 
             dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
             dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
-            window.localStorage.setItem('currentQ', examId.concat(' ', semester, ' ', exam, ' Q', question.toString()));
-            console.log(window.localStorage.getItem('currentQ'));
           }
           
           if(!foundExam) {
@@ -133,22 +131,3 @@ var exams = [
         }
       }
     }
-
-                // try {
-            //   console.log("Trying to find a similar topic")
-            //   for(var j = 0; j < exams.length; j++) {
-            //     for(var k = 1; k < 20; k++) {
-            //       console.log(exams[j].description[k-1], exams[i].description[question-1])
-            //       if(exams[i].description[question-1] == exams[j].description[k-1]) {
-            //         document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
-            //         document.getElementById("video-description").innerText = exams[j].description[k-1];
-            //         console.log("Found an exam with an identical topic and new source:")
-            //         console.log(exams[j].description[k-1])
-            //         console.log(exams[j].link.concat(exams[j].timestamps[k-1]))
-            //       }
-            //     }
-            //   }
-            // }
-            // catch {
-            //   console.log("sad")
-            // }

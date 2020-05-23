@@ -65,76 +65,108 @@ var exams = [
   }
   ];
 
-function buildOnload() {
-  for(var i = 0; i < exams.length; i++) {
-    var sel = document.getElementById("semester");
-      var opt = document.createElement("option");
-        
-      opt.appendChild(document.createTextNode(exams[i].semester));
-      opt.value = exams[i].semester;
-      sel.appendChild(opt);
-  }
-}
+  function buildOnload() {
 
-function changeSemester() {
-  document.getElementById("question-default").innerText = "Question #";
-  var semester = document.getElementById("semester").value;
-  var numOpt = document.getElementById("question").length;
-  
-  var numQuestions = 0;
-  for(var i = 0; i < exams.length; i++) {
-    if(semester == exams[i].semester) {
-      numQuestions = exams[i].timestamps.length;
-      break;
-    }
-  }
-
-  if(numOpt > numQuestions) {
-    var sel = document.getElementById("question");
-    for(i = numOpt; i > numQuestions; i--) {
-      sel.remove(i);
-    }
-  }
-  else {
-    for(var i = numOpt; i <= numQuestions; i++) {
-      var sel = document.getElementById("question");
-      var opt = document.createElement("option");
-        
-      opt.appendChild(document.createTextNode("Question " + i));
-      opt.value = i.toString();
-      sel.appendChild(opt);
-    }
-  }
-
-  updateVideo();
-
-}
-
-function updateVideo() {
-  //const numQuestions = 20;
-  var semester = document.getElementById("semester").value;
-  var question = document.getElementById("question").value;
-  var exam = "Final"; // placeholder
-
-  if(semester != null && question != "Question #") {
-    var foundExam = false;
-    question = parseInt(question);
 
     for(var i = 0; i < exams.length; i++) {
-      if(exams[i].semester == semester && exams[i].exam == exam) {
-        document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
-        document.getElementById("video-description").innerText = exams[i].description[question-1];
-
-
-        dataLayer.push({'event':'questionSelected','examId':'MA 265'.concat(' ', semester, ' ', exam, ' Q', question.toString())});
-        dataLayer.push({'event':'265topicstream','topicId':exams[i].description[question-1]});
-
-        foundExam = true;
-      }
-    }
-
-    if(!foundExam) {
-      document.getElementById("Video").src = "";
+      var sel = document.getElementById("semester");
+        var opt = document.createElement("option");
+          
+        opt.appendChild(document.createTextNode(exams[i].semester));
+        opt.value = exams[i].semester;
+        sel.appendChild(opt);
     }
   }
-}
+  
+  function changeSemester() {
+    document.getElementById("question-default").innerText = "Question #";
+    var semester = document.getElementById("semester").value;
+    var numOpt = document.getElementById("question").length;
+    
+    var numQuestions = 0;
+    for(var i = 0; i < exams.length; i++) {
+      if(semester == exams[i].semester) {
+        numQuestions = exams[i].timestamps.length;
+        break;
+      }
+    }
+  
+    if(numOpt > numQuestions) {
+      var sel = document.getElementById("question");
+      for(i = numOpt; i > numQuestions; i--) {
+        sel.remove(i);
+      }
+    }
+    else {
+      for(var i = numOpt; i <= numQuestions; i++) {
+        var sel = document.getElementById("question");
+        var opt = document.createElement("option");
+          
+        opt.appendChild(document.createTextNode("Question " + i));
+        opt.value = i.toString();
+        sel.appendChild(opt);
+      }
+    }
+  
+    updateVideo();
+  
+  }
+  
+  function updateVideo(semester, question) {
+    examId = 'MA266'
+    var exam = "Final"; // placeholder
+  
+
+    if(semester != null && question != "Question #") {
+      document.getElementById("similarButton").style.background = "#d0ba92"; //Makes the similar problem button visible
+
+      var foundExam = false;
+      question = parseInt(question);
+  
+      for(var i = 0; i < exams.length; i++) {
+        if(exams[i].semester == semester && exams[i].exam == exam) {
+          document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
+          document.getElementById("video-description").innerText = exams[i].description[question-1];
+          foundExam = true;
+          returnPkg = [i, question]
+
+          dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
+          dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
+        }
+      }
+      if(!foundExam) {
+        document.getElementById("Video").src = "";
+      }
+      return(returnPkg)
+    }
+  }
+
+  function findSimilar(i, question) { //Finds a new question that has the same description
+    similarLinks = [];
+    similarSems = [];
+    similarQuestions = [];
+    currentSem = exams[i].semester;
+
+    for(var j = 0; j < exams.length; j++) {
+      for(var k = 1; k < 20; k++) {
+        if(exams[i].description[question-1] == exams[j].description[k-1]) {
+          document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
+          document.getElementById("video-description").innerText = exams[j].description[k-1];
+          similarSems[similarSems.length] = exams[j].semester;
+          similarLinks[similarLinks.length] = exams[j].link.concat(exams[j].timestamps[k-1])
+          similarQuestions[similarQuestions.length] = k;
+        }
+      }
+    }
+    console.log(similarSems, similarQuestions)
+    do {
+      randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
+      console.log(currentSem, similarSems[randIndex], question, similarQuestions[randIndex])
+    } while(currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
+
+    returnPkg = updateVideo(similarSems[randIndex], similarQuestions[randIndex]);
+    document.getElementById('semester').value = similarSems[randIndex];
+    document.getElementById('question').value = similarQuestions[randIndex];
+
+    return(returnPkg)
+  }

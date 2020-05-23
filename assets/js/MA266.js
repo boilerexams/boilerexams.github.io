@@ -49,7 +49,7 @@ var exams = [
       exam: "Final",
       link: "https://www.youtube.com/embed/0ZCRCZ8CLio?start=",
       timestamps: [11, 146, 220, 468, 655, 959, 1084, 1189, 1285, 1386, 1638, 1866, 2097, 2293, 2504, 2759, 3027, 3154, 3263, 3496],
-      description: ["Integrating factor","Separation of variables","Salt tank applications","v = y / x substitution","Exact equations",
+      description: ["Integrating factor","Separation of variables","Salt tank applications","Homogeneous differential equation","Exact equations",
       "Autonomous equation stability","Euler's method","Existence and Uniqueness theorem","Reduction of order","Variation of parameters",
       "Electric circuits","Undetermined coefficients","Undetermined coefficients","Inverse Laplace transform","Piecewise Laplace transform",
       "Laplace initial value problem","Laplace transform","Phase plane identification","Multiple eigenvalues","Fundamental matrix"]
@@ -57,6 +57,8 @@ var exams = [
     ];
 
     function buildOnload() {
+
+
       for(var i = 0; i < exams.length; i++) {
         var sel = document.getElementById("semester");
           var opt = document.createElement("option");
@@ -101,13 +103,14 @@ var exams = [
     
     }
     
-    function updateVideo() {
+    function updateVideo(semester, question) {
       examId = 'MA266'
-      var semester = document.getElementById("semester").value;
-      var question = document.getElementById("question").value;
       var exam = "Final"; // placeholder
     
+
       if(semester != null && question != "Question #") {
+        document.getElementById("similarButton").style.background = "#d0ba92"; //Makes the similar problem button visible
+
         var foundExam = false;
         question = parseInt(question);
     
@@ -116,18 +119,45 @@ var exams = [
             document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
             document.getElementById("video-description").innerText = exams[i].description[question-1];
             foundExam = true;
-
-            if(window.localStorage.getItem('currentQ')) {
-              console.log("Welcome back, you've been here before")
-            }
+            returnPkg = [i, question]
 
             dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
             dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
           }
-          
-          if(!foundExam) {
-            document.getElementById("Video").src = "";
+        }
+        if(!foundExam) {
+          document.getElementById("Video").src = "";
+        }
+        return(returnPkg)
+      }
+    }
+
+    function findSimilar(i, question) { //Finds a new question that has the same description
+      similarLinks = [];
+      similarSems = [];
+      similarQuestions = [];
+      currentSem = exams[i].semester;
+
+      for(var j = 0; j < exams.length; j++) {
+        for(var k = 1; k < 20; k++) {
+          if(exams[i].description[question-1] == exams[j].description[k-1]) {
+            document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
+            document.getElementById("video-description").innerText = exams[j].description[k-1];
+            similarSems[similarSems.length] = exams[j].semester;
+            similarLinks[similarLinks.length] = exams[j].link.concat(exams[j].timestamps[k-1])
+            similarQuestions[similarQuestions.length] = k;
           }
         }
       }
+      console.log(similarSems, similarQuestions)
+      do {
+        randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
+        console.log(currentSem, similarSems[randIndex], question, similarQuestions[randIndex])
+      } while(currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
+
+      returnPkg = updateVideo(similarSems[randIndex], similarQuestions[randIndex]);
+      document.getElementById('semester').value = similarSems[randIndex];
+      document.getElementById('question').value = similarQuestions[randIndex];
+
+      return(returnPkg)
     }

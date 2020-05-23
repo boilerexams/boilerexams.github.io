@@ -27,6 +27,9 @@ Released   : 20140309
 
 </head>
 
+<script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+
+
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167300432-1"></script>
 <script>
@@ -50,16 +53,6 @@ Released   : 20140309
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	
-	ga('create', 'UA-167300432-1', {
-  'storage': 'none',
-  'clientId': 'This is a test'
-	});
-
-	ga(function(tracker) {
-	var clientId = tracker.get('clientId');
-	console.log(clientId);
-	});
 </script>
 
 <body onload="buildOnload()">
@@ -95,9 +88,8 @@ Released   : 20140309
 		</div>
   </div>
 
-  
 	<div id="extra" class="container">
-    <div class="select-container">
+    <div class="select-container" style="margin-top: -3em;">
     <div class="select">
       <select id="semester" onchange="changeSemester()">
         <option selected disabled>Semester</option>
@@ -105,7 +97,7 @@ Released   : 20140309
       </select>
     </div>
     <div class="select">
-			<select id="question" onchange="updateVideo()">
+			<select id="question" onchange='similarInfo = updateVideo(document.getElementById("semester").value, document.getElementById("question").value)'>
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>
@@ -115,8 +107,10 @@ Released   : 20140309
       <span class="byline" id="video-description"></span>
     </div>
 		<div class = "embeded-video">
-      <p align="center"></p><iframe id="video" width="400" height="300" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
-    </div>
+      <p align="center"></p><iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+		</div>
+		<div class="button" id="similarButton" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1])'>Similar problem</button>
+			<script>     document.getElementById("similarButton").style.display = "block";			</script>
   </div>
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>

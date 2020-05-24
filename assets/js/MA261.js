@@ -106,7 +106,7 @@ var exams = [
     link: "https://www.youtube.com/embed/t9VETCdyWgA?start=", 
     timestamps: [1,119,227,334,503,664,739,892,971,1092],
     description: ["Lagrange Multipliers","Reverse order of integration","Polar double integration","Spherical integration",
-    "Make a triple integral in rectangular coordinates”,”Rectangular to cylindrical coordinate integration","Surface area integration","Vector field ID",
+    "Make a triple integral in rectangular coordinates","Rectangular to cylindrical coordinate integration","Surface area integration","Vector field ID",
     "Line integral","Line integral"]
   },
   { 
@@ -116,7 +116,7 @@ var exams = [
     timestamps: [22,295,416,539,688,890,1038,1158,1371,1401,1519,1705],
     description: ["Lagrange Multipliers","Double integration general area","Reverse order of integration","Integration for center of mass",
     "Polar double integration","Spherical integration","Surface area integration","Make a triple cylindrical integral",
-    "Line integral","Line integral”,”Second derivative test for min max","Fundamental theorem of line integrals"]
+    "Line integral","Line integral","Second derivative test for min max","Fundamental theorem of line integrals"]
   },
   { 
     semester: "2016 Fall",
@@ -124,7 +124,7 @@ var exams = [
     link: "https://www.youtube.com/embed/zNpML76Fxkw?start=", 
     timestamps: [1,81,181,361,494,616,698,820,1056,1180,1368,1466],
     description: ["Gradients","Second derivative test for min max","Lagrange Multipliers","General min maxes",
-    "Polar double integration","Make a triple integral in rectangular coordinates”,”Surface area integration","Cylindrical integration",
+    "Polar double integration","Make a triple integral in rectangular coordinates","Surface area integration","Cylindrical integration",
     "Cylindrical integration","Spherical integration","Gradient vector field ID","Line integral"]
   },
   { 

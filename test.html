@@ -13,13 +13,13 @@ Released   : 20140309
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MA266 - Boilerexams</title>
+<title>Test - Boilerexams</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
 <link href="assets/css/default.css" rel="stylesheet" type="text/css" media="all" />
 <link href="assets/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
-<script src="assets/js/MA266.js"></script>
+<script src="assets/js/test.js"></script>
 <link rel="icon" href="Images/boilerexams-logo.png">
 
 
@@ -76,7 +76,6 @@ Released   : 20140309
 				<li><a href="MA265.html" accesskey="4" title="">MA 265</a></li>
 				<li><a href="MA266.html" accesskey="5" title="">MA 266</a></li>
 				<li><a href="test.html" accesskey="6" title="">Test</a></li>
-
 				
 			</ul>
 		</div>
@@ -85,8 +84,8 @@ Released   : 20140309
 	<div id="banner-class">
 		<div class="container">
 			<div class="title">
-				<h2>MA 266 Final Exams</h2>
-				<span class="byline">Ordinary Differential Equations</span> </div>
+				<h2>Test</h2>
+				<span class="byline"></span> </div>
 		</div>
   </div>
 
@@ -99,7 +98,7 @@ Released   : 20140309
       </select>
     </div>
     <div class="select">
-			<select id="question" onchange='similarInfo = updateVideo(document.getElementById("semester").value, document.getElementById("question").value)'>
+			<select id="question" onchange='getImg(document.getElementById("semester").value, document.getElementById("question").value)'>
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>
@@ -107,11 +106,42 @@ Released   : 20140309
   </div>
     <div style="margin-top: 1em; margin-bottom: 1em;" class="title">
       <span class="byline" id="video-description"></span>
-    </div>
+		</div>
+
+
+		<div style="float: left;">
+			<img src="" id="questionImg" width="0%" height = "auto">
+		</div>
+		<div class="clear"></div>
+
+		<div style="float: left; margin-left: 5em;">
+			<img src="" id="aImg" width="0%" height = "auto">
+		</div>
+		<div class="clear"></div>
+
+		<div style="float: left; margin-left: 5em;">
+			<img src="" id="bImg" width="0%" height = "auto">
+		</div>
+		<div class="clear"></div>
+
+		<div style="float: left; margin-left: 5em;">
+			<img src="" id="cImg" width="0%" height = "auto">
+		</div>
+		<div class="clear"></div>
+
+		<div style="float: left; margin-left: 5em;">
+			<img src="" id="dImg" width="0%" height = "auto">
+		</div>
+		<div class="clear"></div>
+
+		<div style="float: left; margin-left: 5em;">
+			<img src="" id="eImg" onclick="console.log('you clicked E!')" width="0%" height = "auto">
+		</div>
+
+
 		<div class = "embeded-video">
       <p align="center"></p><iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 		</div>
-		<div class="button" id="similarButton" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1])'>Similar problem</button>
   </div>
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>

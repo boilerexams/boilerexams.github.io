@@ -56,6 +56,8 @@
     }
     ];
 
+var answer;
+
 function buildOnload() {
   for(var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
@@ -105,7 +107,7 @@ function getImg(semester, question) {
     var season = semester[5]
     console.log(semester, question, season)
     var srcs = []
-    var txts = []
+    const txts = ''
 
     srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/questions/Q', question.toString(), '.png')
     srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'A.png')
@@ -114,6 +116,11 @@ function getImg(semester, question) {
     srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'D.png')
     srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'E.png')
 
+    txt = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/'.concat(examId, '-ANS/ANS-MA ', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0, 4), '.txt')
+    
+
+    console.log(txts)
+    
     imgDim(srcs[0], "questionImg")
     imgDim(srcs[1], "aImg")
     imgDim(srcs[2], "bImg")
@@ -122,7 +129,7 @@ function getImg(semester, question) {
     imgDim(srcs[5], "eImg")
 
     //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/MA 266-ANS/ANS-MA 266-FE-F-2017.txt
-    getCorrect()
+    getCorrect(txt, question)
   }
   
   //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/MA266edited/266-FE-S-2019/questions/Q1.png
@@ -139,4 +146,46 @@ function imgDim(imgSource, imgId) {
     img.src = imgSource;
   }
 
-function getCorrect(txtSource)
+function getCorrect(txtSource, qnum)
+{
+  var resp = ''
+  fetch(txtSource)
+  .then(function (response) {
+      switch (response.status) {
+          // status "OK"
+          case 200:
+              return response.text();
+          // status "Not Found"
+          case 404:
+              throw response;
+      }
+  })
+  .then(function (template) {
+      //console.log(template);
+      resp = template
+
+      alphaspassed = 1
+      timesran = 0
+      while (alphaspassed < qnum && timesran < 40) {
+        resp = resp.slice(1)
+        //console.log(resp)
+        if(resp[0] == 'A' || resp[0] == 'B' || resp[0] == 'C' || resp[0] == 'D' || resp[0] == 'E') {
+          alphaspassed += 1
+          //console.log(resp)
+        }
+        timesran += 1
+      }
+      console.log(resp[0])
+      answer = resp[0]
+  })
+  .catch(function (response) {
+      // "Not Found"
+      console.log(response.statusText);
+  });
+
+}
+
+function checkCorrect(choice)
+{
+  if(answer == choice) {console.log('you got it right!')} else {console.log('Incorrect!')}
+}

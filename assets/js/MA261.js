@@ -94,7 +94,7 @@ var exams = [
   { 
     semester: "2018 Spring",
     exam: "Exam 2", 
-    link: "https://www.youtube.com/embed/?start=", 
+    link: "https://www.youtube.com/embed/tE3sxPzvjrQ?start=", 
     timestamps: [1,117,236,379,570,691,886,1193,1279,1462,1546],
     description: ["Lagrange Multipliers","Double integral on a rectangle","Reverse order of integration","Polar double integration",
     "Reordering integration in rectangular coordinates","Spherical integration","Surface area integration","Convert spherical to cylindrical coordinates",

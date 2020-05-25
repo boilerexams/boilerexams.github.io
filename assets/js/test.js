@@ -219,6 +219,7 @@ function getCorrect(txtSource, qnum)
 
 function changeOption(choice)
 {
+  globalChoice = choice;
   semester = document.getElementById('semester').value;
   question = document.getElementById('question').value;
   document.getElementById("submit-answer").style.cursor = "pointer";
@@ -231,14 +232,21 @@ function changeOption(choice)
   }
   document.getElementById("ans-button-".concat(choice)).className = "ans-button-selected";
   document.getElementById("circle-".concat(choice)).className = "circle-selected";
-  
 }
+
 
 function checkAnswer() {
   document.getElementById("ques-ans-container").style.cursor = "not-allowed";
   document.getElementById("ques-ans-container").style.pointerEvents = "none";
   var answerState = 0
-  if(answer == globalChoice) {console.log('you got it right!')} else {console.log('Incorrect!')}
+  console.log(answer, globalChoice)
+  if(answer == globalChoice) {
+    console.log('you got it right!')
+    answerState = 1;
+  } 
+  else {
+    console.log('Incorrect!')
+  }
   localStorage.setItem('answerState', answerState.toString());
 
   if (!localStorage.getItem('totalAnswers')) {

@@ -56,6 +56,15 @@
     }
     ];
 
+    var descriptions = [
+      "Separation of variables", "Integrating factor", "Autonomous equation stability", "Euler's method", "Reduction of order", 
+      "Homogeneous differential equation", "Exact equations", "Piecewise Laplace transform", "Phase plane identification",
+      "Multiple eigenvalues", "Fundamental matrix", "Salt tank applications", "Laplace transform", "Laplace initial value problem",
+      "Electric circuits", "Spring-mass systems", "Inverse Lapalace transform", "Undetermined coefficients", "Variation of parameters", 
+      "Homogeneous system of differential equations", "Existence and Uniqueness theorem", "Freefall differential equations", 
+      "Characteristic equation"
+    ]
+
 var answer;
 
 function buildOnload() {
@@ -205,14 +214,59 @@ function getCorrect(txtSource, qnum)
 
 }
 
-function checkCorrect(choice)
+function checkCorrect(choice, semester, question)
 {
   let options = ["A","B","C","D","E"];
+  var answerState = 0
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
     document.getElementById("circle-".concat(options[i])).className = "circle";
   }
   document.getElementById("ans-button-".concat(choice)).className = "ans-button-selected";
   document.getElementById("circle-".concat(choice)).className = "circle-selected";
-  if(answer == choice) {console.log('you got it right!')} else {console.log('Incorrect!')}
+  
+  
+  if(answer == choice) {
+    console.log('you got it right!')
+    answerState = 1
+  } 
+  else{
+    console.log('Incorrect!')
+  }
+
+  localStorage.setItem('answerState', answerState.toString());
+
+  if (!localStorage.getItem('totalAnswers')) {
+    localStorage.setItem('totalAnswers', '0');
+  }
+
+  totAns = parseInt(localStorage.getItem('totalAnswers'));
+  localStorage.setItem('totalAnswers', (totAns + 1).toString())
+
+  for(var i = 0; i < exams.length; i++)
+  {
+    if (exams[i].semester == semester)
+    {
+      description = exams[i].description[question - 1]
+    }
+  }
+  var descPos = -1
+  for(var j = 0; j < descriptions.length; j++)
+  {
+    console.log(descriptions[j], description)
+    if(descriptions[j] == description)
+    {
+      descPos = j;
+    }
+  }
+  console.log(descPos)
+  if(descPos != -1)
+  {
+    if(!localStorage.getItem(descPos.toString().concat('answered')))
+    {
+      localStorage.setItem(descPos.toString().concat('answered'), '0')
+    }
+    localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
+  }
+  
 }

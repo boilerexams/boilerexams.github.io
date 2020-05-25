@@ -232,14 +232,6 @@ function changeOption(choice)
   document.getElementById("ans-button-".concat(choice)).className = "ans-button-selected";
   document.getElementById("circle-".concat(choice)).className = "circle-selected";
   
-  
-  if(answer == choice) {
-    console.log('you got it right!')
-    answerState = 1
-  } 
-  else{
-    console.log('Incorrect!')
-  }
 }
 
 function checkAnswer() {

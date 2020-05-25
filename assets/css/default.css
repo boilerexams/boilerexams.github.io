@@ -265,6 +265,7 @@ select {
 .ans-button:hover {
 	border: 3px solid #a1a1a1;
 	padding: 8px;
+	cursor: pointer;
 }
 
 .ans-button-selected {

@@ -4,7 +4,10 @@
       exam: "Final",
       link: "https://www.youtube.com/embed/t9hdIc6yBe4?start=", 
       timestamps: [54,233,388,472,578,785,985,1080,1244,1533,1696,1941,2108,2255,2574,2883,3540,4069,4297,4613],
-      description: ["Autonomous equation stability", "Autonomous equation stability", "Separation of variables", "Freefall differential equations", "Exact equations", "Exact equations", "Euler's method", "Characteristic equation", "Spring-mass systems", "Undetermined coefficients", "Variation of parameters", "Phase plane identification", "Matrix exponential", "Homogeneous system of differential equations", "Nonhomogeneous system of differential equations", "Laplace of a system of eq.", "Piecewise Laplace transform",	"Laplace Transform", "Laplace initial value problem", "Laplace initial value problem"]
+      description: ["Autonomous equation stability", "Autonomous equation stability", "Separation of variables", "Freefall differential equations", 
+      "Exact equations", "Exact equations", "Euler's method", "Characteristic equation", "Spring-mass systems", "Undetermined coefficients", "Variation of parameters", 
+      "Phase plane identification", "Matrix exponential", "Homogeneous system of differential equations", "Nonhomogeneous system of differential equations", 
+      "Laplace of a system of eq.", "Piecewise Laplace transform",	"Laplace transform", "Laplace initial value problem", "Laplace initial value problem"]
     },
     { 
       semester: "2019 Spring",
@@ -13,7 +16,8 @@
       timestamps: [24, 95, 175, 307, 426, 601, 690, 874, 1031, 1228, 1428, 1583, 1699, 1792, 2180, 2396, 2514, 2616, 2784, 2870],
       description: ["Existence and Uniqueness theorem",	"Integrating factor",	"Separation of variables",	"Exact equations",	"Characteristic equation",
         "Reduction of order",	"Variation of parameters",	"Homogeneous differential equation",	"Undetermined coefficients",	"Laplace transform",
-        "Laplace initial value problem",	"Laplace transform",	"Unit step functions",	"Laplace initial value problem",	"Inverse Laplace transform", "Phase plane identification", "Homogeneous system of differential equations",	"Nonhomogeneous system of differential equations",	"Homogeneous system of differential equations",	"Complex eigenvalues"]
+        "Laplace initial value problem",	"Laplace transform",	"Unit step functions",	"Laplace initial value problem",	"Inverse Laplace transform", 
+        "Phase plane identification", "Homogeneous system of differential equations",	"Nonhomogeneous system of differential equations",	"Homogeneous system of differential equations","Complex eigenvalues"]
     },
     {
       semester: "2018 Fall",
@@ -22,7 +26,8 @@
       timestamps: [9, 155, 250, 522, 681, 780, 887, 1049, 1283, 1530, 1630, 1687, 1796, 1935, 2179, 2387, 2588, 2830, 2991, 3096],
       description: ["Separation of variables","Salt tank applications","Exact equations","Homogeneous differential equation","Euler's method",
       "Integrating factor","Autonomous equation stability","Characteristic equation","Variation of parameters","Spring-mass system",
-      "Characteristic equation","Undetermined coefficients","Reduction of order","Inverse Lapalace transform","Laplace initial value problem","Laplace initial value problem","Piecewise Laplace transform","Complex eigenvalues","Phase plane identification","Nonhomogeneous system of differential equations"]
+      "Characteristic equation","Undetermined coefficients","Reduction of order","Inverse Laplace transform","Laplace initial value problem",
+      "Laplace initial value problem","Piecewise Laplace transform","Complex eigenvalues","Phase plane identification","Nonhomogeneous system of differential equations"]
     },
     {
       semester: "2018 Spring",
@@ -62,7 +67,7 @@
       "Multiple eigenvalues", "Fundamental matrix", "Salt tank applications", "Laplace transform", "Laplace initial value problem",
       "Electric circuits", "Spring-mass systems", "Inverse Lapalace transform", "Undetermined coefficients", "Variation of parameters", 
       "Homogeneous system of differential equations", "Existence and Uniqueness theorem", "Freefall differential equations", 
-      "Characteristic equation"
+      "Characteristic equation", "Nonhomogeneous system of differential equations"
     ]
 
 var answer;
@@ -119,6 +124,7 @@ function getImg() {
   var examType = "Final"
   let options = ["A","B","C","D","E"];
   var examId = 'MA266'
+  answerState = -1
   document.getElementById("video").src = '';
   document.getElementById("ques-ans-container").style.cursor = "auto";
   document.getElementById("ques-ans-container").style.pointerEvents = "all";
@@ -127,6 +133,9 @@ function getImg() {
   document.getElementById("submit-answer").style.cursor = "not-allowed"
   document.getElementById("similar-question").style.pointerEvents = "auto";
   document.getElementById("similar-question").style.cursor = "pointer";
+  document.getElementById("similar-question").style.display = "inline-block";
+  document.getElementById("random-question").style.pointerEvents = "auto";
+  document.getElementById("random-question").style.cursor = "pointer";
   document.getElementById("questionStats").style.display = "none";
 
   for(var i = 0; i < options.length; i++) {
@@ -137,9 +146,7 @@ function getImg() {
   if(question != 'Question #') {
     document.getElementById("ques-ans-container").style.display = "block";
     var season = semester[5]
-    console.log(semester, question, season)
     var srcs = []
-    const txts = ''
 
     srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/questions/Q', question.toString(), '.png')
     srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'A.png')
@@ -149,12 +156,10 @@ function getImg() {
     srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'E.png')
 
     txt = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/'.concat(examId, '-ANS/ANS-MA ', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0, 4), '.txt')
-    
-
-    console.log(txts)
-    
+        
     imgDim(srcs[0], "questionImg")
-    imgContainerDim(srcs[0]);
+    imgContainerDim(srcs[0], 1);
+    imgContainerDim(srcs[1], 0);
     imgDim(srcs[1], "aImg")
     imgDim(srcs[2], "bImg")
     imgDim(srcs[3], "cImg")
@@ -175,6 +180,19 @@ function getImg() {
         returnPkg = [i, question]
       }
     }
+
+    similarQuestions = [];
+    for(var j = 0; j < exams.length; j++) {
+      for(var k = 1; k <= 20; k++) {
+        if(exams[returnPkg[0]].description[question-1] == exams[j].description[k-1]) {
+          similarQuestions[similarQuestions.length] = k;
+        }
+      }
+    }
+    if(similarQuestions.length == 1) {
+      document.getElementById('similar-question').style.display = "none";
+    }
+    console.log(similarQuestions.length, returnPkg)
     return(returnPkg)
   }
 
@@ -191,13 +209,24 @@ function imgDim(imgSource, imgId) {
     img.src = imgSource;
   }
 
-function imgContainerDim(imgSource) {
+function imgContainerDim(imgSource, isQuestion) {
   const scaleFactor = 1.5
   var img = new Image();
   img.onload = function() {
-    document.getElementById("ans-container").style.width = (this.width / scaleFactor).toString().concat("px");
-    document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 60).toString().concat("px");
-    document.getElementById("ans-container").style.height = "auto";
+    if (isQuestion) {
+      document.getElementById("ans-container").style.width = (this.width / scaleFactor).toString().concat("px");
+      document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 60).toString().concat("px");
+      document.getElementById("ans-container").style.height = "auto";
+    }
+    else if (parseFloat(document.getElementById("ques-ans-container").style.width) < (this.width / scaleFactor + 60)) {
+      console.log("WEVE GOTTA FIX THE BOX")
+      document.getElementById("ans-container").style.width = (this.width / scaleFactor + 140).toString().concat("px");
+      document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 200).toString().concat("px");
+      document.getElementById("ques-container").style.float = "left";
+      document.getElementById("ques-container").style.marginLeft = "40px";
+      document.getElementById("ques-container").style.marginRight = "400px";
+
+    }
   }
   img.src = imgSource;
 }
@@ -269,18 +298,17 @@ function checkAnswer() {
   document.getElementById("submit-answer").style.display = "none"
   document.getElementById("questionStats").style.display = "block";
 
-  //console.log(answer, globalChoice)
   if(answer == globalChoice) {
-    //console.log('you got it right!')
     answerState = 1;
     document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
     document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
   } 
   else {
-    //console.log('Incorrect!')
     answerState = 0;
     document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-incorrect";
     document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
+    document.getElementById("ans-button-".concat(answer)).className = "ans-button-correct";
+    document.getElementById("circle-".concat(answer)).className = "circle-selected-correct";
   }
   localStorage.setItem('answerState', answerState.toString());
 
@@ -320,9 +348,6 @@ function checkAnswer() {
     {
       localStorage.setItem(descPos.toString().concat('correct'), '0')
     }
-
-    // const pastCorrect = parseFloat(localStorage.getItem(descPos.toString().concat('correct')));
-
     if(answerState == 1)
     {
       localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
@@ -331,15 +356,19 @@ function checkAnswer() {
   }
   var totalTopicAnswered = parseFloat(localStorage.getItem(descPos.toString().concat('answered')))
   var totalTopicCorrect = parseFloat(localStorage.getItem(descPos.toString().concat('correct')))
-  console.log(totalTopicAnswered, totalTopicCorrect)
-  topicPercent = (totalTopicCorrect / totalTopicAnswered * 100).toFixed(2).toString()
-  deltaPercent = ((topicPercent - (totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100).toFixed(2)).toString()
-  document.getElementById("questionStats").innerHTML = "You get ".concat(description, " questions correct ", "<br>", topicPercent, "% of the time", " (∆ = ", deltaPercent, "%)");
+  topicPercent = (totalTopicCorrect / totalTopicAnswered * 100).toFixed(1)
+  oldPercent = (((totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100).toFixed(1))
+
+  console.log(totalTopicAnswered, totalTopicCorrect, topicPercent, oldPercent)
+  topicPercent = ~~topicPercent //Convert from NaN to zero
+  oldPercent = ~~oldPercent //Convert from NaN to zero
+
+  document.getElementById("questionStats").innerHTML = "You get ".concat(description, " questions correct ", "<br>", topicPercent.toString(), "% of the time", " (∆ = ", oldPercent.toString(), "%", " -> ", topicPercent.toString(), "%)");
 
   question = parseInt(question);
 
   for(var i = 0; i < exams.length; i++) {
-    if(exams[i].semester == semester && exams[i].exam == exam) {
+    if(exams[i].semester == semester && exams[i].exam == exam && answerState == 0) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
       returnPkg = [i, question]
     }
@@ -370,30 +399,49 @@ function updateVideo(semester, question) {
 }
 
 function findSimilar(i, question) { //Finds a new question that has the same description
-  similarLinks = [];
   similarSems = [];
   similarQuestions = [];
   currentSem = exams[i].semester;
+  var randIndex = 0
 
   for(var j = 0; j < exams.length; j++) {
-    for(var k = 1; k < 20; k++) {
+    for(var k = 1; k <= exams[j].description.length; k++) {
       if(exams[i].description[question-1] == exams[j].description[k-1]) {
         document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
-        document.getElementById("video-description").innerText = exams[j].description[k-1];
         similarSems[similarSems.length] = exams[j].semester;
-        similarLinks[similarLinks.length] = exams[j].link.concat(exams[j].timestamps[k-1])
         similarQuestions[similarQuestions.length] = k;
       }
     }
   }
-  do {
-    randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
-  } while(currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
+
+  if(similarQuestions.length > 1) {
+    do {
+      randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
+    } while(currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
+  }
 
   returnPkg = updateVideo(similarSems[randIndex], similarQuestions[randIndex]);
   document.getElementById('semester').value = similarSems[randIndex];
   document.getElementById('question').value = similarQuestions[randIndex];
   getImg();
 
+  return(returnPkg)
+}
+
+function findRandom() {
+  randExam = parseInt(Math.floor(Math.random() * exams.length))
+  randQuestion = parseInt(Math.ceil(Math.random() * exams[randExam].timestamps.length))
+  exam = "Final"
+
+  document.getElementById("semester").value = exams[randExam].semester;
+  document.getElementById("question").value = randQuestion;
+  getImg();
+
+  for(var i = 0; i < exams.length; i++) {
+    if(exams[i].semester == semester && exams[i].exam == exam && answerState == 0) {
+      document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
+      returnPkg = [i, randQuestion]
+    }
+  }
   return(returnPkg)
 }

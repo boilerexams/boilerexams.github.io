@@ -229,6 +229,8 @@ select {
 	width: 0%;
 	border: 1px solid #a1a1a1;
 	border-radius: 10px;	
+	float: left;
+	margin-left: 40px;
 }
 
 .ques-container {
@@ -410,8 +412,7 @@ select {
 	border: 1px solid #d0ba92;
 	border-radius: 5px;
 	display: block;
-	float: right;
-	/*clear:right;*/
+	float: left;
 	padding: 16px;
 	letter-spacing: 1px;
 	text-decoration: none;
@@ -419,12 +420,37 @@ select {
 	font-weight: 400;
 	font-size: 13px;
 	margin-top: 0px;
-	margin-right: 40px;
+	margin-left: 40px;
+	margin-right: -20px;
 	cursor: "pointer";
 	outline: none;
 }
 
 .similar-question:hover {
+	background: #a79574;	
+	border: 1px solid #a79574;
+}
+
+.random-question {
+	background-color: #d0ba92;
+	color: #fff;
+	border: 1px solid #d0ba92;
+	border-radius: 5px;
+	display: block;
+	float: left;
+	padding: 16px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 13px;
+	margin-top: 0px;
+	margin-left: 40px;
+	cursor: "pointer";
+	outline: none;
+}
+
+.random-question:hover {
 	background: #a79574;	
 	border: 1px solid #a79574;
 }

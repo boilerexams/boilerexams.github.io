@@ -57,6 +57,7 @@
     ];
 
 var answer;
+var globalChoice = null;
 
 function buildOnload() {
   for(var i = 0; i < exams.length; i++) {
@@ -205,14 +206,20 @@ function getCorrect(txtSource, qnum)
 
 }
 
-function checkCorrect(choice)
+function changeOption(choice)
 {
+  document.getElementById("submit-answer").style.cursor = "pointer";
+  document.getElementById("submit-answer").style.pointerEvents = "all";
   let options = ["A","B","C","D","E"];
+  globalChoice = choice;
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
     document.getElementById("circle-".concat(options[i])).className = "circle";
   }
   document.getElementById("ans-button-".concat(choice)).className = "ans-button-selected";
   document.getElementById("circle-".concat(choice)).className = "circle-selected";
-  if(answer == choice) {console.log('you got it right!')} else {console.log('Incorrect!')}
+}
+
+function checkAnswer() {
+  if(answer == globalChoice) {console.log('you got it right!')} else {console.log('Incorrect!')}
 }

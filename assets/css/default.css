@@ -225,7 +225,7 @@ select {
 .ques-ans-container {
 	display: none; /* gets changed to block in javascript*/
 	margin: auto;
-	padding-bottom: 10px;
+	padding-bottom: 70px;
 	width: 0%;
 	border: 1px solid #a1a1a1;
 	border-radius: 10px;	
@@ -318,6 +318,31 @@ select {
   position: relative;
 	bottom: 0%;
 	font-weight: 100;
+}
+
+.submit-answer {
+	background-color: #d0ba92;
+	color: #fff;
+	border: 1px solid #d0ba92;
+	border-radius: 5px;
+	display: block;
+	float:right;
+	/*clear:right;*/
+	padding: 16px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 13px;
+	margin-top: 0px;
+	margin-right: 20px;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.submit-answer:hover {
+	background: #a79574;	
+	border: 1px solid #a79574;
 }
 
 /*********************************************************************************/

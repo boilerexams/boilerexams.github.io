@@ -66,6 +66,7 @@
     ]
 
 var answer;
+var globalChoice = null;
 
 function buildOnload() {
   for(var i = 0; i < exams.length; i++) {
@@ -216,6 +217,8 @@ function getCorrect(txtSource, qnum)
 
 function checkCorrect(choice, semester, question)
 {
+  document.getElementById("submit-answer").style.cursor = "pointer";
+  document.getElementById("submit-answer").style.pointerEvents = "all";
   let options = ["A","B","C","D","E"];
   var answerState = 0
   for(var i = 0; i < options.length; i++) {

@@ -67,6 +67,7 @@
 
 var answer;
 var globalChoice = null;
+var answerState = -1;
 
 function buildOnload() {
   for(var i = 0; i < exams.length; i++) {
@@ -108,13 +109,26 @@ function changeSemester() {
     }
   }
 
-  getImg(document.getElementById("semester").value, document.getElementById("question").value);
+  getImg();
 }
 
-function getImg(semester, question) {
+function getImg() {
+  var semester = document.getElementById("semester").value;
+  var question = document.getElementById("question").value;
+  var exam = "FE"; // placeholder
+  var examType = "Final"
   let options = ["A","B","C","D","E"];
+  var examId = 'MA266'
+  document.getElementById("video").src = '';
   document.getElementById("ques-ans-container").style.cursor = "auto";
   document.getElementById("ques-ans-container").style.pointerEvents = "all";
+  document.getElementById("submit-answer").style.pointerEvents = "none"
+  document.getElementById("submit-answer").style.display = "inline-block"
+  document.getElementById("submit-answer").style.cursor = "not-allowed"
+  document.getElementById("similar-question").style.pointerEvents = "auto";
+  document.getElementById("similar-question").style.cursor = "pointer";
+  document.getElementById("questionStats").style.display = "none";
+
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
     document.getElementById("circle-".concat(options[i])).className = "circle";
@@ -122,8 +136,6 @@ function getImg(semester, question) {
 
   if(question != 'Question #') {
     document.getElementById("ques-ans-container").style.display = "block";
-    examId = 'MA266'
-    var exam = "FE"; // placeholder
     var season = semester[5]
     console.log(semester, question, season)
     var srcs = []
@@ -154,6 +166,18 @@ function getImg(semester, question) {
   }
   
   //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/MA266edited/266-FE-S-2019/questions/Q1.png
+  
+  if (question != 'Question #') {
+    question = parseInt(question);
+
+    for(var i = 0; i < exams.length; i++) {
+      if(exams[i].semester == semester && exams[i].exam == examType) {
+        returnPkg = [i, question]
+      }
+    }
+    return(returnPkg)
+  }
+
 }
 
 function imgDim(imgSource, imgId) {
@@ -220,9 +244,8 @@ function getCorrect(txtSource, qnum)
 function changeOption(choice)
 {
   globalChoice = choice;
-  semester = document.getElementById('semester').value;
-  question = document.getElementById('question').value;
   document.getElementById("submit-answer").style.cursor = "pointer";
+  document.getElementById("submit-answer").style.display = "block";
   document.getElementById("submit-answer").style.pointerEvents = "all";
   let options = ["A","B","C","D","E"];
   
@@ -236,16 +259,28 @@ function changeOption(choice)
 
 
 function checkAnswer() {
+  examId = 'MA265'
+  var exam = "Final"; // placeholder
+  semester = document.getElementById('semester').value;
+  question = document.getElementById('question').value;
   document.getElementById("ques-ans-container").style.cursor = "not-allowed";
   document.getElementById("ques-ans-container").style.pointerEvents = "none";
-  var answerState = 0
-  console.log(answer, globalChoice)
+  document.getElementById("submit-answer").style.pointerEvents = "none"
+  document.getElementById("submit-answer").style.display = "none"
+  document.getElementById("questionStats").style.display = "block";
+
+  //console.log(answer, globalChoice)
   if(answer == globalChoice) {
-    console.log('you got it right!')
+    //console.log('you got it right!')
     answerState = 1;
+    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
+    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
   } 
   else {
-    console.log('Incorrect!')
+    //console.log('Incorrect!')
+    answerState = 0;
+    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-incorrect";
+    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
   }
   localStorage.setItem('answerState', answerState.toString());
 
@@ -256,6 +291,9 @@ function checkAnswer() {
   totAns = parseInt(localStorage.getItem('totalAnswers'));
   localStorage.setItem('totalAnswers', (totAns + 1).toString())
 
+  var descPos = -1
+  var deltaCorrect = 0
+
   for(var i = 0; i < exams.length; i++)
   {
     if (exams[i].semester == semester)
@@ -263,16 +301,13 @@ function checkAnswer() {
       description = exams[i].description[question - 1]
     }
   }
-  var descPos = -1
   for(var j = 0; j < descriptions.length; j++)
   {
-    //console.log(descriptions[j], description)
     if(descriptions[j] == description)
     {
       descPos = j;
     }
   }
-  //console.log(descPos)
   if(descPos != -1)
   {
     if(!localStorage.getItem(descPos.toString().concat('answered')))
@@ -285,10 +320,80 @@ function checkAnswer() {
     {
       localStorage.setItem(descPos.toString().concat('correct'), '0')
     }
+
+    // const pastCorrect = parseFloat(localStorage.getItem(descPos.toString().concat('correct')));
+
     if(answerState == 1)
     {
       localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+      deltaCorrect = 1
     }
   }
-  
+  var totalTopicAnswered = parseFloat(localStorage.getItem(descPos.toString().concat('answered')))
+  var totalTopicCorrect = parseFloat(localStorage.getItem(descPos.toString().concat('correct')))
+  console.log(totalTopicAnswered, totalTopicCorrect)
+  topicPercent = (totalTopicCorrect / totalTopicAnswered * 100).toFixed(2).toString()
+  deltaPercent = ((topicPercent - (totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100).toFixed(2)).toString()
+  document.getElementById("questionStats").innerHTML = "You get ".concat(description, " questions correct ", "<br>", topicPercent, "% of the time", " (∆ = ", deltaPercent, "%)");
+
+  question = parseInt(question);
+
+  for(var i = 0; i < exams.length; i++) {
+    if(exams[i].semester == semester && exams[i].exam == exam) {
+      document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
+      returnPkg = [i, question]
+    }
+  }
+  return(returnPkg)
+}
+
+
+function updateVideo(semester, question) {
+  examId = 'MA265'
+  var exam = "Final"; // placeholder
+    
+  var foundExam = false;
+  question = parseInt(question);
+
+  for(var i = 0; i < exams.length; i++) {
+    if(exams[i].semester == semester && exams[i].exam == exam) {
+      document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
+      foundExam = true;
+
+      dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
+      dataLayer.push({'event':'266topicstream','topicId':exams[i].description[question-1]});
+    }
+  }
+  if(!foundExam) {
+    document.getElementById("Video").src = "";
+  }
+}
+
+function findSimilar(i, question) { //Finds a new question that has the same description
+  similarLinks = [];
+  similarSems = [];
+  similarQuestions = [];
+  currentSem = exams[i].semester;
+
+  for(var j = 0; j < exams.length; j++) {
+    for(var k = 1; k < 20; k++) {
+      if(exams[i].description[question-1] == exams[j].description[k-1]) {
+        document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k-1])
+        document.getElementById("video-description").innerText = exams[j].description[k-1];
+        similarSems[similarSems.length] = exams[j].semester;
+        similarLinks[similarLinks.length] = exams[j].link.concat(exams[j].timestamps[k-1])
+        similarQuestions[similarQuestions.length] = k;
+      }
+    }
+  }
+  do {
+    randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
+  } while(currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
+
+  returnPkg = updateVideo(similarSems[randIndex], similarQuestions[randIndex]);
+  document.getElementById('semester').value = similarSems[randIndex];
+  document.getElementById('question').value = similarQuestions[randIndex];
+  getImg();
+
+  return(returnPkg)
 }

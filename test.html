@@ -98,7 +98,7 @@ Released   : 20140309
       </select>
     </div>
     <div class="select">
-			<select id="question" onchange='getImg(document.getElementById("semester").value, document.getElementById("question").value)'>
+			<select id="question" onchange='similarInfo = getImg()'>
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>
@@ -144,12 +144,17 @@ Released   : 20140309
 					<img src="" id="eImg">
 				</div>
 			</div>
-			<button class="submit-answer" id="submit-answer" onclick="checkAnswer()">Submit Answer</button>
-		</div>
+		<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); if(answerState == 0) {updateVideo(document.getElementById('semester').value, document.getElementById('question').value)}">Submit Answer</button>
+		<button class="similar-question" id="similar-question" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1])'>Similar problem</button>
+		<p class="textp" id="questionStats"></p>
+	</div>
+
 
 		<div class = "embeded-video">
       <p align="center"></p><iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 		</div>
+
+
   </div>
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>

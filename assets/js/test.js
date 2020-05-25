@@ -104,6 +104,8 @@ function changeSemester() {
 
 function getImg(semester, question) {
   let options = ["A","B","C","D","E"];
+  document.getElementById("ques-ans-container").style.cursor = "auto";
+  document.getElementById("ques-ans-container").style.pointerEvents = "all";
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
     document.getElementById("circle-".concat(options[i])).className = "circle";
@@ -221,5 +223,7 @@ function changeOption(choice)
 }
 
 function checkAnswer() {
+  document.getElementById("ques-ans-container").style.cursor = "not-allowed";
+  document.getElementById("ques-ans-container").style.pointerEvents = "none";
   if(answer == globalChoice) {console.log('you got it right!')} else {console.log('Incorrect!')}
 }

@@ -256,13 +256,13 @@ function checkCorrect(choice, semester, question)
   var descPos = -1
   for(var j = 0; j < descriptions.length; j++)
   {
-    console.log(descriptions[j], description)
+    //console.log(descriptions[j], description)
     if(descriptions[j] == description)
     {
       descPos = j;
     }
   }
-  console.log(descPos)
+  //console.log(descPos)
   if(descPos != -1)
   {
     if(!localStorage.getItem(descPos.toString().concat('answered')))
@@ -270,6 +270,15 @@ function checkCorrect(choice, semester, question)
       localStorage.setItem(descPos.toString().concat('answered'), '0')
     }
     localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
+    
+    if(!localStorage.getItem(descPos.toString().concat('correct')))
+    {
+      localStorage.setItem(descPos.toString().concat('correct'), '0')
+    }
+    if(answerState == 1)
+    {
+      localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+    }
   }
   
 }

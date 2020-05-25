@@ -281,6 +281,8 @@ function checkAnswer() {
     answerState = 0;
     document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-incorrect";
     document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
+    document.getElementById("ans-button-".concat(answer)).className = "ans-button-correct";
+    document.getElementById("circle-".concat(answer)).className = "circle-selected-correct";
   }
   localStorage.setItem('answerState', answerState.toString());
 

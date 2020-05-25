@@ -97,11 +97,19 @@ function changeSemester() {
       sel.appendChild(opt);
     }
   }
+
+  getImg(document.getElementById("semester").value, document.getElementById("question").value);
 }
 
 function getImg(semester, question) {
+  let options = ["A","B","C","D","E"];
+  for(var i = 0; i < options.length; i++) {
+    document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
+    document.getElementById("circle-".concat(options[i])).className = "circle";
+  }
 
   if(question != 'Question #') {
+    document.getElementById("ques-ans-container").style.display = "block";
     examId = 'MA266'
     var exam = "FE"; // placeholder
     var season = semester[5]
@@ -109,12 +117,12 @@ function getImg(semester, question) {
     var srcs = []
     const txts = ''
 
-    srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/questions/Q', question.toString(), '.png')
-    srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'A.png')
-    srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'B.png')
-    srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'C.png')
-    srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'D.png')
-    srcs[srcs.length] = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'E.png')
+    srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/questions/Q', question.toString(), '.png')
+    srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'A.png')
+    srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'B.png')
+    srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'C.png')
+    srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'D.png')
+    srcs[srcs.length] = 'python-pdf/'.concat(examId, 'edited/', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0,4), '/answers/Q', question.toString(), 'E.png')
 
     txt = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/'.concat(examId, '-ANS/ANS-MA ', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0, 4), '.txt')
     
@@ -122,6 +130,7 @@ function getImg(semester, question) {
     console.log(txts)
     
     imgDim(srcs[0], "questionImg")
+    imgContainerDim(srcs[0]);
     imgDim(srcs[1], "aImg")
     imgDim(srcs[2], "bImg")
     imgDim(srcs[3], "cImg")
@@ -145,6 +154,17 @@ function imgDim(imgSource, imgId) {
     }
     img.src = imgSource;
   }
+
+function imgContainerDim(imgSource) {
+  const scaleFactor = 1.5
+  var img = new Image();
+  img.onload = function() {
+    document.getElementById("ans-container").style.width = (this.width / scaleFactor).toString().concat("px");
+    document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 60).toString().concat("px");
+    document.getElementById("ans-container").style.height = "auto";
+  }
+  img.src = imgSource;
+}
 
 function getCorrect(txtSource, qnum)
 {
@@ -187,5 +207,12 @@ function getCorrect(txtSource, qnum)
 
 function checkCorrect(choice)
 {
+  let options = ["A","B","C","D","E"];
+  for(var i = 0; i < options.length; i++) {
+    document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
+    document.getElementById("circle-".concat(options[i])).className = "circle";
+  }
+  document.getElementById("ans-button-".concat(choice)).className = "ans-button-selected";
+  document.getElementById("circle-".concat(choice)).className = "circle-selected";
   if(answer == choice) {console.log('you got it right!')} else {console.log('Incorrect!')}
 }

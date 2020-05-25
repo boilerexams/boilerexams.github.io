@@ -220,6 +220,106 @@ select {
 }
 
 /*********************************************************************************/
+/* Button with letter and image                                                  */
+/*********************************************************************************/
+.ques-ans-container {
+	display: none; /* gets changed to block in javascript*/
+	margin: auto;
+	padding-bottom: 10px;
+	width: 0%;
+	border: 1px solid #a1a1a1;
+	border-radius: 10px;	
+}
+
+.ques-container {
+	display: inherit;
+	margin: auto;
+}
+
+.ques-container img{
+	padding-top: 20px;
+	margin: auto;
+}
+
+.ans-container {
+	display: block;
+	margin: auto;
+	width: 0%;
+	height: 0%;
+	border-radius: 10px;
+}
+
+.ans-button {
+	display: flex;
+	padding: 10px;
+	border: 1px solid #e1e4e6;
+	border-radius: 10px;
+	margin: 0px 10px;
+	margin-bottom: 10px;
+	text-align: left;
+	-webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.ans-button:hover {
+	border: 3px solid #a1a1a1;
+	padding: 8px;
+}
+
+.ans-button-selected {
+	display: flex;
+	border: 3px solid #d0ba92;
+	padding: 8px;
+	border-radius: 10px;
+	margin: 0px 10px;
+	margin-bottom: 10px;
+	text-align: left;
+	-webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.circle {
+	display: inline-block;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	padding: 8px;
+
+	background: #fff;
+	border: 1px solid #e1e4e6;
+	color: #a1a1a1;
+	text-align: center;
+
+	font-size: 24px;
+	margin-right: 15px;
+}
+
+.circle-selected {
+	display: inline-block;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	padding: 8px;
+
+	background: #d0ba92;
+	border: 1px solid #d0ba92;
+	color: #fff;
+	text-align: center;
+
+	font-size: 24px;
+	margin-right: 15px;
+}
+
+.circle-letter {
+  left: 0%;
+  position: relative;
+	bottom: 0%;
+	font-weight: 100;
+}
+
+/*********************************************************************************/
 /* Social Icon Styles                                                            */
 /*********************************************************************************/
 

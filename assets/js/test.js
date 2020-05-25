@@ -113,6 +113,8 @@ function changeSemester() {
 
 function getImg(semester, question) {
   let options = ["A","B","C","D","E"];
+  document.getElementById("ques-ans-container").style.cursor = "auto";
+  document.getElementById("ques-ans-container").style.pointerEvents = "all";
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
     document.getElementById("circle-".concat(options[i])).className = "circle";
@@ -215,12 +217,14 @@ function getCorrect(txtSource, qnum)
 
 }
 
-function checkCorrect(choice, semester, question)
+function changeOption(choice)
 {
+  semester = document.getElementById('semester').value;
+  question = document.getElementById('question').value;
   document.getElementById("submit-answer").style.cursor = "pointer";
   document.getElementById("submit-answer").style.pointerEvents = "all";
   let options = ["A","B","C","D","E"];
-  var answerState = 0
+  
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
     document.getElementById("circle-".concat(options[i])).className = "circle";
@@ -228,15 +232,13 @@ function checkCorrect(choice, semester, question)
   document.getElementById("ans-button-".concat(choice)).className = "ans-button-selected";
   document.getElementById("circle-".concat(choice)).className = "circle-selected";
   
-  
-  if(answer == choice) {
-    console.log('you got it right!')
-    answerState = 1
-  } 
-  else{
-    console.log('Incorrect!')
-  }
+}
 
+function checkAnswer() {
+  document.getElementById("ques-ans-container").style.cursor = "not-allowed";
+  document.getElementById("ques-ans-container").style.pointerEvents = "none";
+  var answerState = 0
+  if(answer == globalChoice) {console.log('you got it right!')} else {console.log('Incorrect!')}
   localStorage.setItem('answerState', answerState.toString());
 
   if (!localStorage.getItem('totalAnswers')) {

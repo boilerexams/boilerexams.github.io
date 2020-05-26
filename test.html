@@ -144,7 +144,7 @@ Released   : 20140309
 					<img src="" id="eImg">
 				</div>
 			</div>
-		<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); if(answerState == 0) {updateVideo(document.getElementById('semester').value, document.getElementById('question').value)}">Submit Answer</button>
+		<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); if(answerState == 0) {updateVideo()}">Submit Answer</button>
 		<button class="similar-question" id="similar-question" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1])'>Similar problem</button>
 		<button class="random-question" id="random-question" onclick='similarInfo = findRandom()'>Random problem</button>
 		<p class="textp" id="questionStats"></p> 
@@ -152,7 +152,8 @@ Released   : 20140309
 	<!-- This is the textbox that contains the users stats -->
 
 		<div class = "embeded-video">
-      <p align="center"></p><iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+			<p align="left"></p>
+			<iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 		</div>
 
 

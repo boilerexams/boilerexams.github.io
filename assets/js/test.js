@@ -137,6 +137,7 @@ function getImg() {
   document.getElementById("random-question").style.pointerEvents = "auto";
   document.getElementById("random-question").style.cursor = "pointer";
   document.getElementById("questionStats").style.display = "none";
+  document.getElementById("video").style.display = "none";
 
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
@@ -158,15 +159,13 @@ function getImg() {
     txt = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/'.concat(examId, '-ANS/ANS-MA ', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0, 4), '.txt')
         
     imgDim(srcs[0], "questionImg")
-    imgContainerDim(srcs[0], 1, ["null"]);
-    imgContainerDim(srcs[1], 0, ["null"]);
+    imgContainerDim(srcs[0], 1);
+    imgContainerDim(srcs[1], 0);
     imgDim(srcs[1], "aImg")
     imgDim(srcs[2], "bImg")
     imgDim(srcs[3], "cImg")
     imgDim(srcs[4], "dImg")
     imgDim(srcs[5], "eImg")
-    //setTimeout(function(){ console.log("We waitin"); }, 1000);
-    //imgContainerDim(srcs[5], -1, ["questionImg", "aImg", "bImg", "cImg", "dImg", "eImg"]);
 
     //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/MA 266-ANS/ANS-MA 266-FE-F-2017.txt
     getCorrect(txt, question)
@@ -194,7 +193,6 @@ function getImg() {
     if(similarQuestions.length == 1) {
       document.getElementById('similar-question').style.display = "none";
     }
-    //console.log(similarQuestions.length, returnPkg)
     return(returnPkg)
   }
 
@@ -210,7 +208,7 @@ function imgDim(imgSource, imgId) {
     img.src = imgSource;
   }
 
-function imgContainerDim(imgSource, isQuestion, imgIds) {
+function imgContainerDim(imgSource, isQuestion) {
   const scaleFactor = 1.5
   const widthLimit = 700;
   var img = new Image();
@@ -228,26 +226,6 @@ function imgContainerDim(imgSource, isQuestion, imgIds) {
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
     }
-
-    // var overallContainerWidth = parseInt(document.getElementById("ques-ans-container").style.width.slice(0, -2))
-    // console.log(overallContainerWidth)
-    // if (overallContainerWidth > widthLimit && isQuestion == -1) {
-    //   var newScaleFactor =  overallContainerWidth / widthLimit
-    //   console.log("Setting " + imgIds[i] + "'s width to " + (overallContainerWidth / newScaleFactor).toString().concat("px"))
-    //   document.getElementById("ans-container").style.width = (widthLimit).toString().concat("px");
-    //   document.getElementById("ques-container").style.float = "left";
-    //   document.getElementById("ques-container").style.marginLeft = "40px";
-    //   document.getElementById("ques-container").style.marginRight = "400px";
-    //   document.getElementById("ques-ans-container").style.width = (widthLimit + 60).toString().concat("px");
-      
-    //   for(var i = 0; i < 1; i++) {
-    //     if (document.getElementById(imgIds[i]).width > 10) {
-    //       console.log(imgIds[i], document.getElementById(imgIds[i]).width, document.getElementById(imgIds[i]).width / newScaleFactor, newScaleFactor)
-    //       document.getElementById(imgIds[i]).width = (document.getElementById(imgIds[i]).width / (newScaleFactor - 0.07)).toString();
-    //       document.getElementById(imgIds[i]).height = (document.getElementById(imgIds[i]).height / (newScaleFactor - 0.07)).toString();
-    //     }
-    //   }
-    // }
   }
   img.src = imgSource;
 }
@@ -420,8 +398,11 @@ function checkAnswer() {
 }
 
 
-function updateVideo(semester, question) {
-  examId = 'MA265'
+function updateVideo() {
+  var toggleState = document.getElementById("video").src
+  var semester = document.getElementById('semester').value
+  var question = document.getElementById('question').value
+  const examId = 'MA266'
   var exam = "Final"; // placeholder
     
   var foundExam = false;
@@ -430,8 +411,7 @@ function updateVideo(semester, question) {
   for(var i = 0; i < exams.length; i++) {
     if(exams[i].semester == semester && exams[i].exam == exam) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
-      //document.getElementById("ques-ans-container").style.marginLeft = -100
-      //document.getElementById("ques-ans-container").style.transform = "translate(-2500px, 0px)"
+      document.getElementById("video").style.display = "block";
       foundExam = true;
 
       dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
@@ -439,7 +419,7 @@ function updateVideo(semester, question) {
     }
   }
   if(!foundExam) {
-    document.getElementById("Video").src = "";
+    document.getElementById("video").src = "";
   }
 }
 
@@ -515,7 +495,6 @@ function topicRanker() {
       console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace])
     }
   }
- //console.log(topicPercents)
 
   streak()
 }

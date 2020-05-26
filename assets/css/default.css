@@ -231,6 +231,8 @@ select {
 	border-radius: 10px;	
 	float: left;
 	margin-left: 40px;
+	transition: transform .7s;
+	overflow: hidden;
 }
 
 .ques-container {
@@ -439,13 +441,16 @@ select {
 	display: block;
 	float: left;
 	padding: 16px;
-	letter-spacing: 1px;
+	letter-spacing: 0.90px;
 	text-decoration: none;
 	text-transform: uppercase;
 	font-weight: 400;
 	font-size: 13px;
 	margin-top: 0px;
 	margin-left: 40px;
+	position: relative;
+	top: 60px;
+	left: -180px;
 	cursor: "pointer";
 	outline: none;
 }
@@ -957,6 +962,7 @@ select {
 		width: 50em;
 		height: 37.5em;
 		margin-bottom: -4.5em;
+		transition: transform 0.7s;
 	}
 
 /*********************************************************************************/

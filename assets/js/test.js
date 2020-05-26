@@ -25,7 +25,7 @@
       link: "https://www.youtube.com/embed/BRAxIssBBBM?start=",
       timestamps: [9, 155, 250, 522, 681, 780, 887, 1049, 1283, 1530, 1630, 1687, 1796, 1935, 2179, 2387, 2588, 2830, 2991, 3096],
       description: ["Separation of variables","Salt tank applications","Exact equations","Homogeneous differential equation","Euler's method",
-      "Integrating factor","Autonomous equation stability","Characteristic equation","Variation of parameters","Spring-mass system",
+      "Integrating factor","Autonomous equation stability","Characteristic equation","Variation of parameters","Spring-mass systems",
       "Characteristic equation","Undetermined coefficients","Reduction of order","Inverse Laplace transform","Laplace initial value problem",
       "Laplace initial value problem","Piecewise Laplace transform","Complex eigenvalues","Phase plane identification","Nonhomogeneous system of differential equations"]
     },
@@ -158,13 +158,15 @@ function getImg() {
     txt = 'https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/'.concat(examId, '-ANS/ANS-MA ', examId.slice(2,5), '-', exam, '-', season, '-', semester.slice(0, 4), '.txt')
         
     imgDim(srcs[0], "questionImg")
-    imgContainerDim(srcs[0], 1);
-    imgContainerDim(srcs[1], 0);
+    imgContainerDim(srcs[0], 1, ["null"]);
+    imgContainerDim(srcs[1], 0, ["null"]);
     imgDim(srcs[1], "aImg")
     imgDim(srcs[2], "bImg")
     imgDim(srcs[3], "cImg")
     imgDim(srcs[4], "dImg")
     imgDim(srcs[5], "eImg")
+    //setTimeout(function(){ console.log("We waitin"); }, 1000);
+    //imgContainerDim(srcs[5], -1, ["questionImg", "aImg", "bImg", "cImg", "dImg", "eImg"]);
 
     //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/MA 266-ANS/ANS-MA 266-FE-F-2017.txt
     getCorrect(txt, question)
@@ -192,12 +194,11 @@ function getImg() {
     if(similarQuestions.length == 1) {
       document.getElementById('similar-question').style.display = "none";
     }
-    console.log(similarQuestions.length, returnPkg)
+    //console.log(similarQuestions.length, returnPkg)
     return(returnPkg)
   }
 
 }
-
 function imgDim(imgSource, imgId) {
     const scaleFactor = 1.5
     var img = new Image();
@@ -209,24 +210,44 @@ function imgDim(imgSource, imgId) {
     img.src = imgSource;
   }
 
-function imgContainerDim(imgSource, isQuestion) {
+function imgContainerDim(imgSource, isQuestion, imgIds) {
   const scaleFactor = 1.5
+  const widthLimit = 700;
   var img = new Image();
   img.onload = function() {
-    if (isQuestion) {
+    if (isQuestion == 1) {
       document.getElementById("ans-container").style.width = (this.width / scaleFactor).toString().concat("px");
       document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 60).toString().concat("px");
       document.getElementById("ans-container").style.height = "auto";
     }
-    else if (parseFloat(document.getElementById("ques-ans-container").style.width) < (this.width / scaleFactor + 60)) {
-      console.log("WEVE GOTTA FIX THE BOX")
+    else if (parseFloat(document.getElementById("ques-ans-container").style.width) - 100 < (this.width / scaleFactor + 60)) {
+      console.log("FIXING QUESTION CONTAINER")
       document.getElementById("ans-container").style.width = (this.width / scaleFactor + 140).toString().concat("px");
       document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 200).toString().concat("px");
       document.getElementById("ques-container").style.float = "left";
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
-
     }
+
+    // var overallContainerWidth = parseInt(document.getElementById("ques-ans-container").style.width.slice(0, -2))
+    // console.log(overallContainerWidth)
+    // if (overallContainerWidth > widthLimit && isQuestion == -1) {
+    //   var newScaleFactor =  overallContainerWidth / widthLimit
+    //   console.log("Setting " + imgIds[i] + "'s width to " + (overallContainerWidth / newScaleFactor).toString().concat("px"))
+    //   document.getElementById("ans-container").style.width = (widthLimit).toString().concat("px");
+    //   document.getElementById("ques-container").style.float = "left";
+    //   document.getElementById("ques-container").style.marginLeft = "40px";
+    //   document.getElementById("ques-container").style.marginRight = "400px";
+    //   document.getElementById("ques-ans-container").style.width = (widthLimit + 60).toString().concat("px");
+      
+    //   for(var i = 0; i < 1; i++) {
+    //     if (document.getElementById(imgIds[i]).width > 10) {
+    //       console.log(imgIds[i], document.getElementById(imgIds[i]).width, document.getElementById(imgIds[i]).width / newScaleFactor, newScaleFactor)
+    //       document.getElementById(imgIds[i]).width = (document.getElementById(imgIds[i]).width / (newScaleFactor - 0.07)).toString();
+    //       document.getElementById(imgIds[i]).height = (document.getElementById(imgIds[i]).height / (newScaleFactor - 0.07)).toString();
+    //     }
+    //   }
+    // }
   }
   img.src = imgSource;
 }
@@ -260,7 +281,7 @@ function getCorrect(txtSource, qnum)
         }
         timesran += 1
       }
-      console.log(resp[0])
+      console.log("The answer is " + resp[0].toString())
       answer = resp[0]
   })
   .catch(function (response) {
@@ -315,9 +336,19 @@ function checkAnswer() {
   if (!localStorage.getItem('totalAnswers')) {
     localStorage.setItem('totalAnswers', '0');
   }
+  if (!localStorage.getItem('totalCorrect')) {
+    localStorage.setItem('totalCorrect', '0');
+  }
 
   totAns = parseInt(localStorage.getItem('totalAnswers'));
   localStorage.setItem('totalAnswers', (totAns + 1).toString())
+
+  if(answerState == 1) {
+    totCorrect = parseInt(localStorage.getItem('totalCorrect'));
+    localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
+  }
+  overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
+  console.log("\n\nYou get " + overallPercent.toString() + "% of questions correct overall")
 
   var descPos = -1
   var deltaCorrect = 0
@@ -348,22 +379,32 @@ function checkAnswer() {
     {
       localStorage.setItem(descPos.toString().concat('correct'), '0')
     }
+
+    if(!localStorage.getItem('streak'))
+    {
+      localStorage.setItem('streak', '0')
+    }
     if(answerState == 1)
     {
-      localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
       deltaCorrect = 1
+      localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+      localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
+    }
+    if(answerState == 0) {
+      localStorage.setItem('streak', '0')
     }
   }
-  var totalTopicAnswered = parseFloat(localStorage.getItem(descPos.toString().concat('answered')))
-  var totalTopicCorrect = parseFloat(localStorage.getItem(descPos.toString().concat('correct')))
-  topicPercent = (totalTopicCorrect / totalTopicAnswered * 100).toFixed(1)
-  oldPercent = (((totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100).toFixed(1))
+  var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
+  var totalTopicCorrect = parseInt(localStorage.getItem(descPos.toString().concat('correct')))
+  topicPercent = (parseFloat(localStorage.getItem(descPos.toString().concat('correct')) / parseFloat(localStorage.getItem(descPos.toString().concat('answered'))) * 100))
+  oldPercent = ((totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100)
 
-  console.log(totalTopicAnswered, totalTopicCorrect, topicPercent, oldPercent)
-  topicPercent = ~~topicPercent //Convert from NaN to zero
-  oldPercent = ~~oldPercent //Convert from NaN to zero
+  if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = 0} //Detects and fixes NaNs
+  if(!(oldPercent >= 0 || oldPercent < 0)) {oldPercent = 0} //Detects and fixes NaNs
 
-  document.getElementById("questionStats").innerHTML = "You get ".concat(description, " questions correct ", "<br>", topicPercent.toString(), "% of the time", " (∆ = ", oldPercent.toString(), "%", " -> ", topicPercent.toString(), "%)");
+  console.log("\n\nYou get " + description + " questions correct " + topicPercent.toFixed(2).toString() + "% of the time")
+
+  //document.getElementById("questionStats").innerHTML = "You get ".concat(description, " questions correct ", "<br>", topicPercent.toFixed(2).toString(), "% of the time", " (∆ = ", oldPercent.toFixed(2).toString(), "%", " -> ", topicPercent.toFixed(2).toString(), "%)");
 
   question = parseInt(question);
 
@@ -373,6 +414,8 @@ function checkAnswer() {
       returnPkg = [i, question]
     }
   }
+
+  topicRanker() //Performs more computations relating to user performance
   return(returnPkg)
 }
 
@@ -387,6 +430,8 @@ function updateVideo(semester, question) {
   for(var i = 0; i < exams.length; i++) {
     if(exams[i].semester == semester && exams[i].exam == exam) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
+      //document.getElementById("ques-ans-container").style.marginLeft = -100
+      //document.getElementById("ques-ans-container").style.transform = "translate(-2500px, 0px)"
       foundExam = true;
 
       dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
@@ -440,8 +485,42 @@ function findRandom() {
   for(var i = 0; i < exams.length; i++) {
     if(exams[i].semester == semester && exams[i].exam == exam && answerState == 0) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
-      returnPkg = [i, randQuestion]
+      returnPkg = [i, randQuestion];
     }
   }
   return(returnPkg)
+}
+
+function topicRanker() {
+  topicPercents = [];
+
+  for(var i = 0; i < descriptions.length; i++)
+  {
+    description = descriptions[i];
+    topicPercent = (parseFloat(localStorage.getItem(i.toString().concat('correct')) / parseFloat(localStorage.getItem(i.toString().concat('answered'))) * 100)).toFixed(2)
+    if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = -1}; //Detects and fixes NaNs
+    topicPercents[topicPercents.length] = {descPlace: i, percent: parseFloat(topicPercent)};
+  }
+  topicPercents.sort(function(a, b){return b.percent-a.percent})
+  console.log("\n\nYour best topics are: ")
+
+  for(i = 0; i < 5; i++) {
+    console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "% correct)")
+  }
+
+  console.log("\n\nYou haven't tried these topics: ")
+
+  for(i = 0; i < topicPercents.length; i++) {
+    if(topicPercents[i].percent == -1) {
+      console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace])
+    }
+  }
+ //console.log(topicPercents)
+
+  streak()
+}
+
+function streak() {
+  var streakVal = localStorage.getItem('streak')
+  console.log("\n\nYou are on a " + streakVal.toString() + " question streak!")
 }

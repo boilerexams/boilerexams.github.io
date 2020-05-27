@@ -138,6 +138,8 @@ function getImg() {
   document.getElementById("random-question").style.cursor = "pointer";
   document.getElementById("questionStats").style.display = "none";
   document.getElementById("video").style.display = "none";
+  document.getElementById("result-ques").style.display = "none";
+  document.getElementById("result-ques").style.className = "";
 
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
@@ -301,6 +303,10 @@ function checkAnswer() {
     answerState = 1;
     document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
     document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
+    document.getElementById("result-ques").className = "correct-result";
+    document.getElementById("result-ques-text").innerHTML = "Correct";
+    document.getElementById("result-ques").style.display = "inline-block";
+    document.getElementById("result-ques-img").src = "Images/correct-answer-check.png";
   } 
   else {
     answerState = 0;
@@ -308,6 +314,10 @@ function checkAnswer() {
     document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
     document.getElementById("ans-button-".concat(answer)).className = "ans-button-correct";
     document.getElementById("circle-".concat(answer)).className = "circle-selected-correct";
+    document.getElementById("result-ques").className = "incorrect-result";
+    document.getElementById("result-ques-text").innerHTML = "Incorrect";
+    document.getElementById("result-ques").style.display = "inline-block";
+    document.getElementById("result-ques-img").src = "Images/wrong-answer-x.png";
   }
   localStorage.setItem('answerState', answerState.toString());
 
@@ -387,7 +397,7 @@ function checkAnswer() {
   question = parseInt(question);
 
   for(var i = 0; i < exams.length; i++) {
-    if(exams[i].semester == semester && exams[i].exam == exam && answerState == 0) {
+    if(exams[i].semester == semester && exams[i].exam == exam) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
       returnPkg = [i, question]
     }
@@ -502,4 +512,12 @@ function topicRanker() {
 function streak() {
   var streakVal = localStorage.getItem('streak')
   console.log("\n\nYou are on a " + streakVal.toString() + " question streak!")
+}
+
+function scrollToVideo() {
+  document.querySelector('.embeded-video').scrollIntoView({ 
+    behavior: 'smooth' 
+  });
+  /*var elmnt = document.getElementById("embeded-video");
+  elmnt.scrollIntoView();*/
 }

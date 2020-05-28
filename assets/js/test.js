@@ -121,9 +121,10 @@ function resetPage() {
   document.getElementById("video").src = '';
   document.getElementById("ques-ans-container").style.cursor = "auto";
   document.getElementById("ques-ans-container").style.pointerEvents = "all";
-  document.getElementById("submit-answer").style.pointerEvents = "none"
-  document.getElementById("submit-answer").style.display = "inline-block"
-  document.getElementById("submit-answer").style.cursor = "not-allowed"
+  document.getElementById("submit-answer").disabled = true;
+  document.getElementById("submit-answer").style.pointerEvents = "all"; // change
+  document.getElementById("submit-answer").style.display = "inline-block";
+  document.getElementById("submit-answer").style.cursor = "not-allowed";
   document.getElementById("similar-question").style.pointerEvents = "auto";
   document.getElementById("similar-question").style.cursor = "pointer";
   document.getElementById("similar-question").style.display = "inline-block";
@@ -135,6 +136,11 @@ function resetPage() {
   document.getElementById("result-ques").style.className = "";
   document.getElementById("embeded-video").className = "";
   document.getElementById("result-ques-streak").innerHTML = "";
+  document.getElementById("next-button").disabled = false;
+  document.getElementById("previous-button").disabled = false;
+  document.getElementById("embeded-video").style.display = "none";
+  document.getElementById("next-button-bottom").disabled = false;
+  document.getElementById("previous-button-bottom").disabled = false;
 }
 
 function getImg() {
@@ -187,7 +193,15 @@ function getImg() {
 
     for(var i = 0; i < exams.length; i++) {
       if(exams[i].semester == semester && exams[i].exam == examType) {
+        if(question == exams[i].timestamps.length) {
+          // disables next button at end of exam
+          document.getElementById("next-button").disabled = true;
+        }
+        else if (question == 1) {
+          document.getElementById("previous-button").disabled = true;
+        }
         returnPkg = [i, question]
+        break;
       }
     }
 
@@ -281,6 +295,7 @@ function getCorrect(txtSource, qnum)
 function changeOption(choice)
 {
   globalChoice = choice;
+  document.getElementById("submit-answer").disabled = false;
   document.getElementById("submit-answer").style.cursor = "pointer";
   document.getElementById("submit-answer").style.display = "block";
   document.getElementById("submit-answer").style.pointerEvents = "all";
@@ -418,6 +433,7 @@ function checkAnswer() {
 
 function updateVideo() {
   document.getElementById("embeded-video").className = "embeded-video";
+  document.getElementById("embeded-video").style.display = "inherit";
   var toggleState = document.getElementById("video").src
   var semester = document.getElementById('semester').value
   var question = document.getElementById('question').value
@@ -431,6 +447,14 @@ function updateVideo() {
     if(exams[i].semester == semester && exams[i].exam == exam) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
       document.getElementById("video").style.display = "block";
+      if(question == exams[i].timestamps.length) {
+        // disables next button at end of exam
+        document.getElementById("next-button-bottom").disabled = true;
+      }
+      else if (question == 1) {
+        document.getElementById("previous-button-bottom").disabled = true;
+      }
+
       foundExam = true;
 
       dataLayer.push({'event':'questionSelected','examId':examId.concat(' ', semester, ' ', exam, ' Q', question.toString())});
@@ -529,4 +553,22 @@ function scrollToVideo() {
   });
   /*var elmnt = document.getElementById("embeded-video");
   elmnt.scrollIntoView();*/
+}
+
+function scrollToTop() {
+  document.querySelector('#top').scrollIntoView({ 
+    behavior: 'smooth' 
+  });
+}
+
+function nextQuestion() {
+  document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString();
+  getImg();
+  scrollToTop();
+}
+
+function prevQuestion() {
+  document.getElementById("question").value = (parseInt(document.getElementById("question").value) - 1).toString();
+  getImg();
+  scrollToTop();
 }

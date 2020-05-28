@@ -417,6 +417,11 @@ select {
 	border: 1px solid #a79574;
 }
 
+.submit-answer:disabled {
+	background-color: #d0ba9283;
+	border: 1px solid #d0ba9283;
+}
+
 .similar-question {
 	background-color: #d0ba92;
 	color: #fff;
@@ -468,6 +473,38 @@ select {
 .random-question:hover {
 	background: #a79574;	
 	border: 1px solid #a79574;
+}
+
+.next-prev-button {
+	background: #e5e5e5;
+	float: left;
+	color: #5a5a5a;
+	border: 1px solid #e5e5e5;
+	border-radius: 10px;
+	padding: 12px;
+	padding-top: 13px;
+	letter-spacing: 0.5px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 13px;
+	margin-top: 10px;
+	margin-left: 40px;
+	cursor: pointer;
+	pointer-events: all;
+	outline: none;
+}
+
+.next-prev-button:hover {
+	background: #bdbdbd;
+	border: 1px solid #bdbdbd;
+}
+
+.next-prev-button:disabled {
+	background: #e5e5e583;
+	border: 1px solid #e5e5e583;	
+	color: #cbcbcb;
+	cursor: not-allowed;
 }
 
 /*********************************************************************************/
@@ -1058,7 +1095,6 @@ select {
 
 	.embeded-video {
 		width: 753.33px;
-		height: 570px;
 		margin: auto;
 		margin-top: 15px;
 		/*padding: 10px;*/

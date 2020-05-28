@@ -128,8 +128,8 @@ function resetPage() {
   document.getElementById("similar-question").style.pointerEvents = "auto";
   document.getElementById("similar-question").style.cursor = "pointer";
   document.getElementById("similar-question").style.display = "inline-block";
-  //document.getElementById("random-question").style.pointerEvents = "auto";
-  //document.getElementById("random-question").style.cursor = "pointer";
+  document.getElementById('controlmenu-similar-question').style.display = "inline-block";
+  document.getElementById('similar-question-bottom').style.display = "inline-block";
   document.getElementById("questionStats").style.display = "none";
   document.getElementById("video").style.display = "none";
   document.getElementById("result-ques").style.display = "none";
@@ -142,6 +142,15 @@ function resetPage() {
   document.getElementById("next-button-bottom").disabled = false;
   document.getElementById("previous-button-bottom").disabled = false;
   document.getElementById("show-video").style.display = "block";
+
+  if(document.getElementById("question").value != "Question #") {
+    document.getElementById("controlmenu").style.display = "block";
+    document.getElementById("statsmenu").style.display = "block";
+    document.getElementById("statsmenu").style.width = "300px";
+    document.getElementById("ques-ans-container").style.display = "block";
+    document.getElementById("answerBox").innerHTML = "";
+    document.getElementById("bestTopicsBox").innerHTML = "";
+  }
 }
 
 function getImg() {
@@ -161,7 +170,6 @@ function getImg() {
   }
 
   if(question != 'Question #') {
-    document.getElementById("ques-ans-container").style.display = "block";
     var season = semester[5]
     var srcs = []
 
@@ -216,10 +224,11 @@ function getImg() {
     }
     if(similarQuestions.length == 1) {
       document.getElementById('similar-question').style.display = "none";
+      document.getElementById('controlmenu-similar-question').style.display = "none";
+      document.getElementById('similar-question-bottom').style.display = "none";
     }
     return(returnPkg)
   }
-
 }
 function imgDim(imgSource, imgId) {
     const scaleFactor = 1.5
@@ -234,7 +243,6 @@ function imgDim(imgSource, imgId) {
 
 function imgContainerDim(imgSource, isQuestion) {
   const scaleFactor = 1.5
-  const widthLimit = 700;
   var img = new Image();
   img.onload = function() {
     if (isQuestion == 1) {
@@ -243,13 +251,22 @@ function imgContainerDim(imgSource, isQuestion) {
       document.getElementById("ans-container").style.height = "auto";
     }
     else if (parseFloat(document.getElementById("ques-ans-container").style.width) - 100 < (this.width / scaleFactor + 60)) {
-      console.log("FIXING QUESTION CONTAINER")
+      //console.log("FIXING QUESTION CONTAINER")
       document.getElementById("ans-container").style.width = (this.width / scaleFactor + 140).toString().concat("px");
       document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 200).toString().concat("px");
       document.getElementById("ques-container").style.float = "left";
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
     }
+    do {
+      var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
+      var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
+      var margin = 10;
+      console.log(statsLeft)
+      console.log(quesRight)
+      console.log("We have a problem here")
+      document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
+    } while(statsLeft < quesRight + margin);
   }
   img.src = imgSource;
 }
@@ -284,6 +301,7 @@ function getCorrect(txtSource, qnum)
         timesran += 1
       }
       console.log("The answer is " + resp[0].toString())
+      document.getElementById("answerBox").innerHTML = "The answer is " + resp[0].toString();
       answer = resp[0]
   })
   .catch(function (response) {
@@ -361,6 +379,7 @@ function checkAnswer() {
   }
   overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
   console.log("\n\nYou get " + overallPercent.toString() + "% of questions correct overall")
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall<br>"
 
   var descPos = -1
   var deltaCorrect = 0
@@ -416,7 +435,7 @@ function checkAnswer() {
   if(!(oldPercent >= 0 || oldPercent < 0)) {oldPercent = 0} //Detects and fixes NaNs
 
   console.log("\n\nYou get " + description + " questions correct " + topicPercent.toFixed(2).toString() + "% of the time")
-
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time<br>"
   //document.getElementById("questionStats").innerHTML = "You get ".concat(description, " questions correct ", "<br>", topicPercent.toFixed(2).toString(), "% of the time", " (∆ = ", oldPercent.toFixed(2).toString(), "%", " -> ", topicPercent.toFixed(2).toString(), "%)");
 
   question = parseInt(question);
@@ -436,7 +455,6 @@ function checkAnswer() {
 function updateVideo() {
   document.getElementById("embeded-video").className = "embeded-video";
   document.getElementById("embeded-video").style.display = "inherit";
-  var toggleState = document.getElementById("video").src
   var semester = document.getElementById('semester').value
   var question = document.getElementById('question').value
   const examId = 'MA266'
@@ -531,15 +549,19 @@ function topicRanker() {
   }
   topicPercents.sort(function(a, b){return b.percent-a.percent})
   console.log("\n\nYour best topics are: ")
+  document.getElementById("bestTopicsBox").innerHTML += "<br>Your best topics are: <br>"
 
   for(i = 0; i < 5; i++) {
     console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "% correct)")
+    document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%) <br>"
   }
 
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You haven't tried these topics:<br>";
   console.log("\n\nYou haven't tried these topics: ")
 
   for(i = 0; i < topicPercents.length; i++) {
     if(topicPercents[i].percent == -1) {
+      document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + "<br>";
       console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace])
     }
   }
@@ -548,8 +570,22 @@ function topicRanker() {
 }
 
 function streak() {
+  let emoji
   var streakVal = localStorage.getItem('streak')
+
+  if(streakVal == 0) {
+    //emoji = "🔱"
+  }
+  if(streakVal > 0 && streakVal < 5) {
+    emoji = "🔥"
+  }
+  if(streakVal >= 5 && streakVal < 10) {
+    emoji = "🚂"
+  }
+
   console.log("\n\nYou are on a " + streakVal.toString() + " question streak!")
+  
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + streakVal.toString() + " question streak! ";
 }
 
 function scrollToVideo() {

@@ -1153,7 +1153,7 @@ select {
 	.controlmenu {
 		position: -webkit-sticky; /* Safari */
 		position: sticky;
-		display: block;
+		display: none;
 		height: 100%;
 		width: 165px;
 		top: 10px;

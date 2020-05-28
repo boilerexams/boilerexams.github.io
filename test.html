@@ -90,12 +90,20 @@ Released   : 20140309
 		</div>
   </div>
 
-	<div class="controlmenu">
+	<div class="controlmenu" id="controlmenu">
 		<div style="margin-top: -10px;">
-			<button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
-			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button>
-			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
-			<button class="next-prev-button" id="next-button" onclick="nextQuestion()">next</button>
+			<button class="similar-question" id="controlmenu-similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
+			<button class="similar-question" id="controlmenu-random-question" onclick='similarInfo = findRandom()'>Random question</button>
+			<button class="next-prev-button" id="controlmenu-previous-button" onclick="prevQuestion()">prev</button>
+			<button class="next-prev-button" id="controlmenu-next-button" onclick="nextQuestion()">next</button>
+		</div>
+	</div>
+
+	<div class="controlmenu" id="statsmenu" style="float: right; width: 300px; margin-right: 10px">
+		<div style="margin-top: -10px" id="statsmenu-internal">
+			<!-- <button class="similar-question" id="stats-random-question" onclick='similarInfo = findRandom()'>Random question</button> -->
+			<div id="answerBox"></div>
+			<div id="bestTopicsBox"></div>
 		</div>
 	</div>
 

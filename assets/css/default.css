@@ -79,7 +79,7 @@
 		scroll-behavior: smooth;
 		overflow: hidden;
 		text-align: center;
-		width: 100%;
+		width: auto;
 	}
 
 	.scrollable-container
@@ -1086,7 +1086,7 @@ select {
 
 	#extra
 	{
-		overflow: hidden;
+		overflow: hidden; 
 		padding: 5em 0em;
 	}
 	
@@ -1144,4 +1144,26 @@ select {
 	.textp{
 		float: left;
 		margin-left: 40px;
+	}
+
+/*********************************************************************************/
+/* Sticky menu                                                                   */
+/*********************************************************************************/
+
+	.controlmenu {
+		position: -webkit-sticky; /* Safari */
+		position: sticky;
+		display: block;
+		height: 100%;
+		width: 165px;
+		top: 10px;
+		float: left;
+		padding: 20px;
+		justify-content: space-around;
+		align-items: flex-start;	
+		border: 1px solid #a1a1a1;
+		border-radius: 10px;	
+		margin-left: 10px;
+		margin-top: 10px;
+		z-index: 10;
 	}

@@ -514,6 +514,8 @@ function findRandom() {
       returnPkg = [i, randQuestion];
     }
   }
+  scrollToTop();
+
   return(returnPkg)
 }
 
@@ -551,8 +553,8 @@ function streak() {
 }
 
 function scrollToVideo() {
-  console.log(document.getElementById("content").scrollHeight)
-  document.querySelector('.embeded-video').scrollIntoView({ 
+  console.log(getScrollPercent())
+  document.querySelector('#eImg').scrollIntoView({ 
     behavior: 'smooth' 
   });
   /*var elmnt = document.getElementById("embeded-video");
@@ -560,9 +562,20 @@ function scrollToVideo() {
 }
 
 function scrollToTop() {
-  document.querySelector('#top').scrollIntoView({ 
-    behavior: 'smooth' 
-  });
+  console.log(getScrollPercent())
+  if(getScrollPercent() > 50) {
+    document.querySelector('#extra').scrollIntoView({ 
+      behavior: 'smooth' 
+    });
+  }
+}
+
+function getScrollPercent() {
+  var h = document.documentElement, 
+      b = document.body,
+      st = 'scrollTop',
+      sh = 'scrollHeight';
+  return (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
 }
 
 function nextQuestion() {

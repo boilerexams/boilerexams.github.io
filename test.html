@@ -90,7 +90,16 @@ Released   : 20140309
 		</div>
   </div>
 
-	<div id="extra" class="container">
+	<div class="controlmenu">
+		<div style="margin-top: -10px;">
+			<button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
+			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button>
+			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
+			<button class="next-prev-button" id="next-button" onclick="nextQuestion()">next</button>
+		</div>
+	</div>
+
+	<div id="extra" class="container" style="margin-bottom: 25em;">
     <div class="select-container" style="margin-top: -3em;">
     <div class="select">
       <select id="semester" onchange="changeSemester()">
@@ -112,6 +121,7 @@ Released   : 20140309
 		<div class="ques-ans-container" id="ques-ans-container">
 			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
 			<button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
+			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button>
 			<button class="next-prev-button" id="next-button" onclick="nextQuestion()" style="float: right;">next</button>
 			<div class="ques-container" id="ques-container">
 				<img src="" id="questionImg" width="0%" height = "auto">
@@ -156,8 +166,6 @@ Released   : 20140309
 			</div>
 			<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); updateVideo()">Submit Answer</button>
 			<button class="show-video" id="show-video" onclick='updateVideo(); scrollToVideo()'>Show Video</button>
-			<!--<button class="similar-question" id="similar-question" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1])'>Similar problem</button>-->
-			<!--<button class="random-question" id="random-question" onclick='similarInfo = findRandom()'>Random problem</button>-->
 			<p class="textp" id="questionStats"></p> 
 		</div>
 	<!-- This is the textbox that contains the users stats -->
@@ -175,6 +183,8 @@ Released   : 20140309
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
 </div>
+
+
 
 </body>
 </html>

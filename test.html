@@ -92,10 +92,13 @@ Released   : 20140309
 
 	<div class="controlmenu" id="controlmenu">
 		<div style="margin-top: -10px;">
-			<button class="similar-question" id="controlmenu-similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
-			<button class="similar-question" id="controlmenu-random-question" onclick='similarInfo = findRandom()'>Random question</button>
-			<button class="next-prev-button" id="controlmenu-previous-button" onclick="prevQuestion()">prev</button>
-			<button class="next-prev-button" id="controlmenu-next-button" onclick="nextQuestion()">next</button>
+			<button class="full-exam-mode" id="full-exam-toggle" onclick="fullExamMode(2)">full exam mode</button>
+			<p id="full-timer" ></p>
+			<p id="question-split-timer" ></p>
+			<!-- <button class="similar-question" id="controlmenu-similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button> -->
+			<!-- <button class="similar-question" id="controlmenu-random-question" onclick='similarInfo = findRandom()'>Random question</button> -->
+			<!-- <button class="next-prev-button" id="controlmenu-previous-button" onclick="prevQuestion()">prev</button> -->
+			<!-- <button class="next-prev-button" id="controlmenu-next-button" onclick="nextQuestion()">next</button> -->
 		</div>
 	</div>
 
@@ -180,7 +183,7 @@ Released   : 20140309
 
 		<div class="" id="embeded-video" style="display: none">
 			<button class="next-prev-button" id="previous-button-bottom" onclick="prevQuestion()">prev</button>
-			<button class="similar-question" id="similar-question-bottom" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
+			<!-- <button class="similar-question" id="similar-question-bottom" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button> -->
 			<button class="next-prev-button" id="next-button-bottom" onclick="nextQuestion()" style="float: right; margin-bottom: 10px;">next</button>
 			<p align="left"></p>
 			<iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>

@@ -73,6 +73,9 @@
 var answer;
 var globalChoice = null;
 var answerState = -1;
+// Get today's date and time
+var now;
+var questionBegan;
 
 function buildOnload() {
   for(var i = 0; i < exams.length; i++) {
@@ -128,8 +131,8 @@ function resetPage() {
   document.getElementById("similar-question").style.pointerEvents = "auto";
   document.getElementById("similar-question").style.cursor = "pointer";
   document.getElementById("similar-question").style.display = "inline-block";
-  document.getElementById('controlmenu-similar-question').style.display = "inline-block";
-  document.getElementById('similar-question-bottom').style.display = "inline-block";
+  // document.getElementById('controlmenu-similar-question').style.display = "inline-block";
+  // document.getElementById('similar-question-bottom').style.display = "inline-block";
   document.getElementById("questionStats").style.display = "none";
   document.getElementById("video").style.display = "none";
   document.getElementById("result-ques").style.display = "none";
@@ -224,8 +227,8 @@ function getImg() {
     }
     if(similarQuestions.length == 1) {
       document.getElementById('similar-question').style.display = "none";
-      document.getElementById('controlmenu-similar-question').style.display = "none";
-      document.getElementById('similar-question-bottom').style.display = "none";
+      // document.getElementById('controlmenu-similar-question').style.display = "none";
+      // document.getElementById('similar-question-bottom').style.display = "none";
     }
     return(returnPkg)
   }
@@ -332,6 +335,8 @@ function checkAnswer() {
   document.getElementById("submit-answer").style.display = "none";
   document.getElementById("show-video").style.display = "none";
   document.getElementById("questionStats").style.display = "block";
+  questionBegan = 0;
+  localStorage.setItem("unixTimeElapsedSinceSubmit", 0)
 
   if(answer == globalChoice) {
     answerState = 1;
@@ -623,9 +628,98 @@ function adjustWidth() {
     var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
     var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
     var margin = 10;
-    console.log(statsLeft)
-    console.log(quesRight)
-    console.log("We have a problem here")
+    // console.log(statsLeft)
+    // console.log(quesRight)
+    // console.log("We have a problem here")
     document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
   } while(statsLeft < quesRight + margin);
+}
+
+function fullExamMode(examTimeLimit) { //Exam time limit in hours
+  console.log('Time for a full exam')
+  document.getElementById("question").value = "1";
+  document.getElementById("full-exam-toggle").style.pointerEvents = "none";
+  document.getElementById("full-exam-toggle").innerHTML = "Now taking exam";
+
+  localStorage.removeItem("unixTime")
+  localStorage.removeItem("unixTimeElapsedSinceSubmit")
+  localStorage.removeItem("unixTimeRemaining")
+
+  // Set the date we're counting down to
+
+  var currentDate = new Date();
+  var unixTime = currentDate.getTime()
+
+
+  var countDownDate = unixTime + 1000 * 60 * 60 * examTimeLimit;
+  console.log(unixTime, countDownDate)
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+    now = new Date().getTime();
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    questionBegan = unixTime;
+
+    if (localStorage.getItem("unixTime")) {
+      console.log("This is triggering")
+      now = parseInt(localStorage.getItem("unixTime")) + 1000;
+      distance = parseInt(localStorage.getItem("unixTimeRemaining")) - 1000;
+      submitTimeElapsed = parseInt(localStorage.getItem("unixTimeElapsedSinceSubmit"));
+      localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000)
+    }
+    else {
+      submitTimeElapsed = now - unixTime;
+    }
+    console.log(submitTimeElapsed / 1000)
+
+    localStorage.setItem("unixTime", now);
+    localStorage.setItem("unixTimeRemaining", distance);
+
+    if(!localStorage.getItem("unixTimeElapsedSinceSubmit")) {
+      localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000);
+    }
+
+    // Time calculations for days, hours, minutes and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000 + 1);
+
+    var questionHours = Math.floor((submitTimeElapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var questionMinutes = Math.floor((submitTimeElapsed % (1000 * 60 * 60)) / (1000 * 60));
+    var questionSeconds = Math.floor(((submitTimeElapsed) % (1000 * 60)) / 1000);
+
+    hours = adjustTimeForDisplay(hours)
+    minutes = adjustTimeForDisplay(minutes)
+    seconds = adjustTimeForDisplay(seconds)
+
+    questionHours = adjustTimeForDisplay(questionHours)
+    questionMinutes = adjustTimeForDisplay(questionMinutes)
+    questionSeconds = adjustTimeForDisplay(questionSeconds)
+
+
+    if(submitTimeElapsed == 0) {
+      console.log("We've gotta reset the question clock")
+      localStorage.setItem("unixTimeElapsedSinceSubmit", 1000);
+    }
+
+    // Display the result in the element with id="demo"
+    document.getElementById("full-timer").innerHTML = "Exam time remaining: " + hours + ":" + minutes + ":" + seconds;
+    document.getElementById("question-split-timer").innerHTML = "Question time elapsed: " + questionHours + ":" + questionMinutes + ":" + questionSeconds;
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("full-timer").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+}
+
+function adjustTimeForDisplay(time) {
+  if(time >= 10) {
+    return(time.toString())
+  }
+  else if(time < 10 && time >= 0) {
+    return('0' + time.toString())
+  }
 }

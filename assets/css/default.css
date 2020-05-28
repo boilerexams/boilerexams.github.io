@@ -422,32 +422,6 @@ select {
 	border: 1px solid #d0ba9283;
 }
 
-/*.similar-question {
-	background-color: #d0ba92;
-	color: #fff;
-	border: 1px solid #d0ba92;
-	border-radius: 5px;
-	display: block;
-	float: left;
-	padding: 16px;
-	letter-spacing: 1px;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-weight: 400;
-	font-size: 13px;
-	margin-top: 0px;
-	margin-left: 40px;
-	margin-right: -20px;
-	cursor: "pointer";
-	outline: none;
-	position: relative;
-}*/
-
-.similar-question:hover {
-	background: #a79574;	
-	border: 1px solid #a79574;
-}
-
 .show-video {
 	background-color: #d0ba92;
 	color: #fff;
@@ -524,6 +498,30 @@ select {
 }
 
 .similar-question:hover {
+	background: #a79574;	
+	border: 1px solid #a79574;
+}
+
+.full-exam-mode {
+	background: #d0ba92;
+	color: #5a5a5a;
+	border: 1px solid #d0ba92;
+	border-radius: 10px;
+	padding: 12px;
+	padding-top: 13px;
+	letter-spacing: 0.5px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 13px;
+	margin-top: 10px;
+	cursor: pointer;
+	pointer-events: all;
+	outline: none;
+	float: none;
+}
+
+.full-exam-mode:hover {
 	background: #a79574;	
 	border: 1px solid #a79574;
 }

@@ -515,6 +515,7 @@ function streak() {
 }
 
 function scrollToVideo() {
+  console.log(document.getElementById("content").scrollHeight)
   document.querySelector('.embeded-video').scrollIntoView({ 
     behavior: 'smooth' 
   });

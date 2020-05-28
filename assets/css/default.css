@@ -448,13 +448,11 @@ select {
 	border: 1px solid #a79574;
 }
 
-.random-question {
+.show-video {
 	background-color: #d0ba92;
 	color: #fff;
 	border: 1px solid #d0ba92;
 	border-radius: 5px;
-	display: block;
-	float: left;
 	padding: 16px;
 	letter-spacing: 0.90px;
 	text-decoration: none;
@@ -462,15 +460,13 @@ select {
 	font-weight: 400;
 	font-size: 13px;
 	margin-top: 0px;
-	margin-left: 40px;
-	position: relative;
-	top: 60px;
-	left: -180px;
-	cursor: "pointer";
+	margin-right: 40px;
+	float: right;
+	cursor: pointer;
 	outline: none;
 }
 
-.random-question:hover {
+.show-video:hover {
 	background: #a79574;	
 	border: 1px solid #a79574;
 }

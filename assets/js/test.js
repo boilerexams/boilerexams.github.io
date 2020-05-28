@@ -141,6 +141,7 @@ function resetPage() {
   document.getElementById("embeded-video").style.display = "none";
   document.getElementById("next-button-bottom").disabled = false;
   document.getElementById("previous-button-bottom").disabled = false;
+  document.getElementById("show-video").style.display = "block";
 }
 
 function getImg() {
@@ -317,8 +318,9 @@ function checkAnswer() {
   question = document.getElementById('question').value;
   document.getElementById("ques-ans-container").style.cursor = "not-allowed";
   document.getElementById("ques-ans-container").style.pointerEvents = "none";
-  document.getElementById("submit-answer").style.pointerEvents = "none"
-  document.getElementById("submit-answer").style.display = "none"
+  document.getElementById("submit-answer").style.pointerEvents = "none";
+  document.getElementById("submit-answer").style.display = "none";
+  document.getElementById("show-video").style.display = "none";
   document.getElementById("questionStats").style.display = "block";
 
   if(answer == globalChoice) {

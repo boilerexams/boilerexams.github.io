@@ -234,7 +234,7 @@ select {
 .ques-ans-container {
 	display: none; /* gets changed to block in javascript*/
 	margin: auto;
-	padding-bottom: 70px;
+	padding-bottom: 10px;
 	width: 0%;
 	border: 1px solid #a1a1a1;
 	border-radius: 10px;	
@@ -422,7 +422,7 @@ select {
 	border: 1px solid #d0ba9283;
 }
 
-.similar-question {
+/*.similar-question {
 	background-color: #d0ba92;
 	color: #fff;
 	border: 1px solid #d0ba92;
@@ -441,7 +441,7 @@ select {
 	cursor: "pointer";
 	outline: none;
 	position: relative;
-}
+}*/
 
 .similar-question:hover {
 	background: #a79574;	
@@ -506,6 +506,30 @@ select {
 	border: 1px solid #e5e5e583;	
 	color: #cbcbcb;
 	cursor: not-allowed;
+}
+
+.similar-question {
+	background: #d0ba92;
+	color: #5a5a5a;
+	border: 1px solid #d0ba92;
+	border-radius: 10px;
+	padding: 12px;
+	padding-top: 13px;
+	letter-spacing: 0.5px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 13px;
+	margin-top: 10px;
+	cursor: pointer;
+	pointer-events: all;
+	outline: none;
+	float: none;
+}
+
+.similar-question:hover {
+	background: #a79574;	
+	border: 1px solid #a79574;
 }
 
 /*********************************************************************************/

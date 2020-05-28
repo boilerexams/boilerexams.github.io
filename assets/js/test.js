@@ -128,8 +128,8 @@ function resetPage() {
   document.getElementById("similar-question").style.pointerEvents = "auto";
   document.getElementById("similar-question").style.cursor = "pointer";
   document.getElementById("similar-question").style.display = "inline-block";
-  document.getElementById("random-question").style.pointerEvents = "auto";
-  document.getElementById("random-question").style.cursor = "pointer";
+  //document.getElementById("random-question").style.pointerEvents = "auto";
+  //document.getElementById("random-question").style.cursor = "pointer";
   document.getElementById("questionStats").style.display = "none";
   document.getElementById("video").style.display = "none";
   document.getElementById("result-ques").style.display = "none";
@@ -492,6 +492,7 @@ function findSimilar(i, question) { //Finds a new question that has the same des
   document.getElementById('semester').value = similarSems[randIndex];
   document.getElementById('question').value = similarQuestions[randIndex];
   getImg();
+  scrollToTop();
 
   return(returnPkg)
 }

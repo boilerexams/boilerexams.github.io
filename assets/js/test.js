@@ -258,15 +258,7 @@ function imgContainerDim(imgSource, isQuestion) {
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
     }
-    do {
-      var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
-      var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
-      var margin = 10;
-      console.log(statsLeft)
-      console.log(quesRight)
-      console.log("We have a problem here")
-      document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
-    } while(statsLeft < quesRight + margin);
+    adjustWidth();
   }
   img.src = imgSource;
 }
@@ -624,4 +616,16 @@ function prevQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) - 1).toString();
   getImg();
   scrollToTop();
+}
+
+function adjustWidth() {
+  do {
+    var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
+    var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
+    var margin = 10;
+    console.log(statsLeft)
+    console.log(quesRight)
+    console.log("We have a problem here")
+    document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
+  } while(statsLeft < quesRight + margin);
 }

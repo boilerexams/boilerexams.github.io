@@ -540,7 +540,6 @@ select {
 	font-weight: 400;
 	font-size: 13px;
 	margin-top: 13px;
-	margin-right: 40px;
 	margin-left: -20px;
 	cursor: pointer;
 	pointer-events: all;
@@ -982,9 +981,14 @@ select {
 		background: #FFF;
 		margin-top: 3em;
 		font-size: 1em;
-		border: 0.2em solid;
+		padding: 2px;
+		border: 2px solid;
 		border-color: #d0ba92;
 		color: #d0ba92;
+		width: 150px;
+		margin: auto;
+		cursor: pointer;
+		pointer-events: all;
 	}
 
 	#featured .button:hover
@@ -992,6 +996,7 @@ select {
 		background: #d0ba92;
 		color: #FFF;
 		border-color: #FFF;
+		padding: 2px 0px;
 	}
 
 	#featured .title
@@ -1049,6 +1054,16 @@ select {
 	{
 		height: 80px;
 		width: 80px;
+	}
+
+	.embeded-video {
+		width: 753.33px;
+		height: 570px;
+		margin: auto;
+		margin-top: 15px;
+		/*padding: 10px;*/
+		border: 1px solid #a1a1a1;
+		border-radius: 10px;
 	}
 
 	.embeded-video iframe{

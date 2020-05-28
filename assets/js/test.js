@@ -117,14 +117,7 @@ function changeSemester() {
   getImg();
 }
 
-function getImg() {
-  var semester = document.getElementById("semester").value;
-  var question = document.getElementById("question").value;
-  var exam = "FE"; // placeholder
-  var examType = "Final"
-  let options = ["A","B","C","D","E"];
-  var examId = 'MA266'
-  answerState = -1
+function resetPage() {
   document.getElementById("video").src = '';
   document.getElementById("ques-ans-container").style.cursor = "auto";
   document.getElementById("ques-ans-container").style.pointerEvents = "all";
@@ -140,6 +133,20 @@ function getImg() {
   document.getElementById("video").style.display = "none";
   document.getElementById("result-ques").style.display = "none";
   document.getElementById("result-ques").style.className = "";
+  document.getElementById("embeded-video").className = "";
+  document.getElementById("result-ques-streak").innerHTML = "";
+}
+
+function getImg() {
+  var semester = document.getElementById("semester").value;
+  var question = document.getElementById("question").value;
+  var exam = "FE"; // placeholder
+  var examType = "Final"
+  let options = ["A","B","C","D","E"];
+  var examId = 'MA266'
+  answerState = -1
+  
+  resetPage();
 
   for(var i = 0; i < options.length; i++) {
     document.getElementById("ans-button-".concat(options[i])).className = "ans-button";
@@ -377,6 +384,7 @@ function checkAnswer() {
       deltaCorrect = 1
       localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
       localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
+      document.getElementById("result-ques-streak").innerHTML = "🔥".concat(localStorage.getItem('streak'));
     }
     if(answerState == 0) {
       localStorage.setItem('streak', '0')
@@ -409,6 +417,7 @@ function checkAnswer() {
 
 
 function updateVideo() {
+  document.getElementById("embeded-video").className = "embeded-video";
   var toggleState = document.getElementById("video").src
   var semester = document.getElementById('semester').value
   var question = document.getElementById('question').value

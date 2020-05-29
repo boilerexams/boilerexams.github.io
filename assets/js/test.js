@@ -75,8 +75,11 @@ var globalChoice = null;
 var answerState = -1;
 var now;
 var questionBegan;
+var fullExamAnswers = []
+var usersFullExamAnswers = []
 
 function buildOnload() {
+  localStorage.setItem("reviewMode", 0);
   for(var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
       var opt = document.createElement("option");
@@ -126,7 +129,9 @@ function changeSemester() {
     }
   }
 
-  getImg();
+  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+    getImg();
+  }
 }
 
 function resetPage() {
@@ -144,6 +149,7 @@ function resetPage() {
   document.getElementById("select-container").style.display = "flex";
   document.getElementById("ques-ans-container").style.margin = "auto";
   document.getElementById("show-video").style.display = "block";
+  document.getElementById("exit-full-exam").style.display = "none";
 
   if(document.getElementById("question").value != "Question #") {
     document.getElementById("controlmenu").style.display = "block";
@@ -161,6 +167,7 @@ function resetPage() {
     document.getElementById("ques-ans-container").style.marginTop = "-5.3em";
     document.getElementById("show-video").style.display = "none";
     document.getElementById("statsmenu").style.display = "none";
+    document.getElementById("exit-full-exam").style.display = "block";
   }
 
   document.getElementById("video").style.display = "none";
@@ -319,6 +326,11 @@ function getCorrect(txtSource, qnum)
       //console.log(template);
       resp = template
 
+      if(parseInt(localStorage.getItem("reviewMode")) == 1) {
+        examExitAnalysis(template)
+        localStorage.setItem("reviewMode", 0);
+      }
+
       alphaspassed = 1
       timesran = 0
       while (alphaspassed < qnum && timesran < 40) {
@@ -410,7 +422,6 @@ function checkAnswer() {
     localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
   }
   overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
-  //console.log("\n\nYou get " + overallPercent.toString() + "% of questions correct overall")
   document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall<br>"
 
   var descPos = -1
@@ -466,7 +477,6 @@ function checkAnswer() {
   if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = 0} //Detects and fixes NaNs
   if(!(oldPercent >= 0 || oldPercent < 0)) {oldPercent = 0} //Detects and fixes NaNs
 
-  //console.log("\n\nYou get " + description + " questions correct " + topicPercent.toFixed(2).toString() + "% of the time")
   document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time<br>"
 
   question = parseInt(question);
@@ -720,7 +730,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
       now = parseInt(localStorage.getItem("unixTime")) + 1000;
       distance = parseInt(localStorage.getItem("unixTimeRemaining")) - 1000;
       submitTimeElapsed = parseInt(localStorage.getItem("unixTimeElapsedSinceSubmit"));
-      console.log(localStorage.getItem("temptimestorage"))
+      // console.log(localStorage.getItem("temptimestorage"))
       localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000)
       localStorage.setItem("temptimestorage", submitTimeElapsed + 1000)
     }
@@ -737,7 +747,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     if(!localStorage.getItem("unixTimeElapsedSinceSubmit")) {
       localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000);
     }
-    console.log(distance / 1000)
+    // console.log(distance / 1000)
     // Time calculations for days, hours, minutes and seconds
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -770,10 +780,10 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
       document.getElementById("full-timer").innerHTML = ''
       document.getElementById("question-split-timer").innerHTML = ''
       document.getElementById("exam-history").innerHTML = ''
-
       localStorage.removeItem("temptimestorage");
       localStorage.removeItem("unixTime");
       localStorage.removeItem("unixTimeRemaining");
+      localStorage.removeItem("unixTimeElapsedSinceSubmit");
     }
   }, 1000);
 }
@@ -807,15 +817,12 @@ function displayExamProgress() {
 
   for(i = 1; i < exams[examPos].timestamps.length + 1; i++) {
     if(localStorage.getItem("Q" + i.toString())) {
-      console.log("You answered " + localStorage.getItem("Q" + i.toString()) + " for question " + i.toString() + "!")
       timeStr = millisToDisplayStr(parseInt(localStorage.getItem("Qtime" + i.toString())))
       examHistory +=  i.toString() + ": " + " (" + timeStr + ')<br>'
     }
     else {
-      console.log("You have not answered question #" + i.toString() + " yet!")
       examHistory += i.toString() + ": <br>"
     }
-    //document.getElementById("exam-history").innerHTML = examHistory;
   }
   document.getElementById("exam-history").innerHTML = examHistory;
 }
@@ -830,7 +837,7 @@ function findExam() {
 }
 
 function millisToDisplayStr(millis) {
-  console.log("Turning " + millis.toString() + " millis into...")
+  // console.log("Turning " + millis.toString() + " millis into...")
   var hours = Math.floor((millis % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutes = Math.floor((millis % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((millis % (1000 * 60)) / 1000 + 1);
@@ -838,7 +845,7 @@ function millisToDisplayStr(millis) {
   hours = adjustTimeForDisplay(hours);
   minutes = adjustTimeForDisplay(minutes);
   seconds = adjustTimeForDisplay(seconds - 2);
-  console.log(hours + ":" + minutes + ":" + seconds)
+  // console.log(hours + ":" + minutes + ":" + seconds)
   return(hours + ":" + minutes + ":" + seconds)
 }
 
@@ -853,11 +860,46 @@ function exitFullExam() {
   localStorage.setItem("temptimestorage", 0)
   questionBegan = 0;
   localStorage.removeItem("countDownDate")
+  localStorage.setItem("reviewMode", 1)
 
   for(var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
+    //BRING LOCAL STORAGE INTO ARRAY MEMORY
+    if(localStorage.getItem("Q" + i.toString())) {
+      usersFullExamAnswers.push([i.toString() + localStorage.getItem("Q" + i.toString()), Math.round(parseInt(localStorage.getItem("Qtime" + i.toString())) / 1000)])
+    }
+    //GET RID OF LOCAL STORAGE
     localStorage.removeItem("Q" + i.toString())
     localStorage.removeItem("Qtime" + i.toString())
   }
 
   getImg()
+
+  console.log(usersFullExamAnswers)
+}
+
+async function examExitAnalysis(CSVans) {
+  fullExamAnswers.push(CSVans[0])
+
+  alphaspassed = 1
+  timesran = 0
+  qnum = exams[findExam()].timestamps.length
+  while (alphaspassed < qnum + 1 && timesran < 40) {
+    CSVans = CSVans.slice(1)
+    if(CSVans[0] == 'A' || CSVans[0] == 'B' || CSVans[0] == 'C' || CSVans[0] == 'D' || CSVans[0] == 'E') {
+      alphaspassed += 1
+      fullExamAnswers.push(CSVans[0])
+    }
+    timesran += 1
+  }
+
+  for(var i = 0; i < usersFullExamAnswers.length; i++) {
+    qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
+    ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
+    console.log(qnum, ansChoice, fullExamAnswers[qnum])
+    if(fullExamAnswers[qnum - 1] == ansChoice) {
+      console.log("The user got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
+    }
+  }
+  console.log(fullExamAnswers)
+
 }

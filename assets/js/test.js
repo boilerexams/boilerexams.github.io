@@ -489,6 +489,7 @@ function checkAnswer() {
       document.getElementById("result-ques-streak").style.marginRight = "5%"
     }
   }
+
   var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
   var totalTopicCorrect = parseInt(localStorage.getItem(descPos.toString().concat('correct')))
   topicPercent = (parseFloat(localStorage.getItem(descPos.toString().concat('correct')) / parseFloat(localStorage.getItem(descPos.toString().concat('answered'))) * 100))
@@ -929,6 +930,15 @@ async function examExitAnalysis(CSVans) {
     if(fullExamAnswers[qnum - 1] == ansChoice) {
       console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
+
+      for(var j = 0; j < descriptions.length; j++) {
+        if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
+          console.log(descriptions[j], exams[findExam()].description[qnum - 1])
+          localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
+        }
+      }
+
+      // document.getElementById(exams[findExam()].description[qnum - 1])
     }
     else {
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>"

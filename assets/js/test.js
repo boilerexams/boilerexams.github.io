@@ -767,7 +767,7 @@ function storeExamProgress() {
   }
 
   localStorage.setItem("Qtime" + qnum, parseInt(localStorage.getItem("temptimestorage") + parseInt(localStorage.getItem("Qtime" + qnum))))
-  console.log("The old question time was: " + localStorage.getItem("temptimestorage") + "new time: " + (parseInt(localStorage.getItem("temptimestorage") + parseInt(localStorage.getItem("Qtime" + qnum))).toString())
+  console.log("The old question time was: " + localStorage.getItem("temptimestorage") + "new time: " + (parseInt(localStorage.getItem("temptimestorage") + parseInt(localStorage.getItem("Qtime" + qnum))).toString()))
 }
 
 function displayExamProgress() {

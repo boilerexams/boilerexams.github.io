@@ -463,10 +463,14 @@ function checkAnswer() {
       deltaCorrect = 1
       localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
       localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
-      document.getElementById("result-ques-streak").innerHTML = "🔥".concat(localStorage.getItem('streak'));
+      document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
+      document.getElementById("result-ques-streak").style.marginRight = "5%"
     }
     if(answerState == 0) {
       localStorage.setItem('streak', '0')
+      document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
+      document.getElementById("result-ques-streak").style.marginLeft = "3%"
+      document.getElementById("result-ques-streak").style.marginRight = "5%"
     }
   }
   var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
@@ -623,22 +627,15 @@ function topicRanker() {
 }
 
 function streak() {
-  let emoji
+  let emojis = ["🧯", "🌡", "🧨", "🔥", "⚡", "🚂", "🌋"]
   var streakVal = localStorage.getItem('streak')
 
-  if(streakVal == 0) {
-    //emoji = "🔱"
-  }
-  if(streakVal > 0 && streakVal < 5) {
-    emoji = "🔥"
-  }
-  if(streakVal >= 5 && streakVal < 10) {
-    emoji = "🚂"
+  if(streakVal >= emojis.length) {
+    streakVal = emojis.length - 1;
   }
 
- // console.log("\n\nYou are on a " + streakVal.toString() + " question streak!")
-  
   document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + streakVal.toString() + " question streak! ";
+  return(emojis[streakVal])
 }
 
 function scrollToVideo() {

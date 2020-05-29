@@ -77,6 +77,10 @@ var now;
 var questionBegan;
 var fullExamAnswers = []
 var usersFullExamAnswers = []
+var timeOfLastExecution = 0;
+var currentTime;
+var timeDiff;
+var imagesRequested = 0;
 
 //SCROLL TO THE TOP WHEN RELOAD
 window.onbeforeunload = function () {
@@ -95,7 +99,6 @@ function buildOnload() {
   }
 
   if(localStorage.getItem("inTest") == '1') {
-    console.log("You were testin" + localStorage.getItem("examPos"))
     document.getElementById("semester").value = exams[parseInt(localStorage.getItem("examPos"))].semester;
     document.getElementById("question").value = "1"
     changeSemester()
@@ -190,6 +193,10 @@ function resetPage() {
 }
 
 function getImg() {
+  timeDiff = getTimeDiff();
+  if(timeDiff < 1) {alert("Until we move to better hosting, pls stop requesting images so fast")}
+
+  imagesRequested += 6;
   var semester = document.getElementById("semester").value;
   var question = document.getElementById("question").value;
   var exam = "FE"; // placeholder
@@ -231,7 +238,6 @@ function getImg() {
     //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/MA266edited/266-FE-S-2019/questions/Q1.png
     getCorrect(txt, question)
   }
-  
   
   if (question != 'Question #') {
     question = parseInt(question);
@@ -644,12 +650,6 @@ function streak() {
   return(emojis[streakVal])
 }
 
-function scrollToVideo() {
-  document.querySelector('#eImg').scrollIntoView({ 
-    behavior: 'smooth' 
-  });
-}
-
 function scrollToDiv(divID) {
   document.querySelector('#' + divID).scrollIntoView({ 
     behavior: 'smooth' 
@@ -711,6 +711,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
   localStorage.setItem("inTest", 1)
 
   var examPos = findExam();
+  imagesRequested = 0;
 
   localStorage.setItem("examPos", examPos)
 
@@ -917,4 +918,18 @@ async function examExitAnalysis(CSVans) {
   }
 
   console.log(fullExamAnswers)
+}
+
+function getTimeDiff() {
+  if(timeDiff && imagesRequested > 20) {
+    currentTime = new Date().getTime();
+    if(timeOfLastExecution != 0) {
+      timeDiff = currentTime - timeOfLastExecution;
+    }
+    timeOfLastExecution = currentTime; 
+    return(timeDiff / 1000)
+  }
+  else {
+    return(10);
+  }
 }

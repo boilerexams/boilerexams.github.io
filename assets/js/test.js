@@ -617,7 +617,7 @@ function topicRanker() {
     topicPercents[topicPercents.length] = {descPlace: i, percent: parseFloat(topicPercent)};
   }
   topicPercents.sort(function(a, b){return b.percent-a.percent})
-//("\n\nYour best topics are: ")
+  //("\n\nYour best topics are: ")
   document.getElementById("bestTopicsBox").innerHTML += "<br>Your best topics are: <br>"
 
   for(i = 0; i < 5; i++) {
@@ -634,7 +634,9 @@ function topicRanker() {
      // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace])
     }
   }
-
+  if(parseInt(localStorage.getItem("totalAnswers")) < 20) {
+    document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
+  }
   streak()
 }
 

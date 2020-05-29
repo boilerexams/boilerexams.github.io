@@ -104,7 +104,9 @@ function buildOnload() {
     changeSemester()
     document.getElementById("full-exam-toggle").innerHTML == "Now taking exam"
     fullExamMode(2)
+    document.getElementById("question").value -= 1
     checkAnswer()
+    document.getElementById("question").value = 1
   }
 
 }
@@ -194,7 +196,7 @@ function resetPage() {
 
 function getImg() {
   timeDiff = getTimeDiff();
-  if(timeDiff < 1) {alert("Until we move to better hosting, pls stop requesting images so fast")}
+  //if(timeDiff < 1) {alert("Until we move to better hosting, pls stop requesting images so fast")}
 
   imagesRequested += 6;
   var semester = document.getElementById("semester").value;
@@ -417,6 +419,7 @@ function checkAnswer() {
       document.getElementById("result-ques-img").src = "Images/wrong-answer-x.png";
     }
   }
+
   localStorage.setItem('answerState', answerState.toString());
 
   if (!localStorage.getItem('totalAnswers')) {
@@ -433,6 +436,7 @@ function checkAnswer() {
     totCorrect = parseInt(localStorage.getItem('totalCorrect'));
     localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
   }
+
   overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
   document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall<br>"
 
@@ -510,6 +514,15 @@ function checkAnswer() {
     storeExamProgress(); //Stores... exam progress
     displayExamProgress();
     document.getElementById("embeded-video").style.display = "none"
+  }
+
+  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
+    if(parseInt(document.getElementById("question").value) < exams[findExam()].timestamps.length) 
+    {
+      document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString(); 
+      getImg();
+      scrollToTop();
+    }
   }
 
   return(returnPkg)
@@ -622,7 +635,9 @@ function topicRanker() {
 
   for(i = 0; i < 5; i++) {
    // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "% correct)")
+   if(topicPercents[i].percent > 0) {
     document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%) <br>"
+   }
   }
 
   document.getElementById("bestTopicsBox").innerHTML += "<br>You haven't tried these topics:<br>";
@@ -887,6 +902,7 @@ function exitFullExam() {
   getImg()
 
   console.log(usersFullExamAnswers)
+  // usersFullExamAnswers = []
 }
 
 async function examExitAnalysis(CSVans) {
@@ -909,7 +925,7 @@ async function examExitAnalysis(CSVans) {
   for(var i = 0; i < usersFullExamAnswers.length; i++) {
     qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
     ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
-    console.log(qnum, ansChoice, fullExamAnswers[qnum])
+    // console.log(qnum, ansChoice, fullExamAnswers[qnum])
     if(fullExamAnswers[qnum - 1] == ansChoice) {
       console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
@@ -920,6 +936,7 @@ async function examExitAnalysis(CSVans) {
   }
 
   console.log(fullExamAnswers)
+  usersFullExamAnswers = []
 }
 
 function getTimeDiff() {

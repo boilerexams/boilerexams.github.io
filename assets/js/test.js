@@ -342,8 +342,8 @@ function getCorrect(txtSource, qnum)
         }
         timesran += 1
       }
-      console.log("The answer is " + resp[0].toString())
-      document.getElementById("answerBox").innerHTML = "The answer is " + resp[0].toString();
+      console.log("For testing purposes: the answer is " + resp[0].toString())
+      document.getElementById("answerBox").innerHTML = "For testing purposes: answer is " + resp[0].toString();
       answer = resp[0]
   })
   .catch(function (response) {
@@ -698,7 +698,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
   document.getElementById("full-exam-toggle").style.pointerEvents = "none";
   document.getElementById("full-exam-toggle").innerHTML = "Now taking exam";
   document.getElementById("ques-ans-container").style.pointerEvents = "all";
-
+  document.getElementById("exam-history").innerHTML = ''
   localStorage.setItem("inTest", 1)
 
   var examPos = findExam();
@@ -779,7 +779,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
       clearInterval(x);
       document.getElementById("full-timer").innerHTML = ''
       document.getElementById("question-split-timer").innerHTML = ''
-      document.getElementById("exam-history").innerHTML = ''
+      // document.getElementById("exam-history").innerHTML = ''
       localStorage.removeItem("temptimestorage");
       localStorage.removeItem("unixTime");
       localStorage.removeItem("unixTimeRemaining");
@@ -878,11 +878,13 @@ function exitFullExam() {
 }
 
 async function examExitAnalysis(CSVans) {
-  fullExamAnswers.push(CSVans[0])
+  fullExamAnswers = [CSVans[0]]
 
   alphaspassed = 1
   timesran = 0
   qnum = exams[findExam()].timestamps.length
+  document.getElementById("exam-history").innerHTML = ''
+
   while (alphaspassed < qnum + 1 && timesran < 40) {
     CSVans = CSVans.slice(1)
     if(CSVans[0] == 'A' || CSVans[0] == 'B' || CSVans[0] == 'C' || CSVans[0] == 'D' || CSVans[0] == 'E') {
@@ -897,9 +899,13 @@ async function examExitAnalysis(CSVans) {
     ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
     console.log(qnum, ansChoice, fullExamAnswers[qnum])
     if(fullExamAnswers[qnum - 1] == ansChoice) {
-      console.log("The user got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
+      console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
+      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
+    }
+    else {
+      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>"
     }
   }
-  console.log(fullExamAnswers)
 
+  console.log(fullExamAnswers)
 }

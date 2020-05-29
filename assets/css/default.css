@@ -1160,5 +1160,5 @@ select {
 		border-radius: 10px;	
 		margin-left: 10px;
 		margin-top: 10px;
-		z-index: 10;
+		background: #ffffff
 	}

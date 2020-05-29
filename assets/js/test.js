@@ -85,6 +85,16 @@ function buildOnload() {
       opt.value = exams[i].semester;
       sel.appendChild(opt);
   }
+  
+  if(localStorage.getItem("inTest") == '1') {
+    console.log("You were testin" + localStorage.getItem("examPos"))
+    document.getElementById("semester").value = exams[parseInt(localStorage.getItem("examPos"))].semester;
+    document.getElementById("question").value = "1"
+    changeSemester()
+    document.getElementById("full-exam-toggle").innerHTML == "Now taking exam"
+    fullExamMode(2)
+    checkAnswer()
+  }
 }
 
 function changeSemester() {
@@ -134,13 +144,25 @@ function resetPage() {
   document.getElementById("select-container").style.display = "flex";
   document.getElementById("ques-ans-container").style.margin = "auto";
   document.getElementById("show-video").style.display = "block";
+
+  if(document.getElementById("question").value != "Question #") {
+    document.getElementById("controlmenu").style.display = "block";
+    document.getElementById("statsmenu").style.display = "block";
+    document.getElementById("statsmenu").style.width = "300px";
+    document.getElementById("ques-ans-container").style.display = "block";
+    document.getElementById("answerBox").innerHTML = "";
+    document.getElementById("bestTopicsBox").innerHTML = "";
+  }
+
   if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
     document.getElementById("similar-question").style.display = "none";
     document.getElementById("random-question").style.display = "none";
     document.getElementById("select-container").style.display = "none";
     document.getElementById("ques-ans-container").style.marginTop = "-5.3em";
     document.getElementById("show-video").style.display = "none";
+    document.getElementById("statsmenu").style.display = "none";
   }
+
   document.getElementById("video").style.display = "none";
   document.getElementById("result-ques").style.display = "none";
   document.getElementById("result-ques").style.className = "";
@@ -152,14 +174,6 @@ function resetPage() {
   document.getElementById("next-button-bottom").disabled = false;
   document.getElementById("previous-button-bottom").disabled = false;
 
-  if(document.getElementById("question").value != "Question #") {
-    document.getElementById("controlmenu").style.display = "block";
-    document.getElementById("statsmenu").style.display = "block";
-    document.getElementById("statsmenu").style.width = "300px";
-    document.getElementById("ques-ans-container").style.display = "block";
-    document.getElementById("answerBox").innerHTML = "";
-    document.getElementById("bestTopicsBox").innerHTML = "";
-  }
 }
 
 function getImg() {
@@ -280,7 +294,9 @@ function imgContainerDim(imgSource, isQuestion) {
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
     }
-    adjustWidth();
+    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+      adjustWidth();
+    }
   }
   img.src = imgSource;
 }
@@ -464,7 +480,7 @@ function checkAnswer() {
 
   topicRanker() //Performs more computations relating to user performance
 
-  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
+  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam" && globalChoice) {
     storeExamProgress(); //Stores... exam progress
     displayExamProgress();
     document.getElementById("embeded-video").style.display = "none"
@@ -671,22 +687,28 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
   document.getElementById("question").value = "1";
   document.getElementById("full-exam-toggle").style.pointerEvents = "none";
   document.getElementById("full-exam-toggle").innerHTML = "Now taking exam";
-  localStorage.removeItem("unixTime")
-  localStorage.removeItem("unixTimeElapsedSinceSubmit")
-  localStorage.removeItem("unixTimeRemaining")
+  document.getElementById("ques-ans-container").style.pointerEvents = "all";
+
+  localStorage.setItem("inTest", 1)
+
   var examPos = findExam();
 
-  for(var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
-    localStorage.removeItem("Q" + i.toString())
-    localStorage.removeItem("Qtime" + i.toString())
-  }
+  localStorage.setItem("examPos", examPos)
 
   getImg();
 
   // Set the date we're counting down to
-  var currentDate = new Date();
-  var unixTime = currentDate.getTime()
-  var countDownDate = unixTime + 1000 * 60 * 60 * examTimeLimit;
+  if(!localStorage.getItem("countDownDate")) {
+    var currentDate = new Date();
+    var unixTime = currentDate.getTime()
+    var countDownDate = unixTime + 1000 * 60 * 60 * examTimeLimit;
+    localStorage.setItem("countDownDate", countDownDate)
+  }
+  else {
+    var countDownDate = parseInt(localStorage.getItem("countDownDate"))
+    var currentDate = new Date();
+    var unixTime = currentDate.getTime()
+  }
   // Update the count down every 1 second
   var x = setInterval(function() {
     now = new Date().getTime();
@@ -704,8 +726,10 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     }
     else {
       submitTimeElapsed = now - unixTime;
+      //submitTimeElapsed = 0;
+      //NOT SURE WHICH IS CORRECT HERE
+      //console.log("Setting submitTimeElapsed to: " + submitTimeElapsed.toString())
     }
-    //console.log(submitTimeElapsed / 1000)
 
     localStorage.setItem("unixTime", now);
     localStorage.setItem("unixTimeRemaining", distance);
@@ -713,7 +737,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     if(!localStorage.getItem("unixTimeElapsedSinceSubmit")) {
       localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000);
     }
-
+    console.log(distance / 1000)
     // Time calculations for days, hours, minutes and seconds
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -741,9 +765,15 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     document.getElementById("question-split-timer").innerHTML = "Question time elapsed: " + questionHours + ":" + questionMinutes + ":" + questionSeconds;
 
     // If the count down is finished, write some text
-    if (distance < 0) {
+    if (distance < 0 || parseInt(localStorage.getItem("inTest")) == 0) {
       clearInterval(x);
-      document.getElementById("full-timer").innerHTML = "EXPIRED";
+      document.getElementById("full-timer").innerHTML = ''
+      document.getElementById("question-split-timer").innerHTML = ''
+      document.getElementById("exam-history").innerHTML = ''
+
+      localStorage.removeItem("temptimestorage");
+      localStorage.removeItem("unixTime");
+      localStorage.removeItem("unixTimeRemaining");
     }
   }, 1000);
 }
@@ -767,7 +797,7 @@ function storeExamProgress() {
   }
 
   localStorage.setItem("Qtime" + qnum, parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum)))
-  console.log("The old question time was: " + localStorage.getItem("temptimestorage") + "new time: " + (parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum))).toString())
+  // console.log("The old question time was: " + localStorage.getItem("temptimestorage") + "new time: " + (parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum))).toString())
 }
 
 function displayExamProgress() {
@@ -779,13 +809,13 @@ function displayExamProgress() {
     if(localStorage.getItem("Q" + i.toString())) {
       console.log("You answered " + localStorage.getItem("Q" + i.toString()) + " for question " + i.toString() + "!")
       timeStr = millisToDisplayStr(parseInt(localStorage.getItem("Qtime" + i.toString())))
-      console.log("Passing millis: " + localStorage.getItem("Qtime" + i.toString()))
-      examHistory += i.toString() + ": " + localStorage.getItem("Q" + i.toString()) + " (" + timeStr + ")<br>"
+      examHistory +=  i.toString() + ": " + " (" + timeStr + ')<br>'
     }
     else {
       console.log("You have not answered question #" + i.toString() + " yet!")
       examHistory += i.toString() + ": <br>"
     }
+    //document.getElementById("exam-history").innerHTML = examHistory;
   }
   document.getElementById("exam-history").innerHTML = examHistory;
 }
@@ -807,7 +837,27 @@ function millisToDisplayStr(millis) {
 
   hours = adjustTimeForDisplay(hours);
   minutes = adjustTimeForDisplay(minutes);
-  seconds = adjustTimeForDisplay(seconds);
+  seconds = adjustTimeForDisplay(seconds - 2);
   console.log(hours + ":" + minutes + ":" + seconds)
   return(hours + ":" + minutes + ":" + seconds)
+}
+
+function exitFullExam() {
+  localStorage.removeItem("unixTime")
+  localStorage.removeItem("unixTimeElapsedSinceSubmit")
+  localStorage.removeItem("unixTimeRemaining")
+
+  document.getElementById("full-exam-toggle").style.pointerEvents = "all";
+  document.getElementById("full-exam-toggle").innerHTML = "full exam mode";
+  localStorage.setItem("inTest", 0)
+  localStorage.setItem("temptimestorage", 0)
+  questionBegan = 0;
+  localStorage.removeItem("countDownDate")
+
+  for(var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
+    localStorage.removeItem("Q" + i.toString())
+    localStorage.removeItem("Qtime" + i.toString())
+  }
+
+  getImg()
 }

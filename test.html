@@ -93,25 +93,21 @@ Released   : 20140309
 	<div class="controlmenu" id="controlmenu">
 		<div style="margin-top: -10px;">
 			<button class="full-exam-mode" id="full-exam-toggle" onclick="fullExamMode(2)">full exam mode</button>
-			<p id="full-timer" ></p>
-			<p id="question-split-timer" ></p>
-			<!-- <button class="similar-question" id="controlmenu-similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button> -->
-			<!-- <button class="similar-question" id="controlmenu-random-question" onclick='similarInfo = findRandom()'>Random question</button> -->
-			<!-- <button class="next-prev-button" id="controlmenu-previous-button" onclick="prevQuestion()">prev</button> -->
-			<!-- <button class="next-prev-button" id="controlmenu-next-button" onclick="nextQuestion()">next</button> -->
+			<p id="full-timer"></p>
+			<p id="question-split-timer"></p>
+			<p id="exam-history"></p>
 		</div>
 	</div>
 
 	<div class="controlmenu" id="statsmenu" style="float: right; width: 300px; margin-right: 10px">
 		<div style="margin-top: -10px" id="statsmenu-internal">
-			<!-- <button class="similar-question" id="stats-random-question" onclick='similarInfo = findRandom()'>Random question</button> -->
 			<div id="answerBox"></div>
 			<div id="bestTopicsBox"></div>
 		</div>
 	</div>
 
 	<div id="extra" class="container" style="margin-bottom: 50em;">
-    <div class="select-container" style="margin-top: -3em;">
+    <div class="select-container" style="margin-top: -3em;" id="select-container">
     <div class="select">
       <select id="semester" onchange="changeSemester()">
         <option selected disabled>Semester</option>
@@ -177,7 +173,6 @@ Released   : 20140309
 			</div>
 			<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); updateVideo()">Submit Answer</button>
 			<button class="show-video" id="show-video" onclick='updateVideo(); scrollToVideo()'>Show Video</button>
-			<p class="textp" id="questionStats"></p> 
 		</div>
 	<!-- This is the textbox that contains the users stats -->
 

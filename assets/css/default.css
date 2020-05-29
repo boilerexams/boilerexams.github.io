@@ -237,10 +237,7 @@ select {
 	padding-bottom: 10px;
 	width: 0%;
 	border: 1px solid #a1a1a1;
-	border-radius: 10px;	
-	/*float: left;*/
-	/*margin-left: 40px;*/
-	/* transition: transform .7s; */
+	border-radius: 10px;
 	overflow: hidden;
 }
 

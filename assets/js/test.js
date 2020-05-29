@@ -78,6 +78,11 @@ var questionBegan;
 var fullExamAnswers = []
 var usersFullExamAnswers = []
 
+//SCROLL TO THE TOP WHEN RELOAD
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+}
+
 function buildOnload() {
   localStorage.setItem("reviewMode", 0);
   for(var i = 0; i < exams.length; i++) {
@@ -88,7 +93,7 @@ function buildOnload() {
       opt.value = exams[i].semester;
       sel.appendChild(opt);
   }
-  
+
   if(localStorage.getItem("inTest") == '1') {
     console.log("You were testin" + localStorage.getItem("examPos"))
     document.getElementById("semester").value = exams[parseInt(localStorage.getItem("examPos"))].semester;
@@ -98,6 +103,7 @@ function buildOnload() {
     fullExamMode(2)
     checkAnswer()
   }
+
 }
 
 function changeSemester() {
@@ -640,6 +646,12 @@ function streak() {
 
 function scrollToVideo() {
   document.querySelector('#eImg').scrollIntoView({ 
+    behavior: 'smooth' 
+  });
+}
+
+function scrollToDiv(divID) {
+  document.querySelector('#' + divID).scrollIntoView({ 
     behavior: 'smooth' 
   });
 }

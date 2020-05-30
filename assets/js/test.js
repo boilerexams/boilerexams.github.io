@@ -668,12 +668,15 @@ function animateStreak(startingStreak, endingStreak) {
   console.log("Animate streak was called with: " + startingStreak.toString() + ", " + endingStreak.toString())
   let emojis = ["🧯", "🧊", "❄️", "💧", "🌊", "🌡", "🧨", "🔥", "⚡", "🌶️", "🚂", "🌋"]
 
+  adjustedStreakVal = startingStreak
   if(startingStreak >= emojis.length) {
-    startingStreak = emojis.length - 1;
+    adjustedStreakVal = emojis.length - 1;
   }
 
-  document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + endingStreak.toString() + " question streak! ";
-  document.getElementById("result-ques-streak").innerHTML = emojis[startingStreak] + startingStreak.toString();
+  if(startingStreak == endingStreak) {
+    document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + endingStreak.toString() + " question streak! ";
+  }
+  document.getElementById("result-ques-streak").innerHTML = emojis[adjustedStreakVal] + startingStreak.toString();
 
   if(startingStreak > endingStreak) {
     setTimeout(animateStreak, 150, startingStreak - 1, endingStreak)

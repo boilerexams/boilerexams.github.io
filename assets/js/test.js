@@ -337,7 +337,6 @@ function getCorrect(txtSource, qnum)
       }
   })
   .then(function (template) {
-      //console.log(template);
       resp = template
 
       if(parseInt(localStorage.getItem("reviewMode")) == 1) {
@@ -349,10 +348,8 @@ function getCorrect(txtSource, qnum)
       timesran = 0
       while (alphaspassed < qnum && timesran < 40) {
         resp = resp.slice(1)
-        //console.log(resp)
         if(resp[0] == 'A' || resp[0] == 'B' || resp[0] == 'C' || resp[0] == 'D' || resp[0] == 'E') {
           alphaspassed += 1
-          //console.log(resp)
         }
         timesran += 1
       }
@@ -428,9 +425,8 @@ function checkAnswer() {
   if (!localStorage.getItem('totalCorrect')) {
     localStorage.setItem('totalCorrect', '0');
   }
-  console.log(document.getElementById("full-exam-toggle").innerHTML)
+
   if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    console.log("Triggered anyway")
     totAns = parseInt(localStorage.getItem('totalAnswers'));
     localStorage.setItem('totalAnswers', (totAns + 1).toString())
 
@@ -530,7 +526,7 @@ function checkAnswer() {
     {
       document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString(); 
       getImg();
-      scrollToTop();
+      scrollToDiv("extra");
     }
   }
 
@@ -910,7 +906,7 @@ function exitFullExam() {
 
   getImg()
 
-  console.log(usersFullExamAnswers)
+  // console.log(usersFullExamAnswers)
   // usersFullExamAnswers = []
 }
 
@@ -935,35 +931,30 @@ async function examExitAnalysis(CSVans) {
     qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
     ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
     localStorage.setItem("totalAnswers", (parseInt(localStorage.getItem("totalAnswers")) + 1).toString())
-    console.log(localStorage.getItem("totalAnswers"))
+    // console.log(localStorage.getItem("totalAnswers"))
     if(fullExamAnswers[qnum - 1] == ansChoice) {
-      console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
+      // console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
 
 
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          console.log(descriptions[j], exams[findExam()].description[qnum - 1])
           localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
           localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
           localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
         }
       }
-
-      // document.getElementById(exams[findExam()].description[qnum - 1])
     }
+
     else {
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>"
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          console.log(descriptions[j], exams[findExam()].description[qnum - 1])
           localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
         }
       }
     }
   }
-
-  console.log(fullExamAnswers)
   usersFullExamAnswers = []
 }
 

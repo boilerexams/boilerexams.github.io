@@ -7,7 +7,7 @@
       description: ["Autonomous equation stability", "Autonomous equation stability", "Separation of variables", "Freefall differential equations", 
       "Exact equations", "Exact equations", "Euler's method", "Characteristic equation", "Spring-mass systems", "Undetermined coefficients", "Variation of parameters", 
       "Phase plane identification", "Matrix exponential", "Homogeneous system of differential equations", "Nonhomogeneous system of differential equations", 
-      "Laplace of a system of eq.", "Piecewise Laplace transform",	"Laplace transform", "Laplace initial value problem", "Laplace initial value problem"]
+      "Laplace of a system of equations", "Piecewise Laplace transform",	"Laplace transform", "Laplace initial value problem", "Laplace initial value problem"]
     },
     { 
       semester: "2019 Spring",
@@ -67,7 +67,7 @@
       "Multiple eigenvalues", "Fundamental matrix", "Salt tank applications", "Laplace transform", "Laplace initial value problem",
       "Electric circuits", "Spring-mass systems", "Inverse Lapalace transform", "Undetermined coefficients", "Variation of parameters", 
       "Homogeneous system of differential equations", "Existence and Uniqueness theorem", "Freefall differential equations", 
-      "Characteristic equation", "Nonhomogeneous system of differential equations"
+      "Characteristic equation", "Nonhomogeneous system of differential equations", "Matrix exponential", "Laplace of a system of equations"
     ]
 
 var answer;
@@ -665,8 +665,7 @@ function topicRanker() {
 }
 
 function animateStreak(startingStreak, endingStreak) {
-  console.log("Animate streak was called with: " + startingStreak.toString() + ", " + endingStreak.toString())
-  let emojis = ["🧯", "🧊", "❄️", "💧", "🌊", "🌡", "🧨", "🔥", "⚡", "🌶️", "🚂", "🌋"]
+  let emojis = ["🧯", "🧊", "❄️", "⛄", "💧", "🌨", "🌧", "⛈", "🌊", "🌡", "🎉", "🧨", "🔥", "⚡", "⭐", "🌟", "💥", "🌶️", "🚂", "🚀", "🌋"]
 
   adjustedStreakVal = startingStreak
   if(startingStreak >= emojis.length) {
@@ -865,6 +864,10 @@ function displayExamProgress() {
   for(i = 1; i < exams[examPos].timestamps.length + 1; i++) {
     if(localStorage.getItem("Q" + i.toString())) {
       timeStr = millisToDisplayStr(parseInt(localStorage.getItem("Qtime" + i.toString())))
+
+      if(timeStr == "undefined:undefined:undefined") {
+        timeStr = "00:00:00"
+      }
       examHistory +=  i.toString() + ": " + " (" + timeStr + ')<br>'
     }
     else {
@@ -916,7 +919,6 @@ function exitFullExam() {
     }
     //GET RID OF LOCAL STORAGE
     localStorage.removeItem("Q" + i.toString())
-    localStorage.removeItem("Qtime" + i.toString())
   }
 
   getImg()
@@ -927,6 +929,7 @@ function exitFullExam() {
 
 async function examExitAnalysis(CSVans) {
   fullExamAnswers = [CSVans[0]]
+  var isCorrect = 0;
 
   alphaspassed = 1
   timesran = 0
@@ -946,17 +949,18 @@ async function examExitAnalysis(CSVans) {
     qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
     ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
     localStorage.setItem("totalAnswers", (parseInt(localStorage.getItem("totalAnswers")) + 1).toString())
-    // console.log(localStorage.getItem("totalAnswers"))
-    if(fullExamAnswers[qnum - 1] == ansChoice) {
-      // console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
-      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
 
+    if(fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
+      isCorrect = 1;
+      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
 
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
           localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
           localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
           localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
+          description = descriptions[j]
+          descPos = j
         }
       }
     }
@@ -966,9 +970,31 @@ async function examExitAnalysis(CSVans) {
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
           localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
+          description = descriptions[j]
+          descPos = j
         }
       }
     }
+    timeTaken = parseInt(localStorage.getItem("Qtime" + qnum.toString())) - 1000;
+
+    if(description == descriptions[descPos]) {
+      if(!localStorage.getItem(descPos.toString() + "timed")) {
+        localStorage.setItem(descPos.toString() + "timed", 0)
+      }
+      if(!localStorage.getItem(descPos.toString() + "timeavg")) {
+        localStorage.setItem(descPos.toString() + "timeavg", 0)
+      }
+
+      localStorage.setItem(descPos.toString() + "timed", (parseInt(localStorage.getItem(descPos.toString() + "timed")) + 1).toString())
+      oldAvg = parseInt(localStorage.getItem(descPos.toString() + "timeavg"))
+      oldSampleSize = parseInt(localStorage.getItem(descPos.toString() + "timed")) - 1;
+      newAvg = (oldSampleSize) / (oldSampleSize + 1) * oldAvg + timeTaken / (oldSampleSize + 1)
+      localStorage.setItem(descPos.toString() + "timeavg", newAvg)
+      }
+  }
+
+  for(var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
+    localStorage.removeItem("Qtime" + i.toString())
   }
   usersFullExamAnswers = []
 }

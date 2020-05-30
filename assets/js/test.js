@@ -277,7 +277,7 @@ function getImg() {
       
 
       if(localStorage.getItem("Q" + question)) {
-        console.log("You previously answered " + localStorage.getItem("Q" + question) + " For question #" + question)
+        // console.log("You previously answered " + localStorage.getItem("Q" + question) + " For question #" + question)
         changeOption(localStorage.getItem("Q" + question))
       }
 
@@ -428,17 +428,20 @@ function checkAnswer() {
   if (!localStorage.getItem('totalCorrect')) {
     localStorage.setItem('totalCorrect', '0');
   }
+  console.log(document.getElementById("full-exam-toggle").innerHTML)
+  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+    console.log("Triggered anyway")
+    totAns = parseInt(localStorage.getItem('totalAnswers'));
+    localStorage.setItem('totalAnswers', (totAns + 1).toString())
 
-  totAns = parseInt(localStorage.getItem('totalAnswers'));
-  localStorage.setItem('totalAnswers', (totAns + 1).toString())
+    if(answerState == 1) {
+      totCorrect = parseInt(localStorage.getItem('totalCorrect'));
+      localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
+    }
 
-  if(answerState == 1) {
-    totCorrect = parseInt(localStorage.getItem('totalCorrect'));
-    localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
+    overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
+    document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall<br>"
   }
-
-  overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
-  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall<br>"
 
   var descPos = -1
   var deltaCorrect = 0
@@ -463,7 +466,10 @@ function checkAnswer() {
     {
       localStorage.setItem(descPos.toString().concat('answered'), '0')
     }
-    localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
+
+    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+      localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
+    }
     
     if(!localStorage.getItem(descPos.toString().concat('correct')))
     {
@@ -474,19 +480,21 @@ function checkAnswer() {
     {
       localStorage.setItem('streak', '0')
     }
-    if(answerState == 1)
-    {
-      deltaCorrect = 1
-      localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
-      localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
-      document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
-      document.getElementById("result-ques-streak").style.marginRight = "5%"
-    }
-    if(answerState == 0) {
-      localStorage.setItem('streak', '0')
-      document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
-      document.getElementById("result-ques-streak").style.marginLeft = "3%"
-      document.getElementById("result-ques-streak").style.marginRight = "5%"
+    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+      if(answerState == 1)
+      {
+        deltaCorrect = 1
+        localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+        localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
+        document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
+        document.getElementById("result-ques-streak").style.marginRight = "5%"
+      }
+      if(answerState == 0) {
+        localStorage.setItem('streak', '0')
+        document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
+        document.getElementById("result-ques-streak").style.marginLeft = "3%"
+        document.getElementById("result-ques-streak").style.marginRight = "5%"
+      }
     }
   }
 
@@ -926,15 +934,19 @@ async function examExitAnalysis(CSVans) {
   for(var i = 0; i < usersFullExamAnswers.length; i++) {
     qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
     ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
-    // console.log(qnum, ansChoice, fullExamAnswers[qnum])
+    localStorage.setItem("totalAnswers", (parseInt(localStorage.getItem("totalAnswers")) + 1).toString())
+    console.log(localStorage.getItem("totalAnswers"))
     if(fullExamAnswers[qnum - 1] == ansChoice) {
       console.log("You got question #" + qnum.toString() + " correct with an answer of " + ansChoice)
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
+
 
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
           console.log(descriptions[j], exams[findExam()].description[qnum - 1])
           localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
+          localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
+          localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
         }
       }
 
@@ -942,6 +954,12 @@ async function examExitAnalysis(CSVans) {
     }
     else {
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>"
+      for(var j = 0; j < descriptions.length; j++) {
+        if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
+          console.log(descriptions[j], exams[findExam()].description[qnum - 1])
+          localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
+        }
+      }
     }
   }
 

@@ -477,19 +477,23 @@ function checkAnswer() {
       localStorage.setItem('streak', '0')
     }
     if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+      var pastStreak = parseInt(localStorage.getItem('streak'))
+
       if(answerState == 1)
       {
         deltaCorrect = 1
         localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
         localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
-        document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
+
+        animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
         document.getElementById("result-ques-streak").style.marginRight = "5%"
       }
       if(answerState == 0) {
         localStorage.setItem('streak', '0')
-        document.getElementById("result-ques-streak").innerHTML = streak().concat(localStorage.getItem('streak'));
         document.getElementById("result-ques-streak").style.marginLeft = "3%"
         document.getElementById("result-ques-streak").style.marginRight = "5%"
+
+        animateStreak(pastStreak, 0);
       }
     }
   }
@@ -657,19 +661,27 @@ function topicRanker() {
   if(parseInt(localStorage.getItem("totalAnswers")) < 20) {
     document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
   }
-  streak()
+  // streak()
 }
 
-function streak() {
-  let emojis = ["🧯", "🌡", "🧨", "🔥", "⚡", "🚂", "🌋"]
-  var streakVal = localStorage.getItem('streak')
+function animateStreak(startingStreak, endingStreak) {
+  console.log("Animate streak was called with: " + startingStreak.toString() + ", " + endingStreak.toString())
+  let emojis = ["🧯", "🧊", "❄️", "💧", "🌊", "🌡", "🧨", "🔥", "⚡", "🌶️", "🚂", "🌋"]
 
-  if(streakVal >= emojis.length) {
-    streakVal = emojis.length - 1;
+  if(startingStreak >= emojis.length) {
+    startingStreak = emojis.length - 1;
   }
 
-  document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + streakVal.toString() + " question streak! ";
-  return(emojis[streakVal])
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + endingStreak.toString() + " question streak! ";
+  document.getElementById("result-ques-streak").innerHTML = emojis[startingStreak] + startingStreak.toString();
+
+  if(startingStreak > endingStreak) {
+    setTimeout(animateStreak, 150, startingStreak - 1, endingStreak)
+  }
+
+  if(startingStreak < endingStreak) {
+    setTimeout(animateStreak, 350, startingStreak +  1, endingStreak)
+  }
 }
 
 function scrollToDiv(divID) {

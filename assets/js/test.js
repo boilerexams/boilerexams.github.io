@@ -436,7 +436,7 @@ function checkAnswer() {
     }
 
     overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
-    document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall<br>"
+    document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
   }
 
   var descPos = -1
@@ -506,7 +506,7 @@ function checkAnswer() {
   if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = 0} //Detects and fixes NaNs
   if(!(oldPercent >= 0 || oldPercent < 0)) {oldPercent = 0} //Detects and fixes NaNs
 
-  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time<br>"
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time" + "<br>"
 
   question = parseInt(question);
 
@@ -642,10 +642,10 @@ function topicRanker() {
   //("\n\nYour best topics are: ")
   document.getElementById("bestTopicsBox").innerHTML += "<br>Your best topics are: <br>"
 
-  for(i = 0; i < 5; i++) {
+  for(i = 0; i < topicPercents.length; i++) {
    // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "% correct)")
    if(topicPercents[i].percent > 0) {
-    document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%) <br>"
+    document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%)" + avgTopicTime(topicPercents[i].descPlace) + "<br>"
    }
   }
 
@@ -734,7 +734,7 @@ function adjustWidth() {
   } while(statsLeft < quesRight + margin && counter < 20);
 
   if(counter == 20) {
-    alert("Go fullscreen pls")
+    console.log("Couldn't resize correctly")
   }
 }
 
@@ -922,14 +922,10 @@ function exitFullExam() {
   }
 
   getImg()
-
-  // console.log(usersFullExamAnswers)
-  // usersFullExamAnswers = []
 }
 
 async function examExitAnalysis(CSVans) {
   fullExamAnswers = [CSVans[0]]
-  var isCorrect = 0;
 
   alphaspassed = 1
   timesran = 0
@@ -951,7 +947,6 @@ async function examExitAnalysis(CSVans) {
     localStorage.setItem("totalAnswers", (parseInt(localStorage.getItem("totalAnswers")) + 1).toString())
 
     if(fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
-      isCorrect = 1;
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
 
       for(var j = 0; j < descriptions.length; j++) {
@@ -984,6 +979,7 @@ async function examExitAnalysis(CSVans) {
       if(!localStorage.getItem(descPos.toString() + "timeavg")) {
         localStorage.setItem(descPos.toString() + "timeavg", 0)
       }
+      if(!(timeTaken >= 0 || timeTaken < 0)) {timeTaken = 0} //Detects and fixes NaNs
 
       localStorage.setItem(descPos.toString() + "timed", (parseInt(localStorage.getItem(descPos.toString() + "timed")) + 1).toString())
       oldAvg = parseInt(localStorage.getItem(descPos.toString() + "timeavg"))
@@ -1010,5 +1006,14 @@ function getTimeDiff() {
   }
   else {
     return(10);
+  }
+}
+
+function avgTopicTime(descPos) {
+  if(descPos > -1 && localStorage.getItem(descPos.toString() + "timeavg")) {
+    return(" avg time: " + millisToDisplayStr(parseInt(localStorage.getItem(descPos.toString() + "timeavg")) + 1000) + " ")
+  }
+  else {
+    return(" avg time: --:--:-- ")
   }
 }

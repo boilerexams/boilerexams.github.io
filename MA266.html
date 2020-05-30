@@ -111,8 +111,19 @@ Released   : 20140309
 		<div class = "embeded-video">
       <p align="center"></p><iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 		</div>
-		<div class="button" id="similarButton" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1])'>Similar problem</button>
-  </div>
+				
+				<button id="testButton" onclick="
+				if(document.getElementById('question').value != 'Question #') {
+					currentSem = document.getElementById('semester').value;
+					currentQ = document.getElementById('question').value;
+					localStorage.setItem('beginSem', currentSem);
+					localStorage.setItem('beginQues', currentQ);
+					window.location.href='test.html';
+				}"
+				>Practice similar questions</button>
+
+		<div class="button" id="similarButton" onclick='similarInfo = findSimilar(similarInfo[0], similarInfo[1]);'>Similar problem</button>
+	 </div>
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
 </div>

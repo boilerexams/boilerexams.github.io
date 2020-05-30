@@ -98,6 +98,19 @@ function buildOnload() {
       sel.appendChild(opt);
   }
 
+  if(localStorage.getItem('beginQues')) {
+    localStorage.setItem("inTest", 0);
+    document.getElementById("semester").value = localStorage.getItem("beginSem");
+    changeSemester()
+    document.getElementById("question").value = localStorage.getItem("beginQues");
+
+    localStorage.removeItem('beginQues');
+    localStorage.removeItem('beginSem')
+    similarInfo = getImg();
+
+    findSimilar(similarInfo[0], similarInfo[1])
+  }
+
   if(localStorage.getItem("inTest") == '1') {
     document.getElementById("semester").value = exams[parseInt(localStorage.getItem("examPos"))].semester;
     document.getElementById("question").value = "1"
@@ -253,6 +266,7 @@ function getImg() {
         else if (question == 1) {
           document.getElementById("previous-button").disabled = true;
         }
+
         returnPkg = [i, question]
         break;
       }

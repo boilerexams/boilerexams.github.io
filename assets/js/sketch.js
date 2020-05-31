@@ -21,7 +21,7 @@ var itoavoid = [];
 var reFouriered = 0;
 
 function preload() {
-  font = loadFont('font/OpenSans-ExtraBold.ttf')
+  font = loadFont('assets/js/font/OpenSans-ExtraBold.ttf')
 }
 
 

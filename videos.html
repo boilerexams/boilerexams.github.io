@@ -13,13 +13,13 @@ Released   : 20140309
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MA266 - Boilerexams</title>
+<title>Videos - Boilerexams</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
 <link href="assets/css/default.css" rel="stylesheet" type="text/css" media="all" />
 <link href="assets/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
-<script src="assets/js/MA266.js"></script>
+<script src="assets/js/videos.js"></script>
 <link rel="icon" href="Images/boilerexams-logo.png">
 
 
@@ -71,11 +71,11 @@ Released   : 20140309
 		<div id="menu">
 			<ul>
 				<li><a href="index.html" accesskey="1" title="">Homepage</a></li>
-				<li><a href="MA261.html" accesskey="2" title="">MA 261</a></li>
-				<li><a href="MA262.html" accesskey="3" title="">MA 262</a></li>
+				<!-- <li><a href="MA261.html" accesskey="2" title="">MA 261</a></li> -->
+				<!-- <li><a href="MA262.html" accesskey="3" title="">MA 262</a></li> -->
 				<!-- <li><a href="MA265.html" accesskey="4" title="">MA 265</a></li> -->
-				<li><a href="MA266.html" accesskey="5" title="">MA 266 + MA 265</a></li>
-				<li><a href="test.html" accesskey="6" title="">Test</a></li>
+				<li><a href="videos.html" accesskey="5" title="">Videos</a></li>
+				<li><a href="test.html" accesskey="6" title="">Study</a></li>
 
 				
 			</ul>
@@ -92,18 +92,28 @@ Released   : 20140309
 
 	<div id="extra" class="container">
 		<div class="select-container" style="margin-top: -3em;">
+
 			<div class="select">
-				<select id="class" onchange="changeClass()">
+				<select id="class" onchange="changeClass();">
 					<option selected disabled>Class</option>
 					<!--rest is built onload-->
 				</select>
 			</div>
+
     <div class="select">
       <select id="semester" onchange="changeSemester()">
         <option selected disabled>Semester</option>
         <!--rest is built onload-->
       </select>
-    </div>
+		</div>
+		
+		<div class="select" id="examTypeContainer">
+			<select id="examType">
+				<option selected disabled>Exam</option>
+				<!--rest is built onload-->
+			</select>
+		</div>
+
     <div class="select">
 			<select id="question" onchange='similarInfo = updateVideo(document.getElementById("semester").value, document.getElementById("question").value)'>
         <option selected disabled id="question-default">Question #</option>

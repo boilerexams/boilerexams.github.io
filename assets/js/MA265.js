@@ -1,4 +1,3 @@
-
 var exams = [
   { semester: "2019 Fall",
     exam: "Final", 

@@ -67,7 +67,8 @@
       "Multiple eigenvalues", "Fundamental matrix", "Salt tank applications", "Laplace transform", "Laplace initial value problem",
       "Electric circuits", "Spring-mass systems", "Inverse Lapalace transform", "Undetermined coefficients", "Variation of parameters", 
       "Homogeneous system of differential equations", "Existence and Uniqueness theorem", "Freefall differential equations", 
-      "Characteristic equation", "Nonhomogeneous system of differential equations", "Matrix exponential", "Laplace of a system of equations"
+      "Characteristic equation", "Nonhomogeneous system of differential equations", "Matrix exponential", "Laplace of a system of equations",
+      "Complex eigenvalues"
     ]
 
 var answer;

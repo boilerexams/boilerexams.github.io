@@ -363,6 +363,9 @@ var descriptions = []; //The correct set of descriptions to use
 var currentClass = '' //The class the user has most recently requested a question in
 
 function buildOnload() {
+  clearDropDowns("examType")
+  clearDropDowns("class")
+  clearDropDowns("semester")
   if(!localStorage.getItem("currentClass")) {localStorage.setItem("currentClass", "MA261")}
 
   var classSelect = document.getElementById("class");
@@ -399,7 +402,7 @@ function buildOnload() {
 }
 
 function changeSemester() {
-  buildExamTypeDropdown()
+  clearDropDowns("examType")
   document.getElementById("question-default").innerText = "Question #";
   var semester = document.getElementById("semester").value;
   var numOpt = document.getElementById("question").length;
@@ -429,10 +432,7 @@ function changeSemester() {
     }
   }
 
-  var sel = document.getElementById("examType");
-  for(i = exams.length; i > 0; i--) {
-    sel.remove(i);
-  }
+  clearDropDowns("examType")
 
   for(var i = 0; i < exams.length; i++) {
     if(semester == exams[i].semester) {
@@ -521,23 +521,19 @@ function findSimilar(i, question) { //Finds a new question that has the same des
 
 function guessClass() {
   var guess = parseInt(localStorage.getItem("currentClass").slice(2,6));
-  console.log(guess)
   document.getElementById("class").value = 'MA' + guess.toString()
 
   if(guess == 266) {
-    document.getElementsByClassName("byline").innerText = "MA 266: Ordinary Differential Equations"
+    document.getElementById("byline").innerText = "MA 266: Ordinary Differential Equations"
     document.getElementById("examType").value = "Final"
-
     exams = exams266;
     descriptions = descriptions266;
-
     document.getElementById("examTypeContainer").style.display = "none";
-    console.log("This happened")
     return("MA266")
   }
 
   if(guess == 265) {
-    document.getElementsByClassName("byline").innerText = "MA 265: Linear Algebra"
+    document.getElementById("byline").innerText = "MA 265: Linear Algebra"
     document.getElementById("examTypeContainer").style.display = "none";
     document.getElementById("examType").value = "Final"
     exams = exams265;
@@ -546,7 +542,7 @@ function guessClass() {
   }
 
   if(guess == 261) {
-    document.getElementsByClassName("byline").innerText = "MA 261: Multivariable Calculus"
+    document.getElementById("byline").innerText = "MA 261: Multivariable Calculus"
     document.getElementById("examTypeContainer").style.display = "inline-block";
     exams = exams261;
     descriptions = descriptions261;
@@ -558,11 +554,29 @@ function guessClass() {
 function changeClass() {
   localStorage.setItem("currentClass", document.getElementById("class").value)
   guessClass();
+  buildOnload()
+
+  if(parseInt(localStorage.getItem("currentClass").slice(2,6)) == 261) {
+    var mySelect = document.getElementById('examType');
+    for(var i, j = 0; i = mySelect.options[j]; j++) {
+      if(i.value == "Exam") {
+        mySelect.selectedIndex = j;
+        break;
+      }
+    }
+    var mySelect = document.getElementById('question');
+    for(i, j = 0; i = mySelect.options[j]; j++) {
+      if(i.value == "Question #") {
+        mySelect.selectedIndex = j;
+        break;
+      }
+    }
+  }
 }
 
-function buildExamTypeDropdown() {
-  var sel = document.getElementById("examType");
-  for(i = exams.length; i > 0; i--) {
+function clearDropDowns(id) {
+  var sel = document.getElementById(id);
+  for(i = sel.length; i > 0; i--) {
     sel.remove(i);
   }
 }

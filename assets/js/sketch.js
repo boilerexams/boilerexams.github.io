@@ -32,7 +32,7 @@ var textxoff = 30;
 var textyoff = 58;
 
 function preload() {
-  font = loadFont('OpenSans-ExtraBold.ttf')
+  font = loadFont('assets/js/font/OpenSans-ExtraBold.ttf')
 }
 
 

@@ -89,7 +89,7 @@ window.onbeforeunload = function () {
 }
 
 function buildOnload() {
-  // localStorage.setItem("reviewMode", 0);
+  localStorage.setItem("currentClass", 'MA266');
   for(var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
       var opt = document.createElement("option");

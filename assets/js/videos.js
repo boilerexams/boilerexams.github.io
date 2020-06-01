@@ -564,19 +564,19 @@ function changeClass() {
         break;
       }
     }
-    var mySelect = document.getElementById('question');
-    for(i, j = 0; i = mySelect.options[j]; j++) {
-      if(i.value == "Question #") {
-        mySelect.selectedIndex = j;
-        break;
-      }
+  }
+  var mySelect = document.getElementById('semester');
+  for(i, j = 0; i = mySelect.options[j]; j++) {
+    if(i.value == "Semester") {
+      mySelect.selectedIndex = j;
+      break;
     }
-    var mySelect = document.getElementById('semester');
-    for(i, j = 0; i = mySelect.options[j]; j++) {
-      if(i.value == "Semester") {
-        mySelect.selectedIndex = j;
-        break;
-      }
+  }
+  var mySelect = document.getElementById('question');
+  for(i, j = 0; i = mySelect.options[j]; j++) {
+    if(i.value == "Question #") {
+      mySelect.selectedIndex = j;
+      break;
     }
   }
 }

@@ -14,39 +14,42 @@ var boilerText = 0;
 
 var examText = 0;
 
+var w = 500;
+var h = 150;
+
 var font;
-var cutIt = 4;
+var cutIt = 7;
 var doneWith = 0;
 var itoavoid = [];
 var reFouriered = 0;
+var xoff1 = -84;
+var yoff1 = 10;
+var xoff2 = 39;
+var yoff2 = 10;
+var textsz = 40;
+
+var textxoff = 30;
+var textyoff = 58;
 
 function preload() {
-  font = loadFont('assets/js/font/OpenSans-ExtraBold.ttf')
+  font = loadFont('OpenSans-ExtraBold.ttf')
 }
 
 
 function setup() {
   // console.log(font.textToPoints("Boiler", -230, 0))
-  var canvas = createCanvas(300, 80);
+  var canvas = createCanvas(w, h);
   canvas.position(0, 0)
   background(51, 51, 51);
   fill(255);
 
   textFont(font)
-  textSize(150)
-  textToFourier("Boiler")
+  textSize(200)
+  textToFourier("Boilerexams")
 }
 
 function textToFourier(txt) {
   points = font.textToPoints(txt, -230, 0)
-  // if(doneWith == 0) {
-  //   var points = boilerText;
-  // }
-  // else {
-  //   var points = examsText;
-  // }
-  // console.log(JSON.stringify(points));
-  //points = boilerText;
 
   for(i = 0; i < points.length; i++) {
     points[i].x /= 5;
@@ -70,7 +73,7 @@ function epicycles(x, y, rotation, fourier) {
 
     stroke(255, 100);
     noFill();
-    if(i < fourier.length / 6) {
+    if(i < fourier.length / 10) {
       ellipse(prevx, prevy, radius * 2);
       stroke(255, 150);
       line(prevx, prevy, x, y);
@@ -81,16 +84,20 @@ function epicycles(x, y, rotation, fourier) {
 
 function draw() {
   background(51, 51, 51);
+  push();
+  stroke(32, 32, 32)
+  fill(32, 32, 32)
+  rect(0, 88, w, h)
+  pop();
 
   if(doneWith == 0) {
     itoavoid = []
     strokeWeight(1)
-    let v = epicycles(width / 2 - 80, height / 2, 0, fourierX);
+    let v = epicycles(320 / 2 + xoff1, 95 / 2 + yoff1, 0, fourierX);
     path.unshift(v);
     beginShape();
     noFill();
     strokeWeight(2);
-    //stroke(255, 255, 255);
     stroke(204, 187, 151);
 
     push();
@@ -104,22 +111,23 @@ function draw() {
         else if(path[i].x - path[i - 1].x > cutIt || path[i].x - path[i - 1].x < -cutIt) {
           endShape(CLOSE);
           itoavoid.push(i)
-          beginShape();
+          beginShape(CLOSE);
         }
       }
 
       vertex(path[i].x, path[i].y);
     }
-    endShape(CLOSE);
+    endShape();
     pop();
 
     const dt = TWO_PI / fourierX.length;
-    time += dt;
+    //ADJUST HERE
+    time += dt * 2;
 
     if (time > TWO_PI) {
       time = 0;
       path = [];
-      doneWith = 1
+      doneWith = 2
     }
   }
 
@@ -134,7 +142,7 @@ function draw() {
     }
 
     strokeWeight(1)
-    let v = epicycles(width / 2 + 12, height / 2, 0, fourierX);
+    let v = epicycles(320 / 2 + xoff2, 95 / 2 + yoff2, 0, fourierX);
     path.unshift(v);
     beginShape();
     noFill();
@@ -178,19 +186,30 @@ function draw() {
     strokeWeight(2)
 
     fill(204, 187, 151);
-    textSize(30)
+    textSize(textsz)
     stroke(204, 187, 151);
     strokeWeight(0)
-    text("Boilerexams", 24, 40.0)
+    text("Boilerexams", textxoff, textyoff)
   }
   else if(doneWith == 1) {
     stroke(204, 187, 151);
     strokeWeight(2)
 
     fill(204, 187, 151);
-    textSize(30)
+    textSize(textsz)
     stroke(204, 187, 151);
     strokeWeight(0)
-    text("Boiler", 24, 40.0)
+    text("Boiler", textxoff, textyoff)
   }
+}
+
+function writeFinalData (data) {
+  var toWriteListXml = config.exportPath + 'data.json',
+  toWriteData = JSON.stringify(data);
+  fs.writeFile(toWriteListXml, toWriteData, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("The file was saved!");
+  });
 }

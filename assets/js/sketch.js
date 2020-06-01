@@ -181,7 +181,7 @@ function draw() {
     fourierX = [];
     path = [];
 
-    frameRate(60)
+    frameRate(10)
     stroke(204, 187, 151);
     strokeWeight(2)
 
@@ -191,16 +191,16 @@ function draw() {
     strokeWeight(0)
     text("Boilerexams", textxoff, textyoff)
   }
-  else if(doneWith == 1) {
-    stroke(204, 187, 151);
-    strokeWeight(2)
+  // else if(doneWith == 1) {
+  //   stroke(204, 187, 151);
+  //   strokeWeight(2)
 
-    fill(204, 187, 151);
-    textSize(textsz)
-    stroke(204, 187, 151);
-    strokeWeight(0)
-    text("Boiler", textxoff, textyoff)
-  }
+  //   fill(204, 187, 151);
+  //   textSize(textsz)
+  //   stroke(204, 187, 151);
+  //   strokeWeight(0)
+  //   text("Boiler", textxoff, textyoff)
+  // }
 }
 
 function writeFinalData (data) {

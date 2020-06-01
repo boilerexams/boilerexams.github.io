@@ -13,13 +13,13 @@ Released   : 20140309
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Study - Boilerexams</title>
+<title>Taking Exam - Boilerexams</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
 <link href="assets/css/default.css" rel="stylesheet" type="text/css" media="all" />
 <link href="assets/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
-<script src="assets/js/study.js"></script>
+<script src="assets/js/testing.js"></script>
 <link rel="icon" href="Images/boilerexams-logo.png">
 
 
@@ -73,7 +73,7 @@ Released   : 20140309
 			<ul>
 				<li><a href="index.html" accesskey="1" title="">Homepage</a></li>
 				<li><a href="videos.html" accesskey="2" title="">Videos</a></li>
-				<li><a href="study.html" accesskey="3" title="">Study</a></li>
+				<li><a href="studyhub.html" accesskey="3" title="">Study</a></li>
 				
 			</ul>
 		</div>
@@ -82,7 +82,7 @@ Released   : 20140309
 	<div id="banner-class">
 		<div class="container">
 			<div class="title">
-				<h2>Study</h2>
+				<h2>Taking Exam</h2>
 				<span class="byline"></span> </div>
 		</div>
   </div>
@@ -105,28 +105,31 @@ Released   : 20140309
 	</div>
 
 	<div id="extra" class="container" style="margin-bottom: 50em;">
-    <div class="select-container" style="margin-top: -3em;" id="select-container">
+		<!-- <div id="goawayplease" style="display=none; visibility: hidden;"> -->
+   <div class="select-container" style="margin-top: -3em; display: none;" id="select-container">
     <div class="select">
-      <select id="semester" onchange="changeSemester()">
+      <select id="semester" onchange="changeSemester()" style="display: none">
         <option selected disabled>Semester</option>
         <!--rest is built onload-->
       </select>
     </div>
-    <div class="select">
+    <div class="select" style="display: none;">
 			<select id="question" onchange='similarInfo = getImg()'>
         <option selected disabled id="question-default">Question #</option>
         <!--rest is built by changeSemester-->
       </select>
     </div>
-  </div>
+	<!-- </div> -->
+</div>
+
     <div style="margin-top: 1em; margin-bottom: 1em;" class="title">
       <span class="byline" id="video-description"></span>
 		</div>
 
 		<div class="ques-ans-container" id="ques-ans-container">
 			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
-			<button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
-			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button>
+			<!-- <button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
+			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button> -->
 			<button class="next-prev-button" id="next-button" onclick="nextQuestion()" style="float: right;">next</button>
 			<div class="ques-container" id="ques-container">
 				<img src="" id="questionImg" width="0%" height = "auto">

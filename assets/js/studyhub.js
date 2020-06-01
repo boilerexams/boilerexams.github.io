@@ -89,7 +89,7 @@ window.onbeforeunload = function () {
 }
 
 function buildOnload() {
-  localStorage.setItem("reviewMode", 0);
+  // localStorage.setItem("reviewMode", 0);
   for(var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
       var opt = document.createElement("option");
@@ -112,16 +112,7 @@ function buildOnload() {
     findSimilar(similarInfo[0], similarInfo[1])
   }
 
-  if(localStorage.getItem("inTest") == '1') {
-    document.getElementById("semester").value = exams[parseInt(localStorage.getItem("examPos"))].semester;
-    document.getElementById("question").value = "1"
-    changeSemester()
-    document.getElementById("full-exam-toggle").innerHTML == "Now taking exam"
-    fullExamMode(2)
-    document.getElementById("question").value -= 1
-    checkAnswer()
-    document.getElementById("question").value = 1
-  }
+
 
 }
 
@@ -153,10 +144,7 @@ function changeSemester() {
       sel.appendChild(opt);
     }
   }
-
-  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    getImg();
-  }
+  getImg();
 }
 
 function resetPage() {
@@ -185,16 +173,6 @@ function resetPage() {
     document.getElementById("bestTopicsBox").innerHTML = "";
   }
 
-  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
-    document.getElementById("similar-question").style.display = "none";
-    document.getElementById("random-question").style.display = "none";
-    document.getElementById("select-container").style.display = "none";
-    document.getElementById("ques-ans-container").style.marginTop = "-5.3em";
-    document.getElementById("show-video").style.display = "none";
-    document.getElementById("statsmenu").style.display = "none";
-    document.getElementById("exit-full-exam").style.display = "block";
-  }
-
   document.getElementById("video").style.display = "none";
   document.getElementById("result-ques").style.display = "none";
   document.getElementById("result-ques").style.className = "";
@@ -209,10 +187,6 @@ function resetPage() {
 }
 
 function getImg() {
-  timeDiff = getTimeDiff();
-  //if(timeDiff < 1) {alert("Until we move to better hosting, pls stop requesting images so fast")}
-
-  imagesRequested += 6;
   var semester = document.getElementById("semester").value;
   var question = document.getElementById("question").value;
   var exam = "FE"; // placeholder
@@ -284,19 +258,6 @@ function getImg() {
     if(similarQuestions.length == 1) {
       document.getElementById('similar-question').style.display = "none";
     }
-
-    //HERE IS WHERE WE SELECT ANSWER BASED OFF OF MEMORY
-    if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
-      examPos = findExam()
-      question = document.getElementById("question").value
-      
-
-      if(localStorage.getItem("Q" + question)) {
-        // console.log("You previously answered " + localStorage.getItem("Q" + question) + " For question #" + question)
-        changeOption(localStorage.getItem("Q" + question))
-      }
-
-    }
     
     return(returnPkg)
   }
@@ -323,16 +284,13 @@ function imgContainerDim(imgSource, isQuestion) {
       document.getElementById("ans-container").style.height = "auto";
     }
     else if (parseFloat(document.getElementById("ques-ans-container").style.width) - 100 < (this.width / scaleFactor + 60)) {
-      //console.log("FIXING QUESTION CONTAINER")
       document.getElementById("ans-container").style.width = (this.width / scaleFactor + 140).toString().concat("px");
       document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 200).toString().concat("px");
       document.getElementById("ques-container").style.float = "left";
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
     }
-    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-      adjustWidth();
-    }
+    adjustWidth();
   }
   img.src = imgSource;
 }
@@ -353,11 +311,6 @@ function getCorrect(txtSource, qnum)
   })
   .then(function (template) {
       resp = template
-
-      if(parseInt(localStorage.getItem("reviewMode")) == 1) {
-        examExitAnalysis(template)
-        localStorage.setItem("reviewMode", 0);
-      }
 
       alphaspassed = 1
       timesran = 0
@@ -409,27 +362,25 @@ function checkAnswer() {
   questionBegan = 0;
   localStorage.setItem("unixTimeElapsedSinceSubmit", 0)
 
-  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    if(answer == globalChoice) {
-      answerState = 1;
-      document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
-      document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
-      document.getElementById("result-ques").className = "correct-result";
-      document.getElementById("result-ques-text").innerHTML = "Correct";
-      document.getElementById("result-ques").style.display = "inline-block";
-      document.getElementById("result-ques-img").src = "Images/correct-answer-check.png";
-    } 
-    else {
-      answerState = 0;
-      document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-incorrect";
-      document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
-      document.getElementById("ans-button-".concat(answer)).className = "ans-button-correct";
-      document.getElementById("circle-".concat(answer)).className = "circle-selected-correct";
-      document.getElementById("result-ques").className = "incorrect-result";
-      document.getElementById("result-ques-text").innerHTML = "Incorrect";
-      document.getElementById("result-ques").style.display = "inline-block";
-      document.getElementById("result-ques-img").src = "Images/wrong-answer-x.png";
-    }
+  if(answer == globalChoice) {
+    answerState = 1;
+    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
+    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
+    document.getElementById("result-ques").className = "correct-result";
+    document.getElementById("result-ques-text").innerHTML = "Correct";
+    document.getElementById("result-ques").style.display = "inline-block";
+    document.getElementById("result-ques-img").src = "Images/correct-answer-check.png";
+  } 
+  else {
+    answerState = 0;
+    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-incorrect";
+    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
+    document.getElementById("ans-button-".concat(answer)).className = "ans-button-correct";
+    document.getElementById("circle-".concat(answer)).className = "circle-selected-correct";
+    document.getElementById("result-ques").className = "incorrect-result";
+    document.getElementById("result-ques-text").innerHTML = "Incorrect";
+    document.getElementById("result-ques").style.display = "inline-block";
+    document.getElementById("result-ques-img").src = "Images/wrong-answer-x.png";
   }
 
   localStorage.setItem('answerState', answerState.toString());
@@ -441,18 +392,17 @@ function checkAnswer() {
     localStorage.setItem('totalCorrect', '0');
   }
 
-  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    totAns = parseInt(localStorage.getItem('totalAnswers'));
-    localStorage.setItem('totalAnswers', (totAns + 1).toString())
+  totAns = parseInt(localStorage.getItem('totalAnswers'));
+  localStorage.setItem('totalAnswers', (totAns + 1).toString())
 
-    if(answerState == 1) {
-      totCorrect = parseInt(localStorage.getItem('totalCorrect'));
-      localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
-    }
-
-    overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
-    document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
+  if(answerState == 1) {
+    totCorrect = parseInt(localStorage.getItem('totalCorrect'));
+    localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
   }
+
+  overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
+
 
   var descPos = -1
   var deltaCorrect = 0
@@ -478,9 +428,7 @@ function checkAnswer() {
       localStorage.setItem(descPos.toString().concat('answered'), '0')
     }
 
-    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-      localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
-    }
+    localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
     
     if(!localStorage.getItem(descPos.toString().concat('correct')))
     {
@@ -491,25 +439,23 @@ function checkAnswer() {
     {
       localStorage.setItem('streak', '0')
     }
-    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-      var pastStreak = parseInt(localStorage.getItem('streak'))
+    var pastStreak = parseInt(localStorage.getItem('streak'))
 
-      if(answerState == 1)
-      {
-        deltaCorrect = 1
-        localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
-        localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
+    if(answerState == 1)
+    {
+      deltaCorrect = 1
+      localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+      localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
 
-        animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
-        document.getElementById("result-ques-streak").style.marginRight = "5%"
-      }
-      if(answerState == 0) {
-        localStorage.setItem('streak', '0')
-        document.getElementById("result-ques-streak").style.marginLeft = "3%"
-        document.getElementById("result-ques-streak").style.marginRight = "5%"
+      animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
+      document.getElementById("result-ques-streak").style.marginRight = "5%"
+    }
+    if(answerState == 0) {
+      localStorage.setItem('streak', '0')
+      document.getElementById("result-ques-streak").style.marginLeft = "3%"
+      document.getElementById("result-ques-streak").style.marginRight = "5%"
 
-        animateStreak(pastStreak, 0);
-      }
+      animateStreak(pastStreak, 0);
     }
   }
 
@@ -534,32 +480,12 @@ function checkAnswer() {
 
   topicRanker() //Performs more computations relating to user performance
 
-  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam" && globalChoice) {
-    storeExamProgress(); //Stores... exam progress
-    displayExamProgress();
-    document.getElementById("embeded-video").style.display = "none"
-  }
-
-  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
-    if(parseInt(document.getElementById("question").value) < exams[findExam()].timestamps.length) 
-    {
-      document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString(); 
-      getImg();
-      scrollToDiv("extra");
-    }
-  }
-
   return(returnPkg)
 }
 
 function updateVideo() {
   document.getElementById("embeded-video").className = "embeded-video";
   document.getElementById("embeded-video").style.display = "inherit";
-
-  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
-    document.getElementById("embeded-video").style.display = "none";
-    //document.getElementById("video").src = "";
-  }
 
   var semester = document.getElementById('semester').value
   var question = document.getElementById('question').value
@@ -654,29 +580,24 @@ function topicRanker() {
     topicPercents[topicPercents.length] = {descPlace: i, percent: parseFloat(topicPercent)};
   }
   topicPercents.sort(function(a, b){return b.percent-a.percent})
-  //("\n\nYour best topics are: ")
   document.getElementById("bestTopicsBox").innerHTML += "<br>Your best topics are: <br>"
 
   for(i = 0; i < topicPercents.length; i++) {
-   // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "% correct)")
    if(topicPercents[i].percent > 0) {
     document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%)" + avgTopicTime(topicPercents[i].descPlace) + "<br>"
    }
   }
 
   document.getElementById("bestTopicsBox").innerHTML += "<br>You haven't tried these topics:<br>";
- // console.log("\n\nYou haven't tried these topics: ")
 
   for(i = 0; i < topicPercents.length; i++) {
     if(topicPercents[i].percent == -1) {
       document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + "<br>";
-     // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace])
     }
   }
   if(parseInt(localStorage.getItem("totalAnswers")) < 20) {
     document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
   }
-  // streak()
 }
 
 function animateStreak(startingStreak, endingStreak) {
@@ -742,9 +663,6 @@ function adjustWidth() {
     var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
     var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
     var margin = 10;
-    // console.log(statsLeft)
-    // console.log(quesRight)
-    // console.log("We have a problem here")
     document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
   } while(statsLeft < quesRight + margin && counter < 20);
 
@@ -753,274 +671,12 @@ function adjustWidth() {
   }
 }
 
-function fullExamMode(examTimeLimit) { //Exam time limit in hours  
-  document.getElementById("question").value = "1";
-  document.getElementById("full-exam-toggle").style.pointerEvents = "none";
-  document.getElementById("full-exam-toggle").innerHTML = "Now taking exam";
-  document.getElementById("ques-ans-container").style.pointerEvents = "all";
-  document.getElementById("exam-history").innerHTML = ''
-  localStorage.setItem("inTest", 1)
-
-  var examPos = findExam();
-  imagesRequested = 0;
-
-  localStorage.setItem("examPos", examPos)
-
-  getImg();
-
-  // Set the date we're counting down to
-  if(!localStorage.getItem("countDownDate")) {
-    var currentDate = new Date();
-    var unixTime = currentDate.getTime()
-    var countDownDate = unixTime + 1000 * 60 * 60 * examTimeLimit;
-    localStorage.setItem("countDownDate", countDownDate)
-  }
-  else {
-    var countDownDate = parseInt(localStorage.getItem("countDownDate"))
-    var currentDate = new Date();
-    var unixTime = currentDate.getTime()
-  }
-  // Update the count down every 1 second
-  var x = setInterval(function() {
-    now = new Date().getTime();
-    // Find the distance between now and the count down date
-    var distance = countDownDate - now;
-    questionBegan = unixTime;
-
-    if (localStorage.getItem("unixTime")) {
-      now = parseInt(localStorage.getItem("unixTime")) + 1000;
-      distance = parseInt(localStorage.getItem("unixTimeRemaining")) - 1000;
-      submitTimeElapsed = parseInt(localStorage.getItem("unixTimeElapsedSinceSubmit"));
-      // console.log(localStorage.getItem("temptimestorage"))
-      localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000)
-      localStorage.setItem("temptimestorage", submitTimeElapsed + 1000)
-    }
-    else {
-      submitTimeElapsed = now - unixTime;
-      //submitTimeElapsed = 0;
-      //NOT SURE WHICH IS CORRECT HERE
-      //console.log("Setting submitTimeElapsed to: " + submitTimeElapsed.toString())
-    }
-
-    localStorage.setItem("unixTime", now);
-    localStorage.setItem("unixTimeRemaining", distance);
-
-    if(!localStorage.getItem("unixTimeElapsedSinceSubmit")) {
-      localStorage.setItem("unixTimeElapsedSinceSubmit", submitTimeElapsed + 1000);
-    }
-    // console.log(distance / 1000)
-    // Time calculations for days, hours, minutes and seconds
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000 + 1);
-
-    var questionHours = Math.floor((submitTimeElapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var questionMinutes = Math.floor((submitTimeElapsed % (1000 * 60 * 60)) / (1000 * 60));
-    var questionSeconds = Math.floor(((submitTimeElapsed) % (1000 * 60)) / 1000);
-
-    hours = adjustTimeForDisplay(hours)
-    minutes = adjustTimeForDisplay(minutes)
-    seconds = adjustTimeForDisplay(seconds)
-
-    questionHours = adjustTimeForDisplay(questionHours)
-    questionMinutes = adjustTimeForDisplay(questionMinutes)
-    questionSeconds = adjustTimeForDisplay(questionSeconds)
-
-
-    if(submitTimeElapsed == 0) {
-      localStorage.setItem("unixTimeElapsedSinceSubmit", 1000);
-    }
-
-    // Display the result in the element with id="demo"
-    document.getElementById("full-timer").innerHTML = "Exam time remaining: " + hours + ":" + minutes + ":" + seconds;
-    document.getElementById("question-split-timer").innerHTML = "Question time elapsed: " + questionHours + ":" + questionMinutes + ":" + questionSeconds;
-
-    // If the count down is finished, write some text
-    if (distance < 0 || parseInt(localStorage.getItem("inTest")) == 0) {
-      clearInterval(x);
-      document.getElementById("full-timer").innerHTML = ''
-      document.getElementById("question-split-timer").innerHTML = ''
-      // document.getElementById("exam-history").innerHTML = ''
-      localStorage.removeItem("temptimestorage");
-      localStorage.removeItem("unixTime");
-      localStorage.removeItem("unixTimeRemaining");
-      localStorage.removeItem("unixTimeElapsedSinceSubmit");
-    }
-  }, 1000);
-}
-
-function adjustTimeForDisplay(time) {
-  if(time >= 10) {
-    return(time.toString())
-  }
-  else if(time < 10 && time >= 0) {
-    return('0' + time.toString())
-  }
-}
-
-function storeExamProgress() {
-  var qnum = document.getElementById("question").value
-
-  localStorage.setItem("Q" + qnum, globalChoice.toString())
-
-  if(!localStorage.getItem("Qtime" + qnum)) {
-    localStorage.setItem("Qtime" + qnum, 0);
-  }
-
-  localStorage.setItem("Qtime" + qnum, parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum)))
-  // console.log("The old question time was: " + localStorage.getItem("temptimestorage") + "new time: " + (parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum))).toString())
-}
-
-function displayExamProgress() {
-  var examPos = findExam();
-  var examHistory = ''
-  var timeStr = ''
-
-  for(i = 1; i < exams[examPos].timestamps.length + 1; i++) {
-    if(localStorage.getItem("Q" + i.toString())) {
-      timeStr = millisToDisplayStr(parseInt(localStorage.getItem("Qtime" + i.toString())))
-
-      if(timeStr == "undefined:undefined:undefined") {
-        timeStr = "00:00:00"
-      }
-      examHistory +=  i.toString() + ": " + " (" + timeStr + ')<br>'
-    }
-    else {
-      examHistory += i.toString() + ": <br>"
-    }
-  }
-  document.getElementById("exam-history").innerHTML = examHistory;
-}
-
 function findExam() {
   var sem = document.getElementById("semester").value;
   for(var i = 0; i < exams.length; i++) {
     if(exams[i].semester == sem) {
       return(i);
     }
-  }
-}
-
-function millisToDisplayStr(millis) {
-  // console.log("Turning " + millis.toString() + " millis into...")
-  var hours = Math.floor((millis % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((millis % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((millis % (1000 * 60)) / 1000 + 1);
-
-  hours = adjustTimeForDisplay(hours);
-  minutes = adjustTimeForDisplay(minutes);
-  seconds = adjustTimeForDisplay(seconds - 2);
-  // console.log(hours + ":" + minutes + ":" + seconds)
-  return(hours + ":" + minutes + ":" + seconds)
-}
-
-function exitFullExam() {
-  localStorage.removeItem("unixTime")
-  localStorage.removeItem("unixTimeElapsedSinceSubmit")
-  localStorage.removeItem("unixTimeRemaining")
-
-  document.getElementById("full-exam-toggle").style.pointerEvents = "all";
-  document.getElementById("full-exam-toggle").innerHTML = "full exam mode";
-  localStorage.setItem("inTest", 0)
-  localStorage.setItem("temptimestorage", 0)
-  questionBegan = 0;
-  localStorage.removeItem("countDownDate")
-  localStorage.setItem("reviewMode", 1)
-
-  for(var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
-    //BRING LOCAL STORAGE INTO ARRAY MEMORY
-    if(localStorage.getItem("Q" + i.toString())) {
-      usersFullExamAnswers.push([i.toString() + localStorage.getItem("Q" + i.toString()), Math.round(parseInt(localStorage.getItem("Qtime" + i.toString())) / 1000)])
-    }
-    //GET RID OF LOCAL STORAGE
-    localStorage.removeItem("Q" + i.toString())
-  }
-
-  getImg()
-}
-
-async function examExitAnalysis(CSVans) {
-  fullExamAnswers = [CSVans[0]]
-
-  alphaspassed = 1
-  timesran = 0
-  qnum = exams[findExam()].timestamps.length
-  document.getElementById("exam-history").innerHTML = ''
-
-  while (alphaspassed < qnum + 1 && timesran < 40) {
-    CSVans = CSVans.slice(1)
-    if(CSVans[0] == 'A' || CSVans[0] == 'B' || CSVans[0] == 'C' || CSVans[0] == 'D' || CSVans[0] == 'E') {
-      alphaspassed += 1
-      fullExamAnswers.push(CSVans[0])
-    }
-    timesran += 1
-  }
-
-  for(var i = 0; i < usersFullExamAnswers.length; i++) {
-    qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
-    ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
-    localStorage.setItem("totalAnswers", (parseInt(localStorage.getItem("totalAnswers")) + 1).toString())
-
-    if(fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
-      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
-
-      for(var j = 0; j < descriptions.length; j++) {
-        if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
-          localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
-          localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
-          description = descriptions[j]
-          descPos = j
-        }
-      }
-    }
-
-    else {
-      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>"
-      for(var j = 0; j < descriptions.length; j++) {
-        if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
-          description = descriptions[j]
-          descPos = j
-        }
-      }
-    }
-    timeTaken = parseInt(localStorage.getItem("Qtime" + qnum.toString())) - 1000;
-
-    if(description == descriptions[descPos]) {
-      if(!localStorage.getItem(descPos.toString() + "timed")) {
-        localStorage.setItem(descPos.toString() + "timed", 0)
-      }
-      if(!localStorage.getItem(descPos.toString() + "timeavg")) {
-        localStorage.setItem(descPos.toString() + "timeavg", 0)
-      }
-      if(!(timeTaken >= 0 || timeTaken < 0)) {timeTaken = 0} //Detects and fixes NaNs
-
-      localStorage.setItem(descPos.toString() + "timed", (parseInt(localStorage.getItem(descPos.toString() + "timed")) + 1).toString())
-      oldAvg = parseInt(localStorage.getItem(descPos.toString() + "timeavg"))
-      oldSampleSize = parseInt(localStorage.getItem(descPos.toString() + "timed")) - 1;
-      newAvg = (oldSampleSize) / (oldSampleSize + 1) * oldAvg + timeTaken / (oldSampleSize + 1)
-      localStorage.setItem(descPos.toString() + "timeavg", newAvg)
-      }
-  }
-
-  for(var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
-    localStorage.removeItem("Qtime" + i.toString())
-  }
-  usersFullExamAnswers = []
-}
-
-function getTimeDiff() {
-  if(timeDiff && imagesRequested > 20) {
-    currentTime = new Date().getTime();
-    if(timeOfLastExecution != 0) {
-      timeDiff = currentTime - timeOfLastExecution;
-    }
-    timeOfLastExecution = currentTime; 
-    return(timeDiff / 1000)
-  }
-  else {
-    return(10);
   }
 }
 

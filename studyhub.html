@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
+
+Name       : PlainDisplay 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20140309
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Study - Boilerexams</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
+<link href="assets/css/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="assets/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script src="assets/js/studyhub.js"></script>
+<link rel="icon" href="Images/boilerexams-logo.png">
+
+
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+</head>
+
+<script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-167300432-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+	gtag('config', 'UA-167300432-1');
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-T4N357Q');</script>
+	<!-- End Google Tag Manager -->
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+</script>
+
+<body onload="similarInfo = buildOnload()">
+
+  <!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4N357Q"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+<div id="wrapper">
+	<div id="top"></div>
+	<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#"></a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="index.html" accesskey="1" title="">Homepage</a></li>
+				<li><a href="videos.html" accesskey="2" title="">Videos</a></li>
+				<li><a href="studyhub.html" accesskey="3" title="">Study</a></li>
+				
+			</ul>
+		</div>
+	</div>
+	</div>
+	<div id="banner-class">
+		<div class="container">
+			<div class="title">
+				<h2>Study</h2>
+				<span class="byline"></span> </div>
+		</div>
+  </div>
+
+	<div class="controlmenu" id="controlmenu">
+		<div style="margin-top: -10px;">
+			<button class="full-exam-mode" id="full-exam-toggle" onclick="
+						if(document.getElementById('semester').value != 'semester') {
+							currentSem = document.getElementById('semester').value;
+							localStorage.setItem('takeExam', currentSem);
+							window.location.href='testing.html';
+						}"
+			>full exam mode</button>
+			<button class="full-exam-mode" id="exit-full-exam" onclick="exitFullExam()">exit full exam</button>
+			<p id="full-timer"></p>
+			<p id="question-split-timer"></p>
+			<p id="exam-history"></p>
+		</div>
+	</div>
+
+	<div class="controlmenu" id="statsmenu" style="float: right; width: 300px; margin-right: 10px">
+		<div style="margin-top: -10px" id="statsmenu-internal">
+			<div id="answerBox"></div>
+			<div id="bestTopicsBox"></div>
+		</div>
+	</div>
+
+	<div id="extra" class="container" style="margin-bottom: 50em;">
+    <div class="select-container" style="margin-top: -3em;" id="select-container">
+    <div class="select">
+      <select id="semester" onchange="changeSemester()">
+        <option selected disabled>Semester</option>
+        <!--rest is built onload-->
+      </select>
+    </div>
+    <div class="select">
+			<select id="question" onchange='similarInfo = getImg()'>
+        <option selected disabled id="question-default">Question #</option>
+        <!--rest is built by changeSemester-->
+      </select>
+    </div>
+  </div>
+    <div style="margin-top: 1em; margin-bottom: 1em;" class="title">
+      <span class="byline" id="video-description"></span>
+		</div>
+
+		<div class="ques-ans-container" id="ques-ans-container">
+			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
+			<button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
+			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button>
+			<button class="next-prev-button" id="next-button" onclick="nextQuestion()" style="float: right;">next</button>
+			<div class="ques-container" id="ques-container">
+				<img src="" id="questionImg" width="0%" height = "auto">
+			</div>
+			<div id="result-ques" class="">
+				<img src="" id="result-ques-img">
+				<p id="result-ques-text"></p>
+				<p id="result-ques-streak" style="color: #212121;float: right;margin-right: 10%;"></p>
+				<button onclick="scrollToDiv('eImg')">Show Video</button>
+			</div>
+			<div class="ans-container" id="ans-container">
+				<div class="ans-button" id="ans-button-A" onclick="changeOption('A')">
+					<div class="circle" id="circle-A">
+						<span class="circle-letter" id="circle-letter-A">A</span>
+					</div>
+					<img src="" id="aImg">
+				</div>
+				<div class="ans-button" id="ans-button-B" onclick="changeOption('B')">
+					<div class="circle" id="circle-B">
+						<span class="circle-letter" id="circle-letter-B">B</span>
+					</div>
+					<img src="" id="bImg">
+				</div>
+				<div class="ans-button" id="ans-button-C" onclick="changeOption('C')">
+					<div class="circle" id="circle-C">
+						<span class="circle-letter" id="circle-letter-C">C</span>
+					</div>
+					<img src="" id="cImg">
+				</div>
+				<div class="ans-button" id="ans-button-D" onclick="changeOption('D')">
+					<div class="circle" id="circle-D">
+						<span class="circle-letter" id="circle-letter-D">D</span>
+					</div>
+					<img src="" id="dImg">
+				</div>
+				<div class="ans-button" id="ans-button-E" onclick="changeOption('E')">
+					<div class="circle" id="circle-E">
+						<span class="circle-letter" id="circle-letter-E">E</span>
+					</div>
+					<img src="" id="eImg">
+				</div>
+			</div>
+			<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); updateVideo()">Submit Answer</button>
+			<button class="show-video" id="show-video" onclick='updateVideo(); scrollToDiv("eImg")'>Show Video</button>
+		</div>
+	<!-- This is the textbox that contains the users stats -->
+
+		<div class="" id="embeded-video" style="display: none">
+			<button class="next-prev-button" id="previous-button-bottom" onclick="prevQuestion()">prev</button>
+			<!-- <button class="similar-question" id="similar-question-bottom" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button> -->
+			<button class="next-prev-button" id="next-button-bottom" onclick="nextQuestion()" style="float: right; margin-bottom: 10px;">next</button>
+			<p align="left"></p>
+			<iframe id="video"  src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+		</div>
+
+
+  </div>
+<div id="copyright" class="container">
+  <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
+</div>
+
+
+
+</body>
+</html>

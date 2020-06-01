@@ -71,11 +71,11 @@ function epicycles(x, y, rotation, fourier) {
     x += radius * cos(freq * time + phase + rotation);
     y += radius * sin(freq * time + phase + rotation);
 
-    stroke(255, 100);
-    noFill();
     if(i < fourier.length / 10) {
+      stroke(255 - i * 3, 100 - i * 3);
+      noFill();
       ellipse(prevx, prevy, radius * 2);
-      stroke(255, 150);
+      stroke(255 - i * 3, 150 - i * 3);
       line(prevx, prevy, x, y);
     }
   }
@@ -191,25 +191,4 @@ function draw() {
     strokeWeight(0)
     text("Boilerexams", textxoff, textyoff)
   }
-  // else if(doneWith == 1) {
-  //   stroke(204, 187, 151);
-  //   strokeWeight(2)
-
-  //   fill(204, 187, 151);
-  //   textSize(textsz)
-  //   stroke(204, 187, 151);
-  //   strokeWeight(0)
-  //   text("Boiler", textxoff, textyoff)
-  // }
-}
-
-function writeFinalData (data) {
-  var toWriteListXml = config.exportPath + 'data.json',
-  toWriteData = JSON.stringify(data);
-  fs.writeFile(toWriteListXml, toWriteData, function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log("The file was saved!");
-  });
 }

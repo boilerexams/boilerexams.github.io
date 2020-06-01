@@ -601,7 +601,7 @@ function topicRanker() {
 }
 
 function animateStreak(startingStreak, endingStreak) {
-  let emojis = ["🧯", "🧊", "❄️", "⛄", "💧", "🌨", "🌧", "⛈", "🌊", "🌡", "🎉", "🧨", "🔥", "⚡", "⭐", "🌟", "💥", "🌶️", "🚂", "🚀", "🌋"]
+  let emojis = ["🧯", "❄️", "⛄", "💧", "🌨", "🌧", "⛈", "🌊", "🌡", "🎉", "🕯", "🧨", "🔥", "⚡", "⭐", "🌟", "💥", "🌶️", "🚂", "🚀", "🌋"]
 
   adjustedStreakVal = startingStreak
   if(startingStreak >= emojis.length) {

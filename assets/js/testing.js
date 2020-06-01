@@ -658,27 +658,27 @@ function topicRanker() {
   // streak()
 }
 
-function animateStreak(startingStreak, endingStreak) {
-  let emojis = ["🧯", "🧊", "❄️", "⛄", "💧", "🌨", "🌧", "⛈", "🌊", "🌡", "🎉", "🧨", "🔥", "⚡", "⭐", "🌟", "💥", "🌶️", "🚂", "🚀", "🌋"]
+// function animateStreak(startingStreak, endingStreak) {
+//   let emojis = ["🧯", "🧊", "❄️", "⛄", "💧", "🌨", "🌧", "⛈", "🌊", "🌡", "🎉", "🧨", "🔥", "⚡", "⭐", "🌟", "💥", "🌶️", "🚂", "🚀", "🌋"]
 
-  adjustedStreakVal = startingStreak
-  if(startingStreak >= emojis.length) {
-    adjustedStreakVal = emojis.length - 1;
-  }
+//   adjustedStreakVal = startingStreak
+//   if(startingStreak >= emojis.length) {
+//     adjustedStreakVal = emojis.length - 1;
+//   }
 
-  if(startingStreak == endingStreak) {
-    document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + endingStreak.toString() + " question streak! ";
-  }
-  document.getElementById("result-ques-streak").innerHTML = emojis[adjustedStreakVal] + startingStreak.toString();
+//   if(startingStreak == endingStreak) {
+//     document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + endingStreak.toString() + " question streak! ";
+//   }
+//   document.getElementById("result-ques-streak").innerHTML = emojis[adjustedStreakVal] + startingStreak.toString();
 
-  if(startingStreak > endingStreak) {
-    setTimeout(animateStreak, 150, startingStreak - 1, endingStreak)
-  }
+//   if(startingStreak > endingStreak) {
+//     setTimeout(animateStreak, 150, startingStreak - 1, endingStreak)
+//   }
 
-  if(startingStreak < endingStreak) {
-    setTimeout(animateStreak, 350, startingStreak +  1, endingStreak)
-  }
-}
+//   if(startingStreak < endingStreak) {
+//     setTimeout(animateStreak, 350, startingStreak +  1, endingStreak)
+//   }
+// }
 
 function scrollToDiv(divID) {
   document.querySelector('#' + divID).scrollIntoView({ 
@@ -721,9 +721,6 @@ function adjustWidth() {
     var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
     var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
     var margin = 10;
-    // console.log(statsLeft)
-    // console.log(quesRight)
-    // console.log("We have a problem here")
     document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
   } while(statsLeft < quesRight + margin && counter < 20);
 

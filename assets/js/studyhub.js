@@ -497,7 +497,7 @@ function updateVideo() {
 
   for(var i = 0; i < exams.length; i++) {
     if(exams[i].semester == semester && exams[i].exam == exam) {
-      if(exams[i].description[question-1] == exams[j].description[k-1]) {
+      if(!checkForOutliers(exams[i].link.concat(exams[i].timestamps[question-1]))) {
         document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
       }
       document.getElementById("video").style.display = "block";

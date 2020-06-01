@@ -365,3 +365,16 @@ var outliers = [
     badLink: "https://www.youtube.com/embed/iu5R6jrVJ8M?start=3180"
   }
 ]
+
+
+function checkForOutliers(sourceToCheck) {
+  for(var i = 0; i < outliers.length; i++) {
+    if(outliers[i].badLink == sourceToCheck) {
+      console.log(outliers[i].goodLink, outliers[i].badLink)
+      document.getElementById("video").src = outliers[i].goodLink;
+      console.log(document.getElementById("video").src)
+      return(1);
+    }
+  }
+  return(0); //Didn't find anything
+}

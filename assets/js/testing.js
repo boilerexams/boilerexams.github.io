@@ -731,19 +731,19 @@ function getScrollPercent() {
 function nextQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString();
   getImg();
-  //scrollToTop();
+  scrollToTop();
 }
 
 function prevQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) - 1).toString();
   getImg();
-  //scrollToTop();
+  scrollToTop();
 }
 
 function changeQuestion(value) {
   document.getElementById("question").value = parseInt(value);
   getImg();
-  //scrollToTop();
+  scrollToTop();
 }
 
 function adjustWidth() {
@@ -790,7 +790,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     opt.id = "question-button-".concat(i+1);
     opt.setAttribute("onClick", "changeQuestion(this.value)");
     var par = document.createElement("p");
-    par.innerText = "(00:00:00)";
+    par.innerText = "Not attempted";
     par.id = "question-button-p-".concat(i+1);
     opt.appendChild(par);
     node.appendChild(opt);
@@ -952,7 +952,8 @@ function millisToDisplayStr(millis) {
   minutes = adjustTimeForDisplay(minutes);
   seconds = adjustTimeForDisplay(seconds - 2);
   // console.log(hours + ":" + minutes + ":" + seconds)
-  return(hours + ":" + minutes + ":" + seconds)
+  var displaystr = hours + ":" + minutes + ":" + seconds
+  return(displaystr)
 }
 
 function exitFullExam() {

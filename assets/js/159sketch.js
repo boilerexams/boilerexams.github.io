@@ -11,7 +11,7 @@ let time = 0;
 // The array is filled with random values in setup() function.
 
 function preload() {
-  font = loadFont('OpenSans-ExtraBold.ttf')
+  font = loadFont('assets/js/font/OpenSans-ExtraBold.ttf')
 }
 
 function setup() {

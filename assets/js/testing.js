@@ -291,6 +291,8 @@ function getImg() {
       if(localStorage.getItem("Q" + question)) {
         // console.log("You previously answered " + localStorage.getItem("Q" + question) + " For question #" + question)
         changeOption(localStorage.getItem("Q" + question))
+        document.getElementById("submit-answer").disabled = true;
+        document.getElementById("submit-answer").style.cursor = "not-allowed";
       }
 
     }
@@ -405,7 +407,7 @@ function checkAnswer() {
   question = document.getElementById('question').value;
   //document.getElementById("ques-ans-container").style.cursor = "not-allowed";
   //document.getElementById("ques-ans-container").style.pointerEvents = "none";
-  document.getElementById("submit-answer").style.pointerEvents = "not-allowed";
+  document.getElementById("submit-answer").style.cursor = "not-allowed";
   document.getElementById("submit-answer").disabled = true;
   //document.getElementById("submit-answer").style.display = "none";
   document.getElementById("show-video").style.display = "none";

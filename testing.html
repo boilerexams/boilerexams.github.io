@@ -18,6 +18,7 @@ Released   : 20140309
 <meta name="description" content="" />
 <link href="https://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
 <link href="assets/css/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="assets/css/fullexam.css" rel="stylesheet" type="text/css" media="all" />
 <link href="assets/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
 <script src="assets/js/testing.js"></script>
 <link rel="icon" href="Images/boilerexams-logo.png">
@@ -55,7 +56,7 @@ Released   : 20140309
 	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 </script>
 
-<body onload="similarInfo = buildOnload()">
+<body onload="similarInfo = buildOnload()" onresize="windowResize()">
 
   <!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4N357Q"
@@ -82,19 +83,53 @@ Released   : 20140309
 	<div id="banner-class">
 		<div class="container">
 			<div class="title">
-				<h2>Taking Exam</h2>
+				<h2 id="title">Taking Exam</h2>
 				<span class="byline"></span> </div>
 		</div>
   </div>
 
-	<div class="controlmenu" id="controlmenu">
-		<div style="margin-top: -10px;">
-			<button class="full-exam-mode" id="full-exam-toggle" onclick="fullExamMode(2)">full exam mode</button>
-			<button class="full-exam-mode" id="exit-full-exam" onclick="exitFullExam()">exit full exam</button>
-			<p id="full-timer"></p>
-			<p id="question-split-timer"></p>
-			<p id="exam-history"></p>
+<div class="container-full" id="container-full">
+	<div class="sidemenu" id="sidemenu">
+		<div style="margin-top: 10px; margin-left: 20px; margin-right: 20px; margin-bottom: 10px;">
+			<button class="full-exam-mode" id="full-exam-toggle" style="display: none; margin: auto" onclick="fullExamMode(2)">full exam mode</button>
+			<button class="full-exam-mode" id="exit-full-exam" onclick="exitFullExam()" style="overflow: visible; margin: auto">exit full exam</button>
+			<!--<p id="full-timer" style="display: none"></p>-->
+			<p id="question-split-timer" style="display: none"></p>
+			<p id="exam-history" style="display: none"></p>
 		</div>
+		<div class="question-button" id="question-button">
+			<button class="question-button" id="question-button">Question 1
+				<p id="question-button-p-1">(00:00:00)</p>
+			</button>
+			<button class="question-button" id="question-button">Question 2
+				<p id="question-button-p-2">(00:00:00)</p>
+			</button>
+			<button class="question-button" id="question-button">Question 3
+				<p id="question-button-p-3">(00:00:00)</p>
+			</button>
+			<button class="question-button" id="question-button">Question 4
+				<p id="question-button-p-4">(00:00:00)</p>
+			</button>
+			<button class="question-button" id="question-button">Question 5
+				<p id="question-button-p-5">(00:00:00)</p>
+			</button>
+			<button class="question-button" id="question-button">Question 6</button>
+			<button class="question-button" id="question-button">Question 7</button>
+			<button class="question-button" id="question-button">Question 8</button>
+			<button class="question-button" id="question-button">Question 9</button>
+			<button class="question-button" id="question-button">Question 10</button>
+			<button class="question-button" id="question-button">Question 11</button>
+			<button class="question-button" id="question-button">Question 12</button>
+			<button class="question-button" id="question-button">Question 13</button>
+			<button class="question-button" id="question-button">Question 14</button>
+			<button class="question-button" id="question-button">Question 15</button>
+			<button class="question-button" id="question-button">Question 16</button>
+			<button class="question-button" id="question-button">Question 17</button>
+			<button class="question-button" id="question-button">Question 18</button>
+			<button class="question-button" id="question-button">Question 19</button>
+			<button class="question-button" id="question-button">Question 20</button>
+		</div>
+		<div style="border-top:1px solid #bebebe; padding-top: 30px"></div>
 	</div>
 
 	<div class="controlmenu" id="statsmenu" style="float: right; width: 300px; margin-right: 10px">
@@ -103,8 +138,6 @@ Released   : 20140309
 			<div id="bestTopicsBox"></div>
 		</div>
 	</div>
-
-	<div id="extra" class="container" style="margin-bottom: 50em;">
 		<!-- <div id="goawayplease" style="display=none; visibility: hidden;"> -->
    <div class="select-container" style="margin-top: -3em; display: none;" id="select-container">
     <div class="select">
@@ -126,10 +159,11 @@ Released   : 20140309
       <span class="byline" id="video-description"></span>
 		</div>
 
-		<div class="ques-ans-container" id="ques-ans-container">
+		<div class="ques-ans-container-full" id="ques-ans-container" style="text-align: center">
 			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
 			<!-- <button class="similar-question" id="similar-question" onclick="similarInfo = findSimilar(similarInfo[0], similarInfo[1])">similar question</button>
 			<button class="similar-question" id="random-question" onclick='similarInfo = findRandom()'>Random question</button> -->
+			<button class="full-timer" id="full-timer"></p>
 			<button class="next-prev-button" id="next-button" onclick="nextQuestion()" style="float: right;">next</button>
 			<div class="ques-container" id="ques-container">
 				<img src="" id="questionImg" width="0%" height = "auto">
@@ -172,9 +206,8 @@ Released   : 20140309
 					<img src="" id="eImg">
 				</div>
 			</div>
-			<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); updateVideo()">Submit Answer</button>
+			<button class="submit-answer" id="submit-answer" onclick="similarInfo = checkAnswer(); updateVideo()">Save Answer</button>
 			<button class="show-video" id="show-video" onclick='updateVideo(); scrollToDiv("eImg")'>Show Video</button>
-		</div>
 	<!-- This is the textbox that contains the users stats -->
 
 		<div class="" id="embeded-video" style="display: none">
@@ -186,7 +219,8 @@ Released   : 20140309
 		</div>
 
 
-  </div>
+	</div>
+</div>
 <div id="copyright" class="container">
   <p>&copy; Alex Rogers. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
 </div>

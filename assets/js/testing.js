@@ -115,7 +115,25 @@ function buildOnload() {
   document.getElementById("submit-answer").style.display = "inline-block";
   document.getElementById("submit-answer").style.cursor = "not-allowed";
 
+  document.getElementById("title").innerText = "Taking ".concat(document.getElementById("semester").value.concat(" Final")); // final placeholder
+
+  windowResize();
   getImg();
+}
+
+function windowResize() {
+  var windowWidth = window.innerWidth;
+  var windowHeight = window.innerHeight;
+  const containerWidth = 1310;
+  if(windowWidth <= containerWidth) {
+    document.getElementById("sidemenu").style.marginLeft = "20px";
+    document.getElementById("ques-ans-container").style.marginRight = "20px";
+  }
+  else {
+    document.getElementById("sidemenu").style.marginLeft = ((windowWidth - containerWidth)/2).toString().concat("px");
+  }
+  document.getElementById("sidemenu").style.height = (windowHeight-188).toString().concat("px");
+  document.getElementById("question-button").style.height = (windowHeight-285).toString().concat("px");
 }
 
 function changeSemester() {
@@ -157,13 +175,13 @@ function resetPage() {
   document.getElementById("submit-answer").style.display = "inline-block";
   document.getElementById("submit-answer").style.cursor = "not-allowed";
   document.getElementById("select-container").style.display = "none";
-  document.getElementById("ques-ans-container").style.margin = "auto";
+  //document.getElementById("ques-ans-container").style.margin = "auto";
   document.getElementById("show-video").style.display = "block";
   document.getElementById("exit-full-exam").style.display = "none";
-  document.getElementById("ques-ans-container").style.marginTop = "-5.3em";
+  //document.getElementById("ques-ans-container").style.marginTop = "-5.3em";
 
   if(document.getElementById("question").value != "Question #") {
-    document.getElementById("controlmenu").style.display = "block";
+    document.getElementById("sidemenu").style.display = "block";
     document.getElementById("statsmenu").style.display = "block";
     document.getElementById("statsmenu").style.width = "300px";
     document.getElementById("ques-ans-container").style.display = "block";
@@ -277,6 +295,11 @@ function getImg() {
 
     }
     
+    var node = document.getElementById("question-button");
+  
+    node.querySelectorAll('*').forEach(n => n.style = "");
+    questionNum = document.getElementById("question").value;
+    document.getElementById("question-button-".concat(questionNum)).style = "border: 2px solid #d0ba92; padding: 8px; padding-top: 9px;";
     return(returnPkg)
   }
 }
@@ -524,7 +547,7 @@ function checkAnswer() {
     {
       document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString(); 
       getImg();
-      scrollToDiv("extra");
+      scrollToDiv("container-full");
     }
   }
 
@@ -688,7 +711,7 @@ function scrollToDiv(divID) {
 
 function scrollToTop() {
   if(getScrollPercent() > 50) {
-    document.querySelector('#extra').scrollIntoView({ 
+    document.querySelector('.container-full').scrollIntoView({ 
       behavior: 'smooth' 
     });
   }
@@ -705,13 +728,19 @@ function getScrollPercent() {
 function nextQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString();
   getImg();
-  scrollToTop();
+  //scrollToTop();
 }
 
 function prevQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) - 1).toString();
   getImg();
-  scrollToTop();
+  //scrollToTop();
+}
+
+function changeQuestion(value) {
+  document.getElementById("question").value = parseInt(value);
+  getImg();
+  //scrollToTop();
 }
 
 function adjustWidth() {
@@ -736,6 +765,37 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
   document.getElementById("ques-ans-container").style.pointerEvents = "all";
   document.getElementById("exam-history").innerHTML = ''
   localStorage.setItem("inTest", 1)
+
+  var semester = document.getElementById("semester").value;
+  var exam = "Final"; // place holder
+  var numQuestions = 0;
+  
+  for(var i = 0; i < exams.length; i++) {
+    if(exams[i].semester == semester && exams[i].exam == exam) {
+      numQuestions = exams[i].timestamps.length;
+      break;
+    }
+  }
+  var node = document.getElementById("question-button");
+  
+  node.querySelectorAll('*').forEach(n => n.remove());
+
+  for(var i = 0; i < numQuestions; i++) {
+    var opt = document.createElement("button");
+    opt.appendChild(document.createTextNode("Question " + (i+1)));
+    opt.value = (i+1).toString();
+    opt.id = "question-button-".concat(i+1);
+    opt.setAttribute("onClick", "changeQuestion(this.value)");
+    var par = document.createElement("p");
+    par.innerText = "(00:00:00)";
+    par.id = "question-button-p-".concat(i+1);
+    opt.appendChild(par);
+    node.appendChild(opt);
+  }
+
+  var border = document.createElement("div");
+  border.style.borderTop = "1px solid #bebebe"
+  node.appendChild(border);
 
   var examPos = findExam();
   imagesRequested = 0;
@@ -853,6 +913,7 @@ function displayExamProgress() {
   var timeStr = ''
 
   for(i = 1; i < exams[examPos].timestamps.length + 1; i++) {
+    var button = document.getElementById("question-button-p-".concat(i.toString()));
     if(localStorage.getItem("Q" + i.toString())) {
       timeStr = millisToDisplayStr(parseInt(localStorage.getItem("Qtime" + i.toString())))
 
@@ -860,6 +921,7 @@ function displayExamProgress() {
         timeStr = "00:00:00"
       }
       examHistory +=  i.toString() + ": " + " (" + timeStr + ')<br>'
+      button.innerText = "(" + timeStr + ")";
     }
     else {
       examHistory += i.toString() + ": <br>"

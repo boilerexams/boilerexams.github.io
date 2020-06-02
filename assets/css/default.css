@@ -239,6 +239,7 @@ select {
 	border: 1px solid #a1a1a1;
 	border-radius: 10px;
 	overflow: hidden;
+	background: #ffffff;
 }
 
 .ques-container {
@@ -248,6 +249,7 @@ select {
 
 .ques-container img{
 	padding-top: 20px;
+	padding-left: 0.5em;
 	margin: auto;
 }
 
@@ -1161,3 +1163,4 @@ select {
 		margin-top: 10px;
 		background: #ffffff
 	}
+

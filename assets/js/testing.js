@@ -82,6 +82,7 @@ var timeOfLastExecution = 0;
 var currentTime;
 var timeDiff;
 var imagesRequested = 0;
+var currentExam;
 
 //SCROLL TO THE TOP WHEN RELOAD
 window.onbeforeunload = function () {
@@ -776,6 +777,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
   for(var i = 0; i < exams.length; i++) {
     if(exams[i].semester == semester && exams[i].exam == exam) {
       numQuestions = exams[i].timestamps.length;
+      currentExam = exams[i];
       break;
     }
   }

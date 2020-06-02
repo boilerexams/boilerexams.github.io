@@ -403,10 +403,11 @@ function checkAnswer() {
   var exam = "Final"; // placeholder
   semester = document.getElementById('semester').value;
   question = document.getElementById('question').value;
-  document.getElementById("ques-ans-container").style.cursor = "not-allowed";
-  document.getElementById("ques-ans-container").style.pointerEvents = "none";
-  document.getElementById("submit-answer").style.pointerEvents = "none";
-  document.getElementById("submit-answer").style.display = "none";
+  //document.getElementById("ques-ans-container").style.cursor = "not-allowed";
+  //document.getElementById("ques-ans-container").style.pointerEvents = "none";
+  document.getElementById("submit-answer").style.pointerEvents = "not-allowed";
+  document.getElementById("submit-answer").disabled = true;
+  //document.getElementById("submit-answer").style.display = "none";
   document.getElementById("show-video").style.display = "none";
   questionBegan = 0;
   localStorage.setItem("unixTimeElapsedSinceSubmit", 0)
@@ -542,14 +543,14 @@ function checkAnswer() {
     document.getElementById("embeded-video").style.display = "none"
   }
 
-  if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
+  /*if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
     if(parseInt(document.getElementById("question").value) < exams[findExam()].timestamps.length) 
     {
       document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString(); 
       getImg();
       scrollToDiv("container-full");
     }
-  }
+  }*/
 
   return(returnPkg)
 }

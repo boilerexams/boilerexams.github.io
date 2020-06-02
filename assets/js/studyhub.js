@@ -82,6 +82,7 @@ var timeOfLastExecution = 0;
 var currentTime;
 var timeDiff;
 var imagesRequested = 0;
+var topicArray = []
 
 //SCROLL TO THE TOP WHEN RELOAD
 window.onbeforeunload = function () {
@@ -89,6 +90,11 @@ window.onbeforeunload = function () {
 }
 
 function buildOnload() {
+  topicArray = initTopicArray();
+  if(!topicArray) {
+    topicArray = JSON.parse(localStorage.getItem("topicArray"))
+  }
+
   localStorage.setItem("currentClass", 'MA266');
   for(var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
@@ -385,24 +391,20 @@ function checkAnswer() {
 
   localStorage.setItem('answerState', answerState.toString());
 
-  if (!localStorage.getItem('totalAnswers')) {
-    localStorage.setItem('totalAnswers', '0');
-  }
-  if (!localStorage.getItem('totalCorrect')) {
-    localStorage.setItem('totalCorrect', '0');
-  }
+  // if (!localStorage.getItem('totalAnswers')) {
+  //   localStorage.setItem('totalAnswers', '0');
+  // }
+  // if (!localStorage.getItem('totalCorrect')) {
+  //   localStorage.setItem('totalCorrect', '0');
+  // }
 
-  totAns = parseInt(localStorage.getItem('totalAnswers'));
-  localStorage.setItem('totalAnswers', (totAns + 1).toString())
+  // totAns = parseInt(localStorage.getItem('totalAnswers'));
+  // localStorage.setItem('totalAnswers', (totAns + 1).toString())
 
-  if(answerState == 1) {
-    totCorrect = parseInt(localStorage.getItem('totalCorrect'));
-    localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
-  }
-
-  overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
-  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
-
+  // if(answerState == 1) {
+  //   totCorrect = parseInt(localStorage.getItem('totalCorrect'));
+  //   localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
+  // }
 
   var descPos = -1
   var deltaCorrect = 0
@@ -423,33 +425,38 @@ function checkAnswer() {
   }
   if(descPos != -1)
   {
-    if(!localStorage.getItem(descPos.toString().concat('answered')))
-    {
-      localStorage.setItem(descPos.toString().concat('answered'), '0')
-    }
+    // if(!localStorage.getItem(descPos.toString().concat('answered')))
+    // {
+    //   localStorage.setItem(descPos.toString().concat('answered'), '0')
+    // }
 
-    localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
+    //localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
     
-    if(!localStorage.getItem(descPos.toString().concat('correct')))
-    {
-      localStorage.setItem(descPos.toString().concat('correct'), '0')
-    }
+    // if(!localStorage.getItem(descPos.toString().concat('correct')))
+    // {
+    //   localStorage.setItem(descPos.toString().concat('correct'), '0')
+    // }
 
     if(!localStorage.getItem('streak'))
     {
       localStorage.setItem('streak', '0')
     }
     var pastStreak = parseInt(localStorage.getItem('streak'))
+    topicArray[descPos].totalAnswered += 1;
+    topicArray[topicArray.length - 1].overallTotalAnswered += 1
 
     if(answerState == 1)
     {
       deltaCorrect = 1
-      localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+      //localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
       localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
-
       animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
       document.getElementById("result-ques-streak").style.marginRight = "5%"
+
+      topicArray[descPos].totalCorrect += 1;
+      topicArray[topicArray.length - 1].overallTotalCorrect += 1
     }
+
     if(answerState == 0) {
       localStorage.setItem('streak', '0')
       document.getElementById("result-ques-streak").style.marginLeft = "3%"
@@ -459,13 +466,18 @@ function checkAnswer() {
     }
   }
 
-  var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
-  var totalTopicCorrect = parseInt(localStorage.getItem(descPos.toString().concat('correct')))
-  topicPercent = (parseFloat(localStorage.getItem(descPos.toString().concat('correct')) / parseFloat(localStorage.getItem(descPos.toString().concat('answered'))) * 100))
+  //var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
+  var totalTopicAnswered = topicArray[descPos].totalAnswered;
+  //var totalTopicCorrect = parseInt(localStorage.getItem(descPos.toString().concat('correct')))
+  var totalTopicCorrect = topicArray[descPos].totalCorrect;
+  topicPercent = totalTopicCorrect / totalTopicAnswered * 100
   oldPercent = ((totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100)
 
   if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = 0} //Detects and fixes NaNs
   if(!(oldPercent >= 0 || oldPercent < 0)) {oldPercent = 0} //Detects and fixes NaNs
+
+  overallPercent = (topicArray[topicArray.length - 1].overallTotalCorrect / topicArray[topicArray.length - 1].overallTotalAnswered * 100).toFixed(2)
+  document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
 
   document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time" + "<br>"
 
@@ -475,11 +487,12 @@ function checkAnswer() {
     if(exams[i].semester == semester && exams[i].exam == exam) {
       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
       returnPkg = [i, question]
-    }  
+    }
   }
 
   topicRanker() //Performs more computations relating to user performance
 
+  localStorage.setItem("topicArray", JSON.stringify(topicArray))
   return(returnPkg)
 }
 

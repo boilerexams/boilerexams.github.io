@@ -391,21 +391,6 @@ function checkAnswer() {
 
   localStorage.setItem('answerState', answerState.toString());
 
-  // if (!localStorage.getItem('totalAnswers')) {
-  //   localStorage.setItem('totalAnswers', '0');
-  // }
-  // if (!localStorage.getItem('totalCorrect')) {
-  //   localStorage.setItem('totalCorrect', '0');
-  // }
-
-  // totAns = parseInt(localStorage.getItem('totalAnswers'));
-  // localStorage.setItem('totalAnswers', (totAns + 1).toString())
-
-  // if(answerState == 1) {
-  //   totCorrect = parseInt(localStorage.getItem('totalCorrect'));
-  //   localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
-  // }
-
   var descPos = -1
   var deltaCorrect = 0
 
@@ -425,18 +410,6 @@ function checkAnswer() {
   }
   if(descPos != -1)
   {
-    // if(!localStorage.getItem(descPos.toString().concat('answered')))
-    // {
-    //   localStorage.setItem(descPos.toString().concat('answered'), '0')
-    // }
-
-    //localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
-    
-    // if(!localStorage.getItem(descPos.toString().concat('correct')))
-    // {
-    //   localStorage.setItem(descPos.toString().concat('correct'), '0')
-    // }
-
     if(!localStorage.getItem('streak'))
     {
       localStorage.setItem('streak', '0')
@@ -448,7 +421,6 @@ function checkAnswer() {
     if(answerState == 1)
     {
       deltaCorrect = 1
-      //localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
       localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
       animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
       document.getElementById("result-ques-streak").style.marginRight = "5%"
@@ -466,9 +438,7 @@ function checkAnswer() {
     }
   }
 
-  //var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
   var totalTopicAnswered = topicArray[descPos].totalAnswered;
-  //var totalTopicCorrect = parseInt(localStorage.getItem(descPos.toString().concat('correct')))
   var totalTopicCorrect = topicArray[descPos].totalCorrect;
   topicPercent = totalTopicCorrect / totalTopicAnswered * 100
   oldPercent = ((totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 100)
@@ -587,10 +557,12 @@ function findRandom() {
 function topicRanker() {
   topicPercents = [];
 
+  
+  
   for(var i = 0; i < descriptions.length; i++)
   {
     description = descriptions[i];
-    topicPercent = (parseFloat(localStorage.getItem(i.toString().concat('correct')) / parseFloat(localStorage.getItem(i.toString().concat('answered'))) * 100)).toFixed(2)
+    topicPercent = ((topicArray[i].totalCorrect / topicArray[i].totalAnswered) * 100).toFixed(2)
     if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = -1}; //Detects and fixes NaNs
     topicPercents[topicPercents.length] = {descPlace: i, percent: parseFloat(topicPercent)};
   }
@@ -610,8 +582,8 @@ function topicRanker() {
       document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + "<br>";
     }
   }
-  if(parseInt(localStorage.getItem("totalAnswers")) < 20) {
-    document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
+  if(topicArray[topicArray.length - 1].overallTotalAnswered < 20) {
+    document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - topicArray[topicArray.length - 1].overallTotalAnswered).toString() + " more questions to see in-depth stats<br>"
   }
 }
 

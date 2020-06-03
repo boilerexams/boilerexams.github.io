@@ -100,11 +100,21 @@ Released   : 20140309
 							localStorage.setItem('reviewMode', 0)
 						}
 						if(document.getElementById('semester').value != 'semester') {
+
+							topicArray = initTopicArray();
+							if (!topicArray) {
+								topicArray = JSON.parse(localStorage.getItem('topicArray'))
+							}
+
 							currentSem = document.getElementById('semester').value;
 							localStorage.setItem('takeExam', currentSem);
-							topicArray = JSON.parse(localStorage.getItem('topicArray'))
 							topicArray[topicArray.length - 1].updated = 0;
 							localStorage.setItem('topicArray', JSON.stringify(topicArray))
+							localStorage.removeItem('unixTime');
+							localStorage.removeItem('unixTimeRemaining');
+							localStorage.removeItem('unixTimeElapsedSinceSubmit');
+							localStorage.removeItem('countDownDate')
+
 							window.location.href='testing.html';
 						}
 						"

@@ -90,7 +90,12 @@ window.onbeforeunload = function () {
 }
 
 function buildOnload() {
-  console.log("We building")
+    topicArray = initTopicArray();
+    if(!topicArray) {
+      topicArray = JSON.parse(localStorage.getItem("topicArray"))
+    }
+
+
   localStorage.setItem("reviewMode", 0);
   for(var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
@@ -107,7 +112,7 @@ function buildOnload() {
   document.getElementById("question").value = "1"
   changeSemester()
   document.getElementById("full-exam-toggle").innerHTML == "Now taking exam"
-  fullExamMode(2)//change
+  fullExamMode(2)
   document.getElementById("question").value -= 1
   checkAnswer()
   document.getElementById("question").value = 1
@@ -440,25 +445,26 @@ function checkAnswer() {
 
   localStorage.setItem('answerState', answerState.toString());
 
-  if (!localStorage.getItem('totalAnswers')) {
-    localStorage.setItem('totalAnswers', '0');
-  }
-  if (!localStorage.getItem('totalCorrect')) {
-    localStorage.setItem('totalCorrect', '0');
-  }
+  // if (!localStorage.getItem('totalAnswers')) {
+  //   localStorage.setItem('totalAnswers', '0');
+  // }
+  // if (!localStorage.getItem('totalCorrect')) {
+  //   localStorage.setItem('totalCorrect', '0');
+  // }
 
-  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    totAns = parseInt(localStorage.getItem('totalAnswers'));
-    localStorage.setItem('totalAnswers', (totAns + 1).toString())
+  // if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+  //   totAns = parseInt(localStorage.getItem('totalAnswers'));
+  //   localStorage.setItem('totalAnswers', (totAns + 1).toString())
 
-    if(answerState == 1) {
-      totCorrect = parseInt(localStorage.getItem('totalCorrect'));
-      localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
-    }
+  //   if(answerState == 1) {
+  //     // totCorrect = parseInt(localStorage.getItem('totalCorrect'));
+  //     // localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
+  //     topicArray[topicArray.length - 1].totalCorrect += 1
+  //   }
 
-    overallPercent = (parseInt(localStorage.getItem('totalCorrect')) / parseInt(localStorage.getItem('totalAnswers')) * 100).toFixed(2)
-    document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
-  }
+  //   overallPercent = (topicArray[topicArray.length - 1].overallTotalCorrect / topicArray[topicArray.length - 1].overallTotalAnswered * 100).toFixed(2)
+  //   document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
+  // }
 
   var descPos = -1
   var deltaCorrect = 0
@@ -479,19 +485,19 @@ function checkAnswer() {
   }
   if(descPos != -1)
   {
-    if(!localStorage.getItem(descPos.toString().concat('answered')))
-    {
-      localStorage.setItem(descPos.toString().concat('answered'), '0')
-    }
+    // if(!localStorage.getItem(descPos.toString().concat('answered')))
+    // {
+    //   localStorage.setItem(descPos.toString().concat('answered'), '0')
+    // }
 
-    if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-      localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
-    }
+    // if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+    //   localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
+    // }
     
-    if(!localStorage.getItem(descPos.toString().concat('correct')))
-    {
-      localStorage.setItem(descPos.toString().concat('correct'), '0')
-    }
+    // if(!localStorage.getItem(descPos.toString().concat('correct')))
+    // {
+    //   localStorage.setItem(descPos.toString().concat('correct'), '0')
+    // }
 
     if(!localStorage.getItem('streak'))
     {
@@ -503,7 +509,7 @@ function checkAnswer() {
       if(answerState == 1)
       {
         deltaCorrect = 1
-        localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
+        // localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
         localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
 
         animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
@@ -732,19 +738,19 @@ function getScrollPercent() {
 function nextQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString();
   getImg();
-  //scrollToTop();
+  scrollToTop();
 }
 
 function prevQuestion() {
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) - 1).toString();
   getImg();
-  //scrollToTop();
+  scrollToTop();
 }
 
 function changeQuestion(value) {
   document.getElementById("question").value = parseInt(value);
   getImg();
-  //scrollToTop();
+  scrollToTop();
 }
 
 function adjustWidth() {
@@ -797,7 +803,7 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     img.className = "answer-img";
     opt.appendChild(img); 
     var par = document.createElement("p");
-    par.innerText = "Not Attempted";
+    par.innerText = "Not attempted";
     par.id = "question-button-p-".concat(i+1);
     opt.appendChild(par);
     node.appendChild(opt);
@@ -891,7 +897,6 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
       localStorage.removeItem("unixTime");
       localStorage.removeItem("unixTimeRemaining");
       localStorage.removeItem("unixTimeElapsedSinceSubmit");
-      exitFullExam();
     }
   }, 1000);
 }
@@ -960,7 +965,8 @@ function millisToDisplayStr(millis) {
   minutes = adjustTimeForDisplay(minutes);
   seconds = adjustTimeForDisplay(seconds - 2);
   // console.log(hours + ":" + minutes + ":" + seconds)
-  return(hours + ":" + minutes + ":" + seconds)
+  var displaystr = hours + ":" + minutes + ":" + seconds
+  return(displaystr)
 }
 
 function exitFullExam() {
@@ -1004,10 +1010,12 @@ function examExitAnalysis(CSVans) {
     timesran += 1
   }
 
+  topicArray[topicArray.length - 1].overallTotalAnswered += usersFullExamAnswers.length;
+  topicArray[topicArray.length - 1].overallTotalTimed += usersFullExamAnswers.length;
+
   for(var i = 0; i < usersFullExamAnswers.length; i++) {
     qnum = parseInt(usersFullExamAnswers[i][0].slice(0,-1))
-    ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]
-    localStorage.setItem("totalAnswers", (parseInt(localStorage.getItem("totalAnswers")) + 1).toString())
+    ansChoice = usersFullExamAnswers[i][0][usersFullExamAnswers[i][0].length - 1]    
 
     if(fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
@@ -1016,9 +1024,13 @@ function examExitAnalysis(CSVans) {
 
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
-          localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
-          localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
+          // localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
+          // localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
+          // localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
+          topicArray[j].totalAnswered += 1;
+          topicArray[j].totalCorrect += 1;
+          topicArray[topicArray.length - 1].overallTotalCorrect += 1;
+
           description = descriptions[j]
           descPos = j
         }
@@ -1031,28 +1043,46 @@ function examExitAnalysis(CSVans) {
 
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
+          // localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
           description = descriptions[j]
           descPos = j
+          topicArray[j].totalAnswered += 1;
         }
       }
     }
+
     timeTaken = parseInt(localStorage.getItem("Qtime" + qnum.toString())) - 1000;
 
     if(description == descriptions[descPos]) {
-      if(!localStorage.getItem(descPos.toString() + "timed")) {
-        localStorage.setItem(descPos.toString() + "timed", 0)
-      }
-      if(!localStorage.getItem(descPos.toString() + "timeavg")) {
-        localStorage.setItem(descPos.toString() + "timeavg", 0)
-      }
-      if(!(timeTaken >= 0 || timeTaken < 0)) {timeTaken = 0} //Detects and fixes NaNs
+      // if(!localStorage.getItem(descPos.toString() + "timed")) {
+      //   localStorage.setItem(descPos.toString() + "timed", 0)
+      // }
+      // if(!localStorage.getItem(descPos.toString() + "timeavg")) {
+      //   localStorage.setItem(descPos.toString() + "timeavg", 0)
+      // }
 
-      localStorage.setItem(descPos.toString() + "timed", (parseInt(localStorage.getItem(descPos.toString() + "timed")) + 1).toString())
-      oldAvg = parseInt(localStorage.getItem(descPos.toString() + "timeavg"))
-      oldSampleSize = parseInt(localStorage.getItem(descPos.toString() + "timed")) - 1;
+      // if(!(timeTaken >= 0 || timeTaken < 0)) {timeTaken = 0} //Detects and fixes NaNs
+      if(timeTaken == undefined || timeTaken == null || isNaN(timeTaken) || timeTaken < 0) {
+        timeTaken = 0;
+      }
+
+      // localStorage.setItem(descPos.toString() + "timed", (parseInt(localStorage.getItem(descPos.toString() + "timed")) + 1).toString())
+      topicArray[descPos].totalTimed += 1;
+
+      oldAvg = topicArray[descPos].avgTime;
+      oldSampleSize = topicArray[descPos].totalTimed - 1;
       newAvg = (oldSampleSize) / (oldSampleSize + 1) * oldAvg + timeTaken / (oldSampleSize + 1)
-      localStorage.setItem(descPos.toString() + "timeavg", newAvg)
+      topicArray[descPos].avgTime = newAvg;
+
+      totalTime = 0;
+      totalTopicsTimed = 0;
+      // for(var i = 0; i < topicArray.length - 1; i++) {
+      //   if(parse != 0) {
+      //     totalTime += parseInt("Qtime" )
+      //   }
+      // }
+      
+      topicArray[topicArray.length - 1].overallAvgTime = newAvg;
       }
   }
 
@@ -1060,6 +1090,8 @@ function examExitAnalysis(CSVans) {
     localStorage.removeItem("Qtime" + i.toString())
   }
   usersFullExamAnswers = []
+
+  localStorage.setItem("topicArray", JSON.stringify(topicArray))
 }
 
 function getTimeDiff() {
@@ -1077,8 +1109,8 @@ function getTimeDiff() {
 }
 
 function avgTopicTime(descPos) {
-  if(descPos > -1 && localStorage.getItem(descPos.toString() + "timeavg")) {
-    return(" avg time: " + millisToDisplayStr(parseInt(localStorage.getItem(descPos.toString() + "timeavg")) + 1000) + " ")
+  if(descPos > -1 && topicArray[descPos].avgTime > 0) {
+    return(" avg time: " + millisToDisplayStr(topicArray[descPos].avgTime + 1000) + " ")
   }
   else {
     return(" avg time: --:--:-- ")

@@ -188,17 +188,16 @@ document.getElementById("exit-full-exam").style.display = "none";
 
 if(document.getElementById("question").value != "Question #") {
   document.getElementById("sidemenu").style.display = "block";
-  document.getElementById("statsmenu").style.display = "block";
-  document.getElementById("statsmenu").style.width = "300px";
+  // document.getElementById("statsmenu").style.display = "block";
+  // document.getElementById("statsmenu").style.width = "300px";
   document.getElementById("ques-ans-container").style.display = "block";
-  document.getElementById("answerBox").innerHTML = "";
-  document.getElementById("bestTopicsBox").innerHTML = "";
+  // document.getElementById("bestTopicsBox").innerHTML = "";
 }
 
 if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
   document.getElementById("select-container").style.display = "none";
   document.getElementById("show-video").style.display = "none";
-  document.getElementById("statsmenu").style.display = "none";
+  // document.getElementById("statsmenu").style.display = "none";
   document.getElementById("exit-full-exam").style.display = "block";
 }
 
@@ -340,9 +339,9 @@ img.onload = function() {
     document.getElementById("ques-container").style.marginLeft = "40px";
     document.getElementById("ques-container").style.marginRight = "400px";
   }
-  if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    adjustWidth();
-  }
+  // if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+  //   adjustWidth();
+  // }
 }
 img.src = imgSource;
 }
@@ -379,7 +378,6 @@ fetch(txtSource)
       timesran += 1
     }
     console.log("For testing purposes: the answer is " + resp[0].toString())
-    document.getElementById("answerBox").innerHTML = "For testing purposes: answer is " + resp[0].toString();
     answer = resp[0]
 })
 .catch(function (response) {
@@ -533,7 +531,7 @@ oldPercent = ((totalTopicCorrect - deltaCorrect) / (totalTopicAnswered - 1) * 10
 if(!(topicPercent >= 0 || topicPercent < 0)) {topicPercent = 0} //Detects and fixes NaNs
 if(!(oldPercent >= 0 || oldPercent < 0)) {oldPercent = 0} //Detects and fixes NaNs
 
-document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time" + "<br>"
+// document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time" + "<br>"
 
 question = parseInt(question);
 
@@ -667,26 +665,26 @@ for(var i = 0; i < descriptions.length; i++)
 }
 topicPercents.sort(function(a, b){return b.percent-a.percent})
 //("\n\nYour best topics are: ")
-document.getElementById("bestTopicsBox").innerHTML += "<br>Your best topics are: <br>"
+// document.getElementById("bestTopicsBox").innerHTML += "<br>Your best topics are: <br>"
 
 for(i = 0; i < topicPercents.length; i++) {
  // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "% correct)")
  if(topicPercents[i].percent > 0) {
-  document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%)" + avgTopicTime(topicPercents[i].descPlace) + "<br>"
+  // document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + " (" + topicPercents[i].percent.toString() + "%)" + avgTopicTime(topicPercents[i].descPlace) + "<br>"
  }
 }
 
-document.getElementById("bestTopicsBox").innerHTML += "<br>You haven't tried these topics:<br>";
+// document.getElementById("bestTopicsBox").innerHTML += "<br>You haven't tried these topics:<br>";
 // console.log("\n\nYou haven't tried these topics: ")
 
 for(i = 0; i < topicPercents.length; i++) {
   if(topicPercents[i].percent == -1) {
-    document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + "<br>";
+    // document.getElementById("bestTopicsBox").innerHTML += (i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace] + "<br>";
    // console.log((i + 1).toString() + ": " + descriptions[topicPercents[i].descPlace])
   }
 }
 if(parseInt(localStorage.getItem("totalAnswers")) < 20) {
-  document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
+  // document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
 }
 // streak()
 }
@@ -753,20 +751,20 @@ getImg();
 scrollToTop();
 }
 
-function adjustWidth() {
-var counter = 0;
-do {
-  counter += 1;
-  var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
-  var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
-  var margin = 10;
-  document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
-} while(statsLeft < quesRight + margin && counter < 20);
+// function adjustWidth() {
+// var counter = 0;
+// do {
+//   counter += 1;
+//   // var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
+//   // var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
+//   var margin = 10;
+//   document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
+// } while(statsLeft < quesRight + margin && counter < 20);
 
-if(counter == 20) {
-  console.log("Couldn't resize correctly")
-}
-}
+// if(counter == 20) {
+//   console.log("Couldn't resize correctly")
+// }
+// }
 
 function fullExamMode(examTimeLimit) { //Exam time limit in hours  
 document.getElementById("question").value = "1";

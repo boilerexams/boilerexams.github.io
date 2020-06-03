@@ -102,6 +102,9 @@ Released   : 20140309
 						if(document.getElementById('semester').value != 'semester') {
 							currentSem = document.getElementById('semester').value;
 							localStorage.setItem('takeExam', currentSem);
+							topicArray = JSON.parse(localStorage.getItem('topicArray'))
+							topicArray[topicArray.length - 1].updated = 0;
+							localStorage.setItem('topicArray', JSON.stringify(topicArray))
 							window.location.href='testing.html';
 						}
 						"

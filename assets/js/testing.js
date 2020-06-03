@@ -7,7 +7,8 @@ var exams = [
     description: ["Autonomous equation stability", "Autonomous equation stability", "Separation of variables", "Freefall differential equations",
       "Exact equations", "Exact equations", "Euler's method", "Characteristic equation", "Spring-mass systems", "Undetermined coefficients", "Variation of parameters",
       "Phase plane identification", "Matrix exponential", "Homogeneous system of differential equations", "Nonhomogeneous system of differential equations",
-      "Laplace of a system of equations", "Piecewise Laplace transform", "Laplace transform", "Laplace initial value problem", "Laplace initial value problem"]
+      "Laplace of a system of equations", "Piecewise Laplace transform", "Laplace transform", "Laplace initial value problem", "Laplace initial value problem"],
+    answers: ['C','B','B','E','D','D','E','A','B','A','C','D','C','A','E','B','E','C','A','D']
   },
   {
     semester: "2019 Spring",
@@ -17,7 +18,8 @@ var exams = [
     description: ["Existence and Uniqueness theorem", "Integrating factor", "Separation of variables", "Exact equations", "Characteristic equation",
       "Reduction of order", "Variation of parameters", "Homogeneous differential equation", "Undetermined coefficients", "Laplace transform",
       "Laplace initial value problem", "Laplace transform", "Unit step functions", "Laplace initial value problem", "Inverse Laplace transform",
-      "Phase plane identification", "Homogeneous system of differential equations", "Nonhomogeneous system of differential equations", "Homogeneous system of differential equations", "Complex eigenvalues"]
+      "Phase plane identification", "Homogeneous system of differential equations", "Nonhomogeneous system of differential equations", "Homogeneous system of differential equations", "Complex eigenvalues"],
+    answers: ['B','C','B','E','D','E','C','C','B','B','E','C','B','D','A','A','D','C','B','C']
   },
   {
     semester: "2018 Fall",
@@ -27,7 +29,8 @@ var exams = [
     description: ["Separation of variables", "Salt tank applications", "Exact equations", "Homogeneous differential equation", "Euler's method",
       "Integrating factor", "Autonomous equation stability", "Characteristic equation", "Variation of parameters", "Spring-mass systems",
       "Characteristic equation", "Undetermined coefficients", "Reduction of order", "Inverse Laplace transform", "Laplace initial value problem",
-      "Laplace initial value problem", "Piecewise Laplace transform", "Complex eigenvalues", "Phase plane identification", "Nonhomogeneous system of differential equations"]
+      "Laplace initial value problem", "Piecewise Laplace transform", "Complex eigenvalues", "Phase plane identification", "Nonhomogeneous system of differential equations"],
+    answers: ['D','B','E','C','B','D','B','E','C','A','D','E','E','C','B','A','A','C','A','D']
   },
   {
     semester: "2018 Spring",
@@ -37,7 +40,8 @@ var exams = [
     description: ["Separation of variables", "Euler's method", "Existence and Uniqueness theorem", "Autonomous equation stability", "Homogeneous differential equation",
       "Integrating factor", "Exact equations", "Autonomous equation stability", "Undetermined coefficients", "Characteristic equation",
       "Spring-mass systems", "Reduction of order", "Characteristic equation", "Variation of parameters", "Inverse Laplace transform",
-      "Laplace initial value problem", "Laplace transform", "Phase plane identification", "Multiple eigenvalues", "Complex eigenvalues"]
+      "Laplace initial value problem", "Laplace transform", "Phase plane identification", "Multiple eigenvalues", "Complex eigenvalues"],
+    answers: ['A','C','D','C','C','A','E','B','A','E','C','B','C','A','D','D','B','A','E','B']
   },
   {
     semester: "2017 Fall",
@@ -47,7 +51,9 @@ var exams = [
     description: ["Autonomous equation stability", "Integrating factor", "Separation of variables", "Salt tank applications", "Euler's method",
       "Exact equations", "Characteristic equation", "Existence and Uniqueness theorem", "Reduction of order", "Spring-mass systems",
       "Variation of parameters", "Characteristic equation", "Undetermined coefficients", "Piecewise Laplace transform", "Laplace initial value problem",
-      "Inverse Laplace transform", "Laplace transform", "Phase plane identification", "Homogeneous system of differential equations", "Multiple eigenvalues"]
+      "Inverse Laplace transform", "Laplace transform", "Phase plane identification", "Homogeneous system of differential equations", "Multiple eigenvalues"],
+    answers: ['A','C','D','C','B','D','C','D','B','E','A','E','D','A','B','B','E','B','E','C']
+    
   },
   {
     semester: "2017 Spring",
@@ -57,7 +63,8 @@ var exams = [
     description: ["Integrating factor", "Separation of variables", "Salt tank applications", "Homogeneous differential equation", "Exact equations",
       "Autonomous equation stability", "Euler's method", "Existence and Uniqueness theorem", "Reduction of order", "Variation of parameters",
       "Electric circuits", "Undetermined coefficients", "Undetermined coefficients", "Inverse Laplace transform", "Piecewise Laplace transform",
-      "Laplace initial value problem", "Laplace transform", "Phase plane identification", "Multiple eigenvalues", "Fundamental matrix"]
+      "Laplace initial value problem", "Laplace transform", "Phase plane identification", "Multiple eigenvalues", "Fundamental matrix"],
+    answers: ['C','E','C','C','C','A','E','E','B','D','B','D','A','B','B','E','A','D','A','D']
   }
 ];
 
@@ -90,6 +97,8 @@ window.onbeforeunload = function () {
 }
 
 function buildOnload() {
+  usersFullExamAnswers = []
+
   topicArray = initTopicArray();
   if (!topicArray) {
     topicArray = JSON.parse(localStorage.getItem("topicArray"))
@@ -123,6 +132,10 @@ function buildOnload() {
 
   windowResize();
   getImg();
+
+  if(localStorage.getItem("reviewMode") == '1') {
+    exitFullExam()
+  }
 }
 
 function windowResize() {
@@ -209,6 +222,13 @@ function resetPage() {
   document.getElementById("embeded-video").style.display = "none";
   document.getElementById("next-button-bottom").disabled = false;
   document.getElementById("previous-button-bottom").disabled = false;
+
+  if(localStorage.getItem("reviewMode") == 1) {
+    document.getElementById("submit-answer").style.display = "none";
+    document.getElementById("ans-container").style.pointerEvents = "none";
+    updateVideo();
+    document.getElementById("return-to-studyhub").style.display = "block"
+  }
 }
 
 function getImg() {
@@ -255,7 +275,11 @@ function getImg() {
 
     //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/answers/MA 266-ANS/ANS-MA 266-FE-F-2017.txt
     //https://raw.githubusercontent.com/boilerexams/boilerexams.github.io/master/python-pdf/MA266edited/266-FE-S-2019/questions/Q1.png
-    getCorrect(txt, question)
+    console.log("Getting correct")
+    getCorrect()
+    if(localStorage.getItem("reviewMode") == '1') {
+      displayAnswerForReview()
+    }
   }
 
   if (question != 'Question #') {
@@ -330,57 +354,19 @@ function imgContainerDim(imgSource, isQuestion) {
       document.getElementById("ans-container").style.height = "auto";
     }
     else if (parseFloat(document.getElementById("ques-ans-container").style.width) - 100 < (this.width / scaleFactor + 60)) {
-      //console.log("FIXING QUESTION CONTAINER")
       document.getElementById("ans-container").style.width = (this.width / scaleFactor + 140).toString().concat("px");
       document.getElementById("ques-ans-container").style.width = (this.width / scaleFactor + 200).toString().concat("px");
       document.getElementById("ques-container").style.float = "left";
       document.getElementById("ques-container").style.marginLeft = "40px";
       document.getElementById("ques-container").style.marginRight = "400px";
     }
-    // if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    //   adjustWidth();
-    // }
   }
   img.src = imgSource;
 }
 
-function getCorrect(txtSource, qnum) {
-  var resp = ''
-  fetch(txtSource)
-    .then(function (response) {
-      switch (response.status) {
-        // status "OK"
-        case 200:
-          return response.text();
-        // status "Not Found"
-        case 404:
-          throw response;
-      }
-    })
-    .then(function (template) {
-      resp = template
-
-      if (parseInt(localStorage.getItem("reviewMode")) == 1) {
-        examExitAnalysis(template)
-      }
-
-      alphaspassed = 1
-      timesran = 0
-      while (alphaspassed < qnum && timesran < 40) {
-        resp = resp.slice(1)
-        if (resp[0] == 'A' || resp[0] == 'B' || resp[0] == 'C' || resp[0] == 'D' || resp[0] == 'E') {
-          alphaspassed += 1
-        }
-        timesran += 1
-      }
-      console.log("For testing purposes: the answer is " + resp[0].toString())
-      answer = resp[0]
-    })
-    .catch(function (response) {
-      // "Not Found"
-      console.log(response.statusText);
-    });
-
+function getCorrect() {
+  answer = exams[findExam()].answers[parseInt(document.getElementById("question").value) - 1]
+  console.log("For testing purposes: the answer is " + answer)
 }
 
 function changeOption(choice) {
@@ -401,7 +387,7 @@ function changeOption(choice) {
 }
 
 function checkAnswer() {
-  examId = 'MA265'
+  examId = 'MA266'
   var exam = "Final"; // placeholder
   semester = document.getElementById('semester').value;
   question = document.getElementById('question').value;
@@ -439,27 +425,6 @@ function checkAnswer() {
 
   localStorage.setItem('answerState', answerState.toString());
 
-  // if (!localStorage.getItem('totalAnswers')) {
-  //   localStorage.setItem('totalAnswers', '0');
-  // }
-  // if (!localStorage.getItem('totalCorrect')) {
-  //   localStorage.setItem('totalCorrect', '0');
-  // }
-
-  // if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-  //   totAns = parseInt(localStorage.getItem('totalAnswers'));
-  //   localStorage.setItem('totalAnswers', (totAns + 1).toString())
-
-  //   if(answerState == 1) {
-  //     // totCorrect = parseInt(localStorage.getItem('totalCorrect'));
-  //     // localStorage.setItem('totalCorrect', (totCorrect + 1).toString())
-  //     topicArray[topicArray.length - 1].totalCorrect += 1
-  //   }
-
-  //   overallPercent = (topicArray[topicArray.length - 1].overallTotalCorrect / topicArray[topicArray.length - 1].overallTotalAnswered * 100).toFixed(2)
-  //   document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + overallPercent.toString() + "% of questions correct overall" + "<br>"
-  // }
-
   var descPos = -1
   var deltaCorrect = 0
 
@@ -473,44 +438,29 @@ function checkAnswer() {
       descPos = j;
     }
   }
-  if (descPos != -1) {
-    // if(!localStorage.getItem(descPos.toString().concat('answered')))
-    // {
-    //   localStorage.setItem(descPos.toString().concat('answered'), '0')
-    // }
+  // if (descPos != -1 && ) {
+  //   if (!localStorage.getItem('streak')) {
+  //     localStorage.setItem('streak', '0')
+  //   }
+  //   if (document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
+  //     var pastStreak = parseInt(localStorage.getItem('streak'))
 
-    // if(document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-    //   localStorage.setItem(descPos.toString().concat('answered'), (parseInt(localStorage.getItem(descPos.toString().concat('answered'))) + 1).toString())
-    // }
+  //     if (answerState == 1) {
+  //       deltaCorrect = 1
+  //       localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
 
-    // if(!localStorage.getItem(descPos.toString().concat('correct')))
-    // {
-    //   localStorage.setItem(descPos.toString().concat('correct'), '0')
-    // }
+  //       animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
+  //       document.getElementById("result-ques-streak").style.marginRight = "5%"
+  //     }
+  //     if (answerState == 0) {
+  //       localStorage.setItem('streak', '0')
+  //       document.getElementById("result-ques-streak").style.marginLeft = "3%"
+  //       document.getElementById("result-ques-streak").style.marginRight = "5%"
 
-    if (!localStorage.getItem('streak')) {
-      localStorage.setItem('streak', '0')
-    }
-    if (document.getElementById("full-exam-toggle").innerHTML != "Now taking exam") {
-      var pastStreak = parseInt(localStorage.getItem('streak'))
-
-      if (answerState == 1) {
-        deltaCorrect = 1
-        // localStorage.setItem(descPos.toString().concat('correct'), (parseInt(localStorage.getItem(descPos.toString().concat('correct'))) + 1).toString())
-        localStorage.setItem('streak', (parseInt(localStorage.getItem('streak')) + 1).toString())
-
-        animateStreak(parseInt(localStorage.getItem('streak')) - 1, parseInt(localStorage.getItem('streak')))
-        document.getElementById("result-ques-streak").style.marginRight = "5%"
-      }
-      if (answerState == 0) {
-        localStorage.setItem('streak', '0')
-        document.getElementById("result-ques-streak").style.marginLeft = "3%"
-        document.getElementById("result-ques-streak").style.marginRight = "5%"
-
-        animateStreak(pastStreak, 0);
-      }
-    }
-  }
+  //       animateStreak(pastStreak, 0);
+  //     }
+  //   }
+  // }
 
   var totalTopicAnswered = parseInt(localStorage.getItem(descPos.toString().concat('answered')))
   var totalTopicCorrect = parseInt(localStorage.getItem(descPos.toString().concat('correct')))
@@ -519,8 +469,6 @@ function checkAnswer() {
 
   if (!(topicPercent >= 0 || topicPercent < 0)) { topicPercent = 0 } //Detects and fixes NaNs
   if (!(oldPercent >= 0 || oldPercent < 0)) { oldPercent = 0 } //Detects and fixes NaNs
-
-  // document.getElementById("bestTopicsBox").innerHTML += "<br>You get " + description + "<br>questions correct " + topicPercent.toFixed(2).toString() + "% of the time" + "<br>"
 
   question = parseInt(question);
 
@@ -538,16 +486,7 @@ function checkAnswer() {
     document.getElementById("embeded-video").style.display = "none"
   }
 
-  /*if(document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
-    if(parseInt(document.getElementById("question").value) < exams[findExam()].timestamps.length) 
-    {
-      document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString(); 
-      getImg();
-      scrollToDiv("container-full");
-    }
-  }*/
-
-  return (returnPkg)
+  // return (returnPkg)
 }
 
 function updateVideo() {
@@ -556,7 +495,6 @@ function updateVideo() {
 
   if (document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
     document.getElementById("embeded-video").style.display = "none";
-    //document.getElementById("video").src = "";
   }
 
   var semester = document.getElementById('semester').value
@@ -590,57 +528,6 @@ function updateVideo() {
   }
 }
 
-function findSimilar(i, question) { //Finds a new question that has the same description
-  similarSems = [];
-  similarQuestions = [];
-  currentSem = exams[i].semester;
-  var randIndex = 0
-
-  for (var j = 0; j < exams.length; j++) {
-    for (var k = 1; k <= exams[j].description.length; k++) {
-      if (exams[i].description[question - 1] == exams[j].description[k - 1]) {
-        document.getElementById("video").src = exams[j].link.concat(exams[j].timestamps[k - 1])
-        similarSems[similarSems.length] = exams[j].semester;
-        similarQuestions[similarQuestions.length] = k;
-      }
-    }
-  }
-
-  if (similarQuestions.length > 1) {
-    do {
-      randIndex = parseInt(Math.floor(Math.random() * similarQuestions.length))
-    } while (currentSem == similarSems[randIndex] && question == similarQuestions[randIndex]);
-  }
-
-  returnPkg = updateVideo(similarSems[randIndex], similarQuestions[randIndex]);
-  document.getElementById('semester').value = similarSems[randIndex];
-  document.getElementById('question').value = similarQuestions[randIndex];
-  getImg();
-  scrollToTop();
-
-  return (returnPkg)
-}
-
-// function findRandom() {
-//   randExam = parseInt(Math.floor(Math.random() * exams.length))
-//   randQuestion = parseInt(Math.ceil(Math.random() * exams[randExam].timestamps.length))
-//   exam = "Final"
-
-//   document.getElementById("semester").value = exams[randExam].semester;
-//   document.getElementById("question").value = randQuestion;
-//   getImg();
-
-//   for(var i = 0; i < exams.length; i++) {
-//     if(exams[i].semester == semester && exams[i].exam == exam && answerState == 0) {
-//       document.getElementById("video").src = exams[i].link.concat(exams[i].timestamps[question-1]);
-//       returnPkg = [i, randQuestion];
-//     }
-//   }
-//   scrollToTop();
-
-//   return(returnPkg)
-// }
-
 function topicRanker() {
   topicPercents = [];
 
@@ -673,30 +560,8 @@ function topicRanker() {
   if (parseInt(localStorage.getItem("totalAnswers")) < 20) {
     // document.getElementById("bestTopicsBox").innerHTML = "<br>You need to answer " + (20 - parseInt(localStorage.getItem("totalAnswers"))).toString() + " more questions to see in-depth stats<br>"
   }
-  // streak()
 }
 
-// function animateStreak(startingStreak, endingStreak) {
-//   let emojis = ["🧯", "🧊", "❄️", "⛄", "💧", "🌨", "🌧", "⛈", "🌊", "🌡", "🎉", "🧨", "🔥", "⚡", "⭐", "🌟", "💥", "🌶️", "🚂", "🚀", "🌋"]
-
-//   adjustedStreakVal = startingStreak
-//   if(startingStreak >= emojis.length) {
-//     adjustedStreakVal = emojis.length - 1;
-//   }
-
-//   if(startingStreak == endingStreak) {
-//     document.getElementById("bestTopicsBox").innerHTML += "<br>You are on a " + endingStreak.toString() + " question streak! ";
-//   }
-//   document.getElementById("result-ques-streak").innerHTML = emojis[adjustedStreakVal] + startingStreak.toString();
-
-//   if(startingStreak > endingStreak) {
-//     setTimeout(animateStreak, 150, startingStreak - 1, endingStreak)
-//   }
-
-//   if(startingStreak < endingStreak) {
-//     setTimeout(animateStreak, 350, startingStreak +  1, endingStreak)
-//   }
-// }
 
 function scrollToDiv(divID) {
   document.querySelector('#' + divID).scrollIntoView({
@@ -737,21 +602,6 @@ function changeQuestion(value) {
   getImg();
   scrollToTop();
 }
-
-// function adjustWidth() {
-// var counter = 0;
-// do {
-//   counter += 1;
-//   // var statsLeft = document.getElementById("statsmenu").getBoundingClientRect().left
-//   // var quesRight = document.getElementById("ques-ans-container").getBoundingClientRect().right
-//   var margin = 10;
-//   document.getElementById("statsmenu").style.width = (document.getElementById("statsmenu").style.width.slice(0, -2) - 10).toString() + 'px';
-// } while(statsLeft < quesRight + margin && counter < 20);
-
-// if(counter == 20) {
-//   console.log("Couldn't resize correctly")
-// }
-// }
 
 function fullExamMode(examTimeLimit) { //Exam time limit in hours  
   document.getElementById("question").value = "1";
@@ -873,9 +723,8 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     document.getElementById("question-split-timer").innerHTML = "Question time elapsed: " + questionHours + ":" + questionMinutes + ":" + questionSeconds;
 
     // If the count down is finished, write some text
-    if (distance < 0 || parseInt(localStorage.getItem("inTest")) == 0) {
+    if (distance < 0 || localStorage.getItem("reviewMode") == '1') {
       clearInterval(x);
-      document.getElementById("full-timer").innerHTML = ''
       document.getElementById("question-split-timer").innerHTML = ''
       // document.getElementById("exam-history").innerHTML = ''
       localStorage.removeItem("temptimestorage");
@@ -964,6 +813,7 @@ function millisToDisplayStr(millis) {
 }
 
 function exitFullExam() {
+  document.getElementById("full-timer").style.display = "none"
   localStorage.removeItem("unixTime")
   localStorage.removeItem("unixTimeElapsedSinceSubmit")
   localStorage.removeItem("unixTimeRemaining")
@@ -981,31 +831,19 @@ function exitFullExam() {
     if (localStorage.getItem("Q" + i.toString())) {
       usersFullExamAnswers.push([i.toString() + localStorage.getItem("Q" + i.toString()), Math.round(parseInt(localStorage.getItem("Qtime" + i.toString())) / 1000)])
     }
-    //GET RID OF LOCAL STORAGE
-    localStorage.removeItem("Q" + i.toString())
   }
   getImg()
+  examExitAnalysis()
 }
 
-function examExitAnalysis(CSVans) {
-  fullExamAnswers = [CSVans[0]]
+function examExitAnalysis() {
+  fullExamAnswers = exams[findExam()].answers
+  console.log(usersFullExamAnswers, fullExamAnswers)
 
-  alphaspassed = 1
-  timesran = 0
-  qnum = exams[findExam()].timestamps.length
-  document.getElementById("exam-history").innerHTML = ''
-
-  while (alphaspassed < qnum + 1 && timesran < 40) {
-    CSVans = CSVans.slice(1)
-    if (CSVans[0] == 'A' || CSVans[0] == 'B' || CSVans[0] == 'C' || CSVans[0] == 'D' || CSVans[0] == 'E') {
-      alphaspassed += 1
-      fullExamAnswers.push(CSVans[0])
-    }
-    timesran += 1
+  if(topicArray[topicArray.length - 1].updated == 0) {
+    topicArray[topicArray.length - 1].overallTotalAnswered += usersFullExamAnswers.length;
+    topicArray[topicArray.length - 1].overallTotalTimed += usersFullExamAnswers.length;
   }
-
-  topicArray[topicArray.length - 1].overallTotalAnswered += usersFullExamAnswers.length;
-  topicArray[topicArray.length - 1].overallTotalTimed += usersFullExamAnswers.length;
 
   for (var i = 0; i < usersFullExamAnswers.length; i++) {
     qnum = parseInt(usersFullExamAnswers[i][0].slice(0, -1))
@@ -1013,17 +851,16 @@ function examExitAnalysis(CSVans) {
 
     if (fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": " + ansChoice + " was correct! [REVIEW]<br>"
-
       document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/correct-answer-check.png";
+
 
       for (var j = 0; j < descriptions.length; j++) {
         if (descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          // localStorage.setItem(j.toString() + "correct", (parseInt(localStorage.getItem(j.toString() + "correct")) + 1).toString())
-          // localStorage.setItem("totalCorrect", (parseInt(localStorage.getItem("totalCorrect")) + 1).toString())
-          // localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
-          topicArray[j].totalAnswered += 1;
-          topicArray[j].totalCorrect += 1;
-          topicArray[topicArray.length - 1].overallTotalCorrect += 1;
+          if(topicArray[topicArray.length - 1].updated == 0) {
+            topicArray[j].totalAnswered += 1;
+            topicArray[j].totalCorrect += 1;
+            topicArray[topicArray.length - 1].overallTotalCorrect += 1;
+          }
 
           description = descriptions[j]
           descPos = j
@@ -1037,10 +874,11 @@ function examExitAnalysis(CSVans) {
 
       for (var j = 0; j < descriptions.length; j++) {
         if (descriptions[j] == exams[findExam()].description[qnum - 1]) {
-          // localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())
           description = descriptions[j]
           descPos = j
-          topicArray[j].totalAnswered += 1;
+          if(topicArray[topicArray.length - 1].updated == 0) {
+            topicArray[j].totalAnswered += 1;
+          }
         }
       }
     }
@@ -1048,20 +886,14 @@ function examExitAnalysis(CSVans) {
     timeTaken = parseInt(localStorage.getItem("Qtime" + qnum.toString())) - 1000;
 
     if (description == descriptions[descPos]) {
-      // if(!localStorage.getItem(descPos.toString() + "timed")) {
-      //   localStorage.setItem(descPos.toString() + "timed", 0)
-      // }
-      // if(!localStorage.getItem(descPos.toString() + "timeavg")) {
-      //   localStorage.setItem(descPos.toString() + "timeavg", 0)
-      // }
 
-      // if(!(timeTaken >= 0 || timeTaken < 0)) {timeTaken = 0} //Detects and fixes NaNs
       if (timeTaken == undefined || timeTaken == null || isNaN(timeTaken) || timeTaken < 0) {
         timeTaken = 0;
       }
 
-      // localStorage.setItem(descPos.toString() + "timed", (parseInt(localStorage.getItem(descPos.toString() + "timed")) + 1).toString())
-      topicArray[descPos].totalTimed += 1;
+      if(topicArray[topicArray.length - 1].updated == 0) {
+        topicArray[descPos].totalTimed += 1;
+      }
 
       oldAvg = topicArray[descPos].avgTime;
       oldSampleSize = topicArray[descPos].totalTimed - 1;
@@ -1070,21 +902,13 @@ function examExitAnalysis(CSVans) {
 
       totalTime = 0;
       totalTopicsTimed = 0;
-      // for(var i = 0; i < topicArray.length - 1; i++) {
-      //   if(parse != 0) {
-      //     totalTime += parseInt("Qtime" )
-      //   }
-      // }
 
+      if(topicArray[topicArray.length - 1].updated == 0) {
       topicArray[topicArray.length - 1].overallAvgTime = newAvg;
+      }
     }
   }
-
-  for (var i = 1; i < exams[examPos].timestamps.length + 1; i++) {
-    localStorage.removeItem("Qtime" + i.toString())
-  }
-  usersFullExamAnswers = []
-
+  topicArray[topicArray.length - 1].updated = 1;
   localStorage.setItem("topicArray", JSON.stringify(topicArray))
 }
 
@@ -1108,5 +932,44 @@ function avgTopicTime(descPos) {
   }
   else {
     return (" avg time: --:--:-- ")
+  }
+}
+
+function displayAnswerForReview() {
+  if(localStorage.getItem("Q" + document.getElementById("question").value)) {
+    semester = document.getElementById('semester').value;
+    question = document.getElementById('question').value;
+    //document.getElementById("ques-ans-container").style.cursor = "not-allowed";
+    //document.getElementById("ques-ans-container").style.pointerEvents = "none";
+    document.getElementById("submit-answer").style.cursor = "not-allowed";
+    document.getElementById("submit-answer").disabled = true;
+    //document.getElementById("submit-answer").style.display = "none";
+    document.getElementById("show-video").style.display = "none";
+    questionBegan = 0;
+    localStorage.setItem("unixTimeElapsedSinceSubmit", 0)
+    globalChoice = localStorage.getItem("Q" + document.getElementById("question").value)
+  
+    console.log(localStorage.getItem("Q" + document.getElementById("question").value))
+  
+    if (answer == localStorage.getItem("Q" + document.getElementById("question").value)) {
+      answerState = 1;
+      document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
+      document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
+      document.getElementById("result-ques").className = "correct-result";
+      document.getElementById("result-ques-text").innerHTML = "Correct";
+      document.getElementById("result-ques").style.display = "inline-block";
+      document.getElementById("result-ques-img").src = "Images/correct-answer-check.png";
+    }
+    else {
+      answerState = 0;
+      document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-incorrect";
+      document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-incorrect";
+      document.getElementById("ans-button-".concat(answer)).className = "ans-button-correct";
+      document.getElementById("circle-".concat(answer)).className = "circle-selected-correct";
+      document.getElementById("result-ques").className = "incorrect-result";
+      document.getElementById("result-ques-text").innerHTML = "Incorrect";
+      document.getElementById("result-ques").style.display = "inline-block";
+      document.getElementById("result-ques-img").src = "Images/wrong-answer-x.png";
+    }
   }
 }

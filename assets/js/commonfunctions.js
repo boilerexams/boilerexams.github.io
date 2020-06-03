@@ -10,7 +10,7 @@ function initTopicArray() {
         description: descriptions[i]
       }
     }
-    topicArray.push({overallTotalAnswered: 0, overallTotalCorrect: 0, overallTotalTimed: 0, overallAvgTime: 0})
+    topicArray.push({overallTotalAnswered: 0, overallTotalCorrect: 0, overallTotalTimed: 0, overallAvgTime: 0, updated: 0})
     return(topicArray)
   }
   return(0)

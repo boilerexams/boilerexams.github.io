@@ -95,8 +95,6 @@ function buildOnload() {
     topicArray = JSON.parse(localStorage.getItem("topicArray"))
   }
 
-
-  localStorage.setItem("reviewMode", 0);
   for (var i = 0; i < exams.length; i++) {
     var sel = document.getElementById("semester");
     var opt = document.createElement("option");
@@ -364,7 +362,6 @@ function getCorrect(txtSource, qnum) {
 
       if (parseInt(localStorage.getItem("reviewMode")) == 1) {
         examExitAnalysis(template)
-        localStorage.setItem("reviewMode", 0);
       }
 
       alphaspassed = 1
@@ -910,6 +907,9 @@ function storeExamProgress() {
   localStorage.setItem("Qtime" + qnum, parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum)))
   localStorage.setItem("temptimestorage", 0)
   localStorage.setItem("unixTimeElapsedSinceSubmit", 0)
+  if (localStorage.getItem("Qtime" + qnum) == 'NaN') {
+    localStorage.setItem("Qtime" + qnum, 0);
+  }
   // console.log("The old question time was: " + localStorage.getItem("temptimestorage") + "new time: " + (parseInt(localStorage.getItem("temptimestorage")) + parseInt(localStorage.getItem("Qtime" + qnum))).toString())
   displayExamProgress();
 }
@@ -925,6 +925,9 @@ function displayExamProgress() {
       timeStr = millisToDisplayStr(parseInt(localStorage.getItem("Qtime" + i.toString())))
 
       if (timeStr == "undefined:undefined:undefined") {
+        timeStr = "00:00:00"
+      }
+      if (timeStr == "00:00:undefined") {
         timeStr = "00:00:00"
       }
       examHistory += i.toString() + ": " + " (" + timeStr + ')<br>'

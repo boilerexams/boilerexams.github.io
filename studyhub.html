@@ -94,11 +94,17 @@ Released   : 20140309
 	<div class="controlmenu" id="controlmenu">
 		<div style="margin-top: -10px;">
 			<button class="full-exam-mode" id="full-exam-toggle" onclick="
+						for(var i = 0; i < descriptions.length; i++) {
+							localStorage.removeItem('Q' + i.toString())
+							localStorage.removeItem('Qtime' + i.toString())
+							localStorage.setItem('reviewMode', 0)
+						}
 						if(document.getElementById('semester').value != 'semester') {
 							currentSem = document.getElementById('semester').value;
 							localStorage.setItem('takeExam', currentSem);
 							window.location.href='testing.html';
-						}"
+						}
+						"
 			>full exam mode</button>
 			<button class="full-exam-mode" id="exit-full-exam" onclick="exitFullExam()">exit full exam</button>
 			<p id="full-timer"></p>

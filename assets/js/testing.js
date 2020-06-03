@@ -791,8 +791,13 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     opt.value = (i+1).toString();
     opt.id = "question-button-".concat(i+1);
     opt.setAttribute("onClick", "changeQuestion(this.value)");
+    var img = document.createElement("img");
+    img.src = "Images/transparent.png";
+    img.id = "answer-img-".concat(i+1);
+    img.className = "answer-img";
+    opt.appendChild(img); 
     var par = document.createElement("p");
-    par.innerText = "(00:00:00)";
+    par.innerText = "Not Attempted";
     par.id = "question-button-p-".concat(i+1);
     opt.appendChild(par);
     node.appendChild(opt);
@@ -979,11 +984,10 @@ function exitFullExam() {
     //GET RID OF LOCAL STORAGE
     localStorage.removeItem("Q" + i.toString())
   }
-
   getImg()
 }
 
-async function examExitAnalysis(CSVans) {
+function examExitAnalysis(CSVans) {
   fullExamAnswers = [CSVans[0]]
 
   alphaspassed = 1
@@ -1007,6 +1011,8 @@ async function examExitAnalysis(CSVans) {
 
     if(fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was correct! [REVIEW]<br>"
+      
+      document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/correct-answer-check.png";
 
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
@@ -1020,7 +1026,9 @@ async function examExitAnalysis(CSVans) {
     }
 
     else {
-      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>"
+      document.getElementById("exam-history").innerHTML += qnum.toString() + ": "+ ansChoice + " was wrong. [REVIEW]<br>";
+      document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/wrong-answer-x.png";
+
       for(var j = 0; j < descriptions.length; j++) {
         if(descriptions[j] == exams[findExam()].description[qnum - 1]) {
           localStorage.setItem(j.toString() + "answered", (parseInt(localStorage.getItem(j.toString() + "answered")) + 1).toString())

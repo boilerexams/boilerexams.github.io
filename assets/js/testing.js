@@ -131,7 +131,8 @@ function buildOnload() {
     }
   }
   if(foundOne == 0) {
-    document.getItem("question").value = 1
+    console.log("test")
+    document.getElementById("question").value = 1
   }
   document.getElementById("submit-answer").disabled = true;
   document.getElementById("submit-answer").style.pointerEvents = "all"; // change

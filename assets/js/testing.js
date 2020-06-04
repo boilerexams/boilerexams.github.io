@@ -119,7 +119,7 @@ function buildOnload() {
   document.getElementById("question").value = "1"
   changeSemester()
   document.getElementById("full-exam-toggle").innerHTML == "Now taking exam"
-  fullExamMode(2)
+  fullExamMode(2);
   document.getElementById("question").value -= 1
   checkAnswer()
   var foundOne = 0;
@@ -167,8 +167,13 @@ function windowResize() {
   }
  
   document.getElementById("sidemenu").style.height = (windowHeight - 188).toString().concat("px");
-  document.getElementById("question-button").style.height = (windowHeight - 285).toString().concat("px");
-}
+  if(localStorage.getItem("reviewMode") == "1") {
+    document.getElementById("question-button").style.height = (windowHeight - 325).toString().concat("px");
+  }
+  else {
+    document.getElementById("question-button").style.height = (windowHeight - 285).toString().concat("px");
+  }
+}  
 
 function changeSemester() {
   document.getElementById("question-default").innerText = "Question #";
@@ -244,8 +249,13 @@ function resetPage() {
     document.getElementById("submit-answer").style.display = "none";
     document.getElementById("ans-container").style.pointerEvents = "none";
     updateVideo();
-    document.getElementById("return-to-studyhub").style.display = "block"
+    document.getElementById("return-to-studyhub").style.display = "block";
+    document.getElementById("num-questions").style.display = "none";
   }
+  else {
+    document.getElementById("return-to-studyhub").style.display = "none";
+  }
+  windowResize();
 }
 
 function getImg() {
@@ -603,6 +613,18 @@ function getScrollPercent() {
 }
 
 function nextQuestion() {
+  var numQuestions = 0;
+  var exam = "Final";
+  for (var i = 0; i < exams.length; i++) {
+    if (exams[i].semester == semester && exams[i].exam == exam) {
+      numQuestions = exams[i].timestamps.length;
+      currentExam = exams[i];
+      break;
+    }
+  }
+  if(document.getElementById("question").value == numQuestions) {
+    return;
+  }
   document.getElementById("question").value = (parseInt(document.getElementById("question").value) + 1).toString();
   getImg();
   scrollToTop();
@@ -661,9 +683,13 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
     node.appendChild(opt);
   }
 
-  var border = document.createElement("div");
-  border.style.borderTop = "1px solid #bebebe"
-  node.appendChild(border);
+  //var border = document.createElement("div");
+  //border.className = "bottom-sidemenu";
+  //var par = document.createElement("p");
+  //par.innerText = numQuestions + " Questions"
+  //border.appendChild(par);
+  //node.appendChild(border);
+  document.getElementById("num-questions").innerText = numQuestions + " Questions";
 
   var examPos = findExam();
   imagesRequested = 0;
@@ -747,6 +773,8 @@ function fullExamMode(examTimeLimit) { //Exam time limit in hours
       localStorage.removeItem("unixTime");
       localStorage.removeItem("unixTimeRemaining");
       localStorage.removeItem("unixTimeElapsedSinceSubmit");
+      localStorage.setItem("reviewMode", 1);
+      exitFullExam();
     }
   }, 1000);
 }
@@ -829,6 +857,21 @@ function millisToDisplayStr(millis) {
 }
 
 function exitFullExam() {
+  var numQuestions = 0;
+  var exam = "Final";
+  for (var i = 0; i < exams.length; i++) {
+    if (semester == exams[i].semester && exams[i].exam == exam) {
+      numQuestions = exams[i].timestamps.length;
+      break;
+    }
+  }
+  var numUnanswered = 0;
+  for(var i = 1; i <= numQuestions; i++) {
+    if(!localStorage.getItem("Q" + i.toString())) {numUnanswered++;}
+  }
+  if(localStorage.getItem("reviewMode") == 0 && !confirm("Are you sure you want to submit? You have not answered "+ numUnanswered + ' questions. Select "OK" to continue.')) {
+    return;
+  }
   document.getElementById("full-timer").style.display = "none"
   localStorage.removeItem("unixTime")
   localStorage.removeItem("unixTimeElapsedSinceSubmit")
@@ -836,6 +879,8 @@ function exitFullExam() {
 
   document.getElementById("full-exam-toggle").style.pointerEvents = "all";
   document.getElementById("full-exam-toggle").innerHTML = "full exam mode";
+  document.getElementById("num-questions").style.display = "none";
+  document.getElementById("return-to-studyhub").style.display = "block";
   localStorage.setItem("inTest", 0)
   // localStorage.setItem("temptimestorage", 0)
   questionBegan = 0;
@@ -855,6 +900,8 @@ function exitFullExam() {
 function examExitAnalysis() {
   fullExamAnswers = exams[findExam()].answers
   console.log(usersFullExamAnswers, fullExamAnswers)
+  numCorrect = 0;
+  numWrong = 0;
 
   if(topicArray[topicArray.length - 1].updated == 0) {
     topicArray[topicArray.length - 1].overallTotalAnswered += usersFullExamAnswers.length;
@@ -869,6 +916,7 @@ function examExitAnalysis() {
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": " + ansChoice + " was correct! [REVIEW]<br>"
       document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/correct-answer-check.png";
       document.getElementById("answer-img-".concat(qnum.toString())).id = "answer-img-".concat(qnum.toString()).concat("-pic");
+      numCorrect++;
 
       for (var j = 0; j < descriptions.length; j++) {
         if (descriptions[j] == exams[findExam()].description[qnum - 1]) {
@@ -888,6 +936,7 @@ function examExitAnalysis() {
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": " + ansChoice + " was wrong. [REVIEW]<br>";
       document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/wrong-answer-x.png";
       document.getElementById("answer-img-".concat(qnum.toString())).id = "answer-img-".concat(qnum.toString()).concat("-pic");
+      numWrong++;
 
       for (var j = 0; j < descriptions.length; j++) {
         if (descriptions[j] == exams[findExam()].description[qnum - 1]) {
@@ -921,6 +970,11 @@ function examExitAnalysis() {
       totalTopicsTimed = 0;
     }
   }
+
+  document.getElementById("exam-score").style.display = "block";
+  document.getElementById("exam-score").innerText = (numCorrect/(numCorrect+numWrong)*100).toFixed(2) + "%"
+  document.getElementById("exam-score-outof").style.display = "block";
+  document.getElementById("exam-score-outof").innerText = numCorrect + "/" + (numCorrect + numWrong);
 
   var i = 1;
   while(document.getElementById("question-button-".concat(i.toString())) != null) {

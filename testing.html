@@ -97,10 +97,15 @@ Released   : 20140309
 			<!--<p id="full-timer" style="display: none"></p>-->
 			<p id="question-split-timer" style="display: none"></p>
 			<p id="exam-history" style="display: none"></p>
+			<p id="exam-score" style="display: none;"></p>
+			<p id="exam-score-outof" style="display: none;"></p>
 		</div>
 		<div class="question-button" id="question-button">
 		</div>
-		<div style="border-top:1px solid #bebebe; padding-top: 30px"></div>
+		<div class="bottom-sidemenu">
+			<p id="num-questions"></p>
+			<button id="return-to-studyhub" style="display: none" onclick="window.location.href='studyhub.html';">Back to studyhub</button>
+		</div>
 	</div>
 
 	<!-- <div class="controlmenu" id="statsmenu" style="float: right; width: 300px; margin-right: 10px">
@@ -131,7 +136,6 @@ Released   : 20140309
 		<div class="ques-ans-video-container" id="ques-ans-video-container">
 		<div class="ques-ans-container-full" id="ques-ans-container" style="text-align: center">
 			<button class="next-prev-button" id="previous-button" onclick="prevQuestion()">prev</button>
-			<button id="return-to-studyhub" style="display: none" onclick="window.location.href='studyhub.html';">Back to studyhub</button>
 
 			<button class="full-timer" id="full-timer"></p>
 			<button class="next-prev-button" id="next-button" onclick="nextQuestion()" style="float: right;">next</button>

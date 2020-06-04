@@ -1006,8 +1006,8 @@ function displayAnswerForReview() {
     }
   }
   else {
-    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
-    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
+    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-not-attempted";
+    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-not-attempted";
     document.getElementById("result-ques").className = "not-attempted";
     document.getElementById("result-ques-text").innerHTML = "Not attempted";
     document.getElementById("result-ques").style.display = "inline-block";

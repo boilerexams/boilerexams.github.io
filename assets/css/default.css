@@ -306,6 +306,19 @@ select {
   align-items: center;
 }
 
+.ans-button-not-attempted {
+	display: flex;
+	border: 3px solid #ffcc00;
+	padding: 8px;
+	border-radius: 10px;
+	margin: 0px 10px;
+	margin-bottom: 10px;
+	text-align: left;
+	-webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 .ans-button-incorrect {
 	display: flex;
 	border: 3px solid #bc1a3c;
@@ -360,6 +373,22 @@ select {
 
 	background: #1abc50;
 	border: 1px solid #1abc50;
+	color: #fff;
+	text-align: center;
+
+	font-size: 24px;
+	margin-right: 15px;
+}
+
+.circle-selected-not-attempted {
+	display: inline-block;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	padding: 8px;
+
+	background: #ffcc00;
+	border: 1px solid #ffcc00;
 	color: #fff;
 	text-align: center;
 

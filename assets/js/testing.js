@@ -122,7 +122,12 @@ function buildOnload() {
   fullExamMode(2)
   document.getElementById("question").value -= 1
   checkAnswer()
-  document.getElementById("question").value = 1
+  for(var i = 0; i < exams[findExam()].timestamps.length; i++) {
+    if(localStorage.getItem("Q" + i.toString())) {
+      document.getElementById("question").value = i.toString();
+      break;
+    }
+  }
   document.getElementById("submit-answer").disabled = true;
   document.getElementById("submit-answer").style.pointerEvents = "all"; // change
   document.getElementById("submit-answer").style.display = "inline-block";

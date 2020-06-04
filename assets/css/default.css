@@ -576,6 +576,25 @@ select {
 	display: inline;
 }
 
+.not-attempted {
+	margin: auto;
+	margin-bottom: 30px;
+	background: #ffcc0018;
+	width: 70%;
+	border: 1px solid #ffcc00;
+	border-radius: 10px;
+}
+
+.not-attempted p {
+	color: #ffcc00;
+	font-size: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin: 0px;
+	float: left;
+	display: inline;
+}
+
 .correct-result button {
 	display: none;
 }
@@ -602,6 +621,30 @@ select {
 .incorrect-result button:hover {
 	background: #8f132e;	
 	border: 1px solid #8f132e;
+}
+
+.not-attempted button {
+	background-color: #ffcc00;
+	color: #fff;
+	border: 1px solid #ffcc00;
+	border-radius: 5px;
+	float: right;
+	/*clear:right;*/
+	padding: 16px;
+	letter-spacing: 1px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 13px;
+	margin-top: 13px;
+	margin-left: -20px;
+	cursor: pointer;
+	pointer-events: all;
+	outline: none;
+}
+.not-attempted button:hover {
+	background: #d6ab00;	
+	border: 1px solid #d6ab00;
 }
 
 /*********************************************************************************/
@@ -1111,6 +1154,7 @@ select {
 	}
 
 	.embeded-video {
+		background: #fff;
 		width: 753.33px;
 		margin: auto;
 		margin-top: 15px;

@@ -159,10 +159,13 @@ function windowResize() {
   if (windowWidth <= containerWidth) {
     document.getElementById("sidemenu").style.marginLeft = "20px";
     document.getElementById("ques-ans-container").style.marginRight = "20px";
+    //document.getElementById("embeded-video").style.marginLeft = (40 + parseInt(document.getElementById("sidemenu").offsetWidth)).toString().concat("px");
   }
   else {
     document.getElementById("sidemenu").style.marginLeft = ((windowWidth - containerWidth) / 2).toString().concat("px");
+    //document.getElementById("embeded-video").style.marginLeft = ((windowWidth - containerWidth) / 2 + 20 + parseInt(document.getElementById("sidemenu").offsetWidth)).toString().concat("px");
   }
+ 
   document.getElementById("sidemenu").style.height = (windowHeight - 188).toString().concat("px");
   document.getElementById("question-button").style.height = (windowHeight - 285).toString().concat("px");
 }
@@ -207,7 +210,7 @@ function resetPage() {
   document.getElementById("submit-answer").style.cursor = "not-allowed";
   document.getElementById("select-container").style.display = "none";
   //document.getElementById("ques-ans-container").style.margin = "auto";
-  document.getElementById("show-video").style.display = "block";
+  //document.getElementById("show-video").style.display = "block";
   document.getElementById("exit-full-exam").style.display = "none";
   //document.getElementById("ques-ans-container").style.marginTop = "-5.3em";
 
@@ -215,7 +218,7 @@ function resetPage() {
     document.getElementById("sidemenu").style.display = "block";
     // document.getElementById("statsmenu").style.display = "block";
     // document.getElementById("statsmenu").style.width = "300px";
-    document.getElementById("ques-ans-container").style.display = "block";
+    document.getElementById("ques-ans-container").style.display = "inline-block";
     // document.getElementById("bestTopicsBox").innerHTML = "";
   }
 
@@ -505,7 +508,7 @@ function checkAnswer() {
 
 function updateVideo() {
   document.getElementById("embeded-video").className = "embeded-video";
-  document.getElementById("embeded-video").style.display = "inherit";
+  document.getElementById("embeded-video").style.display = "block";
 
   if (document.getElementById("full-exam-toggle").innerHTML == "Now taking exam") {
     document.getElementById("embeded-video").style.display = "none";
@@ -865,7 +868,7 @@ function examExitAnalysis() {
     if (fullExamAnswers[qnum - 1] == ansChoice) { //If you got it correct
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": " + ansChoice + " was correct! [REVIEW]<br>"
       document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/correct-answer-check.png";
-
+      document.getElementById("answer-img-".concat(qnum.toString())).id = "answer-img-".concat(qnum.toString()).concat("-pic");
 
       for (var j = 0; j < descriptions.length; j++) {
         if (descriptions[j] == exams[findExam()].description[qnum - 1]) {
@@ -884,6 +887,7 @@ function examExitAnalysis() {
     else {
       document.getElementById("exam-history").innerHTML += qnum.toString() + ": " + ansChoice + " was wrong. [REVIEW]<br>";
       document.getElementById("answer-img-".concat(qnum.toString())).src = "Images/wrong-answer-x.png";
+      document.getElementById("answer-img-".concat(qnum.toString())).id = "answer-img-".concat(qnum.toString()).concat("-pic");
 
       for (var j = 0; j < descriptions.length; j++) {
         if (descriptions[j] == exams[findExam()].description[qnum - 1]) {
@@ -916,6 +920,15 @@ function examExitAnalysis() {
       totalTime = 0;
       totalTopicsTimed = 0;
     }
+  }
+
+  var i = 1;
+  while(document.getElementById("question-button-".concat(i.toString())) != null) {
+    if(document.getElementById("answer-img-".concat(i.toString())) != null) {
+      document.getElementById("answer-img-".concat(i.toString())).src = "Images/exclamation-mark.png";
+      document.getElementById("answer-img-".concat(i.toString())).id = "answer-img-".concat(i.toString()).concat("-pic");
+    }
+    i++;
   }
 
   var totalTime = 0;
@@ -991,5 +1004,14 @@ function displayAnswerForReview() {
       document.getElementById("result-ques").style.display = "inline-block";
       document.getElementById("result-ques-img").src = "Images/wrong-answer-x.png";
     }
+  }
+  else {
+    document.getElementById("ans-button-".concat(globalChoice)).className = "ans-button-correct";
+    document.getElementById("circle-".concat(globalChoice)).className = "circle-selected-correct";
+    document.getElementById("result-ques").className = "not-attempted";
+    document.getElementById("result-ques-text").innerHTML = "Not attempted";
+    document.getElementById("result-ques").style.display = "inline-block";
+    document.getElementById("result-ques-img").src = "Images/exclamation-mark.png";
+    console.log(document.getElementById("question").value);
   }
 }

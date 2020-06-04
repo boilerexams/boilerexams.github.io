@@ -29,8 +29,13 @@
 	border: 1px solid #a1a1a1;
 	border-radius: 10px;
   overflow: visible;
-  height: 100%;
+  /*height: 100%;*/
   background: #ffffff
+}
+
+.ques-ans-video-container {
+  margin: 10px 20px;
+  display: block;
 }
 
 .container-full {
